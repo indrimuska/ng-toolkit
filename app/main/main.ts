@@ -15,4 +15,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 export class Main {
     public stringValue = "pluto";
     public selectValue: number;
+
+    public options = [
+        { 'value': 1, 'label': 'uno' },
+        { 'value': 2, 'label': 'due' },
+        { 'value': 3, 'label': 'tre' },
+    ];
 }

@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 
 import { InputComponent } from './input/input';
 import { SelectComponent } from './select/select';
+import { ControlComponent } from './control/control';
 
 @NgModule({
     imports: [
@@ -17,10 +18,12 @@ import { SelectComponent } from './select/select';
     declarations: [
         InputComponent,
         SelectComponent,
+        ControlComponent,
     ],
     exports: [
         InputComponent,
         SelectComponent,
+        ControlComponent,
     ]
 })
 export class NgToolkit { }
