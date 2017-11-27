@@ -1,0 +1,13 @@
+<ngt-input [(ngModel)]="stringValue" placeholder="Enter a value"></ngt-input>
+<small class="form-text text-muted">
+    {{ stringValue }}
+</small>
+
+<ngt-select [(ngModel)]="selectValue" placeholder="Enter a value">
+    <option [value]="1">uno</option>
+    <option [value]="2">due</option>
+    <option [value]="3">tre</option>
+</ngt-select>
+<small class="form-text text-muted">
+    {{ selectValue }}
+</small>
