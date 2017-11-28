@@ -42,15 +42,15 @@ export class SelectComponent extends ValueAccessor<any> {
         this.value = this.getOptionAttr(option, this.valueAttr);
     }
 
-    private getOptionAttr(option: any, attr: string) {
-        return attr && typeof option === 'object'
-            ? option[attr]
-            : option;
-    }
-
     /** @override */
     public writeValue(value: any) {
         // component -> select
         this.selectedOption = this.options.filter(o => this.getOptionAttr(o, this.valueAttr) === value)[0];        
+    }
+    
+    private getOptionAttr(option: any, attr: string) {
+        return attr && typeof option === 'object'
+            ? option[attr]
+            : option;
     }
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ValueAccessor } from '../utility';
@@ -7,7 +7,7 @@ import { ValueAccessor } from '../utility';
     selector: 'ngt-input',
     template: `
         <input
-            type="text"
+            [type]="type"
             [(ngModel)]="value"
             [placeholder]="placeholder">
     `,
@@ -18,7 +18,14 @@ import { ValueAccessor } from '../utility';
         { provide: NG_VALUE_ACCESSOR, useExisting: InputComponent, multi: true }
     ]
 })
-export class InputComponent extends ValueAccessor<string> {
-    @Input() public value: string;
+export class InputComponent<T> extends ValueAccessor<T> implements OnInit {
+    @Input() public value: T;
     @Input() public placeholder: string;
+    @Input() public type: 'text' | 'number' | 'email';
+
+    public ngOnInit() {
+        if (['text', 'number', 'email'].indexOf(this.type) < 0) {
+            throw new Error(`Type attribute not supported: provided ${this.type}`);
+        }
+    }
 }

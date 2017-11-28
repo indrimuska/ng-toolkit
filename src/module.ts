@@ -4,14 +4,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { InputComponent } from './input/input';
-import { SelectComponent } from './select/select';
 import { ControlComponent } from './control/control';
+import { InputComponent } from './input/input';
+import { TextComponent } from './text/text';
+import { NumberComponent } from './number/number';
+import { SelectComponent } from './select/select';
 
 const COMPONENTS = [
-    InputComponent,
-    SelectComponent,
     ControlComponent,
+    TextComponent,
+    NumberComponent,
+    SelectComponent,
 ];
 
 @NgModule({
@@ -21,7 +24,10 @@ const COMPONENTS = [
         FormsModule,
         HttpModule,
     ],
-    declarations: COMPONENTS,
+    declarations: COMPONENTS.concat(
+        // private components
+        InputComponent,
+    ),
     exports: COMPONENTS
 })
 export class NgToolkit { }

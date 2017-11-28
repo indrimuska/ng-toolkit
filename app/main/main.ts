@@ -14,17 +14,21 @@ import 'bootstrap/dist/css/bootstrap.css';
 })
 export class Main {
     public stringValue = "pluto";
-    public selectValue: number;
+    public numberValue: number = 5;
+    public selectValue1: number;
+    public selectValue2: string;
 
-    public options = [
+    public optionsObject = [
         { value: 1, label: 'uno' },
         { value: 2, label: 'due' },
         { value: 3, label: 'tre' },
     ];
+    public optionsArray = ['uno', 'due', 'tre'];
 
     constructor() {
         setTimeout(() => {
-            this.selectValue = 4;
+            this.selectValue1 = 3;
+            this.selectValue2 = "tre";
         }, 2000);
     }
 }

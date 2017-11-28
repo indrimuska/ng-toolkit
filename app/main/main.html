@@ -1,15 +1,31 @@
 <ngt-control>
-    <ngt-input
+    <ngt-text
         [(ngModel)]="stringValue"
         placeholder="Enter a value">
-    </ngt-input>
+    </ngt-text>
+</ngt-control>
+
+<ngt-control>
+    <ngt-number
+        [(ngModel)]="numberValue"
+        placeholder="Enter a value">
+    </ngt-number>
 </ngt-control>
 
 <ngt-control>
     <ngt-select
-        [(ngModel)]="selectValue"
-        [options]="options"
+        [(ngModel)]="selectValue1"
+        [options]="optionsObject"
         placeholder="Enter a value"
-        labelAttr="label">
+        labelAttr="label"
+        valueAttr="value">
+    </ngt-select>
+</ngt-control>
+
+<ngt-control>
+    <ngt-select
+        [(ngModel)]="selectValue2"
+        [options]="optionsArray"
+        placeholder="Enter a value">
     </ngt-select>
 </ngt-control>
