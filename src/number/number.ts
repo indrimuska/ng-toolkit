@@ -1,13 +1,15 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isUndefined, isNullOrUndefined } from 'util';
 
+import { InputComponent } from '../input/input';
 import { ValueAccessor, replaceAll } from '../utility';
 
 @Component({
     selector: 'ngt-number',
     template: `
         <ngt-input
+            #inputRef
             type="text"
             [(ngModel)]="viewValue"
             [placeholder]="placeholder"
@@ -82,15 +84,30 @@ export class NumberComponent extends ValueAccessor<number, string> {
         return parts.join(this.decimalSeparator);
     }
 
+    @ViewChild('inputRef') private inputRef: InputComponent<string>;
+
     private onKeypress(e: KeyboardEvent) {
         const char = String.fromCharCode(e.charCode);
-        const invalidChar = new RegExp(`[^\\+\\-0-9\\${this.thousandSeparator}]`);
-        if (invalidChar.test(char)) {
-            e.preventDefault();
-        } else {
-            if (char === this.decimalSeparator && this.viewValue.indexOf(this.decimalSeparator) >= 0) {
-                e.preventDefault();
-            }
+
+        switch (char) {
+            case this.decimalSeparator:
+                if (this.viewValue.indexOf(this.decimalSeparator) >= 0) {
+                    e.preventDefault();
+                }
+                break;
+            case '+':
+            case '-':
+                const element = this.inputRef.elementRef.nativeElement;
+                if (element.selectionStart !== 0 || this.viewValue.search(/^\+|^\-/) === 0) {
+                    e.preventDefault();
+                }
+                break;
+            default:
+                const invalidChar = new RegExp(`[^0-9\\${this.thousandSeparator}]`);
+                if (invalidChar.test(char)) {
+                    e.preventDefault();
+                }
+                break;
         }
     }
 

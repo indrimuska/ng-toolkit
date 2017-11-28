@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ValueAccessor } from '../utility';
@@ -7,6 +7,7 @@ import { ValueAccessor } from '../utility';
     selector: 'ngt-input',
     template: `
         <input
+            #elementRef
             [type]="type"
             [(ngModel)]="value"
             [placeholder]="placeholder"
@@ -28,6 +29,7 @@ export class InputComponent<T> extends ValueAccessor<T> implements OnInit {
     @Input() public value: T;
     @Input() public placeholder: string;
     @Input() public type: 'text' | 'number' | 'email';
+    @ViewChild('elementRef') public elementRef: ElementRef;
 
     public ngOnInit() {
         if (['text', 'number', 'email'].indexOf(this.type) < 0) {
