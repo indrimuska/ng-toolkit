@@ -1,3 +1,7 @@
+// polyfill
+import 'core-js';
+
+// zone.js
 import 'zone.js';
 
 import { enableProdMode } from '@angular/core';
