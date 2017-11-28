@@ -17,8 +17,14 @@ export class Main {
     public selectValue: number;
 
     public options = [
-        { 'value': 1, 'label': 'uno' },
-        { 'value': 2, 'label': 'due' },
-        { 'value': 3, 'label': 'tre' },
+        { value: 1, label: 'uno' },
+        { value: 2, label: 'due' },
+        { value: 3, label: 'tre' },
     ];
+
+    constructor() {
+        setTimeout(() => {
+            this.selectValue = 4;
+        }, 2000);
+    }
 }

@@ -1,7 +1,7 @@
 @import (reference) '~bootstrap/scss/bootstrap.scss';
 
-@paddingRight:  0.75rem + 1.2rem;
-@caretSize:     6px;
+@padding-right: 0.75rem + 1.2rem;
+@caret-size:    6px;
 
 .ngt-select-input:extend(.form-control) { }
 select:hover + .ngt-select-input:extend(.form-control:hover) { }
@@ -25,20 +25,24 @@ select {
 }
 
 .ngt-select-input {
-    padding-right: @paddingRight;
+    padding-right: @padding-right;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    &.placeholder {
+        color: #757575;
+    }
 
     &:after {
         content: '';
         display: block;
         position: absolute;
         top: 50%;
-        right: @paddingRight / 2;
+        right: @padding-right / 2;
         transform: translate(50%, -50%);
-        border: (@caretSize * cos(30deg)) solid transparent;
-        border-top: @caretSize solid;
+        border: (@caret-size * cos(30deg)) solid transparent;
+        border-top: @caret-size solid #757575;
         border-bottom: 0;
     }
 }

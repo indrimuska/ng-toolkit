@@ -8,6 +8,12 @@ import { InputComponent } from './input/input';
 import { SelectComponent } from './select/select';
 import { ControlComponent } from './control/control';
 
+const COMPONENTS = [
+    InputComponent,
+    SelectComponent,
+    ControlComponent,
+];
+
 @NgModule({
     imports: [
         // CommonModule,
@@ -15,15 +21,7 @@ import { ControlComponent } from './control/control';
         FormsModule,
         HttpModule,
     ],
-    declarations: [
-        InputComponent,
-        SelectComponent,
-        ControlComponent,
-    ],
-    exports: [
-        InputComponent,
-        SelectComponent,
-        ControlComponent,
-    ]
+    declarations: COMPONENTS,
+    exports: COMPONENTS
 })
 export class NgToolkit { }

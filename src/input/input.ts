@@ -1,5 +1,5 @@
-import { Component, ViewChild, Input } from '@angular/core';
-import { NgModel, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ValueAccessor } from '../utility';
 
@@ -19,6 +19,6 @@ import { ValueAccessor } from '../utility';
     ]
 })
 export class InputComponent extends ValueAccessor<string> {
-    @ViewChild(NgModel) public model: NgModel;
+    @Input() public value: string;
     @Input() public placeholder: string;
 }

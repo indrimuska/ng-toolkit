@@ -3,33 +3,33 @@ import { ControlValueAccessor } from '@angular/forms';
 export abstract class ValueAccessor<T> implements ControlValueAccessor {
     private innerValue: T;
 
-    private changed = new Array<(value: T) => void>();
-    private touched = new Array<() => void>();
+    protected changed: ((value: T) => void)[] = [];
+    protected touched: (() => void)[] = [];
 
-    get value(): T {
+    protected get value(): T {
         return this.innerValue;
     }
-
-    set value(value: T) {
+    
+    protected set value(value: T) {
         if (this.innerValue !== value) {
             this.innerValue = value;
             this.changed.forEach(f => f(value));
         }
     }
 
-    writeValue(value: T) {
+    public writeValue(value: T) {
         this.innerValue = value;
     }
-
-    registerOnChange(fn: (value: T) => void) {
+    
+    public registerOnChange(fn: (value: T) => void) {
         this.changed.push(fn);
     }
-
-    registerOnTouched(fn: () => void) {
+    
+    public registerOnTouched(fn: () => void) {
         this.touched.push(fn);
     }
 
-    touch() {
+    public touch() {
         this.touched.forEach(f => f());
     }
 }

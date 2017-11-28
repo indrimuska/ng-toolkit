@@ -3,18 +3,19 @@
         [(ngModel)]="stringValue"
         placeholder="Enter a value">
     </ngt-input>
-    <small class="form-text text-muted">
-        {{ stringValue }}
-    </small>
+    <code class="form-text text-muted">
+        {{ stringValue | json }}
+    </code>
 </ngt-control>
 
 <ngt-control>
     <ngt-select
         [(ngModel)]="selectValue"
+        [options]="options"
         placeholder="Enter a value"
-        [options]="options">
+        labelAttr="label">
     </ngt-select>
-    <small class="form-text text-muted">
-        {{ selectValue }}
-    </small>
+    <code class="form-text text-muted">
+        {{ selectValue | json }}
+    </code>
 </ngt-control>
