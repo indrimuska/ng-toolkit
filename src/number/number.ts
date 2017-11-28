@@ -1,46 +1,100 @@
 import { Component, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { isUndefined, isNullOrUndefined } from 'util';
 
-import { ValueAccessor } from '../utility';
+import { ValueAccessor, replaceAll } from '../utility';
 
 @Component({
     selector: 'ngt-number',
     template: `
         <ngt-input
-            type="number"
-            [(ngModel)]="stringNumber"
-            [placeholder]="placeholder">
+            type="text"
+            [(ngModel)]="viewValue"
+            [placeholder]="placeholder"
+            (keypress)="onKeypress($event)"
+            (blur)="onBlur()">
         </ngt-input>
     `,
     providers: [
         { provide: NG_VALUE_ACCESSOR, useExisting: NumberComponent, multi: true }
     ]
 })
-export class NumberComponent extends ValueAccessor<number> {
+export class NumberComponent extends ValueAccessor<number, string> {
     @Input() public value: number;
     @Input() public placeholder: string;
-    
-    private _number: string;
-    private get stringNumber(): string {
-        return this._number;
+    @Input() public decimals: number;
+
+    private _decimalSeparator: string = ',';
+    @Input() public get decimalSeparator() {
+        return this._decimalSeparator;
     }
-    private set stringNumber(value: string) {
-        this._number = value;
-        // component <- select
-        this.value = this.parse(value);
+    public set decimalSeparator(separator: string) {
+        if (this.validateSeparators(separator, this._thousandSeparator)) {
+            this._decimalSeparator = separator;
+        }
     }
-    
+
+    private _thousandSeparator: string = '.';
+    @Input() public get thousandSeparator() {
+        return this._thousandSeparator;
+    }
+    public set thousandSeparator(separator: string) {
+        if (this.validateSeparators(this._decimalSeparator, separator)) {
+            this._thousandSeparator = separator;
+        }
+    }
+
+    private validateSeparators(decimal: string, thousand: string) {
+        if (decimal === thousand) {
+            console.error(`Decimal and thousand separators cannot be the same symbol: provided "${decimal}"`);
+            return false;
+        }
+        return true;
+    }
+
     /** @override */
-    public writeValue(value: any) {
-        // component -> select
-        this.stringNumber = value       
+    protected parse(value: string): number {
+        value = replaceAll(value || '', this.thousandSeparator, '').replace(this.decimalSeparator, '.');
+        const number = parseFloat(value);
+        if (isNaN(number)) {
+            return null;
+        }
+        if (isUndefined(this.decimals)) {
+            return number;
+        } else {
+            const multiplier = Math.pow(10, this.decimals);
+            return Math.round(number * multiplier) / multiplier;
+        }
     }
 
-    private parse(value: string): number {
-        return parseInt(value);
+    /** @override */
+    protected format(value: number): string {
+        if (isNullOrUndefined(value)) {
+            return '';
+        } else {
+            value = value || 0;
+        }
+        const stringValue = this.decimals >= 0
+            ? value.toFixed(this.decimals)
+            : value.toString();
+        const parts = stringValue.split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, this.thousandSeparator);
+        return parts.join(this.decimalSeparator);
     }
 
-    private format(value: number): string {
-        return `${value}`;
+    private onKeypress(e: KeyboardEvent) {
+        const char = String.fromCharCode(e.charCode);
+        const invalidChar = new RegExp(`[^\\+\\-0-9\\${this.thousandSeparator}]`);
+        if (invalidChar.test(char)) {
+            e.preventDefault();
+        } else {
+            if (char === this.decimalSeparator && this.viewValue.indexOf(this.decimalSeparator) >= 0) {
+                e.preventDefault();
+            }
+        }
+    }
+
+    private onBlur() {
+        this.writeValue(this.value);
     }
 }

@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { NgModel, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { isObject, isNullOrUndefined } from 'util';
 
 import { ValueAccessor } from '../utility';
 
 @Component({
     selector: 'ngt-select',
     template: `
-        <select [(ngModel)]="selectedOption">
+        <select [(ngModel)]="viewValue">
             <option value="" disabled *ngIf="placeholder">
                 {{ placeholder }}
             </option>
@@ -14,8 +15,8 @@ import { ValueAccessor } from '../utility';
                 {{ getOptionAttr(option, labelAttr) }}
             </option>
         </select>
-        <div class="ngt-select-input" [ngClass]="{placeholder: !selectedOption}">
-            {{ getOptionAttr(selectedOption, labelAttr) || placeholder }}
+        <div class="ngt-select-input" [ngClass]="{placeholder: !viewValue}">
+            {{ getOptionAttr(viewValue, labelAttr) || placeholder }}
         </div>
     `,
     styles: [
@@ -28,29 +29,25 @@ import { ValueAccessor } from '../utility';
 export class SelectComponent extends ValueAccessor<any> {
     @Input() public value: any;
     @Input() public placeholder: string;
-    @Input() public options: any[];
+    @Input() public options: any[] = [];
     @Input() public labelAttr: string;
     @Input() public valueAttr: string;
-
-    private _selectedOption: any;
-    private get selectedOption(): any {
-        return this._selectedOption;
-    }
-    private set selectedOption(option: any) {
-        this._selectedOption = option;
-        // component <- select
-        this.value = this.getOptionAttr(option, this.valueAttr);
+    
+    /** @override */
+    protected parse(option: any): any {
+        return this.getOptionAttr(option, this.valueAttr);
     }
 
     /** @override */
-    public writeValue(value: any) {
-        // component -> select
-        this.selectedOption = this.options.filter(o => this.getOptionAttr(o, this.valueAttr) === value)[0];        
+    protected format(value: any): any {
+        return !isNullOrUndefined(value)
+            ? this.options.find(o => this.getOptionAttr(o, this.valueAttr) === value)
+            : value;
     }
     
     private getOptionAttr(option: any, attr: string) {
-        return attr && typeof option === 'object'
-            ? option[attr]
+        return isObject(option)
+            ? attr && option[attr]
             : option;
     }
 }

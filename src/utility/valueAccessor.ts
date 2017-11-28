@@ -1,27 +1,48 @@
 import { ControlValueAccessor } from '@angular/forms';
 
-export abstract class ValueAccessor<T> implements ControlValueAccessor {
-    private innerValue: T;
+export abstract class ValueAccessor<M, V = M> implements ControlValueAccessor {
+    private modelValue: M;
+    private _viewValue: V;
 
-    protected changed: ((value: T) => void)[] = [];
+    protected changed: ((value: M) => void)[] = [];
     protected touched: (() => void)[] = [];
 
-    protected get value(): T {
-        return this.innerValue;
+    protected get viewValue(): V {
+        return this._viewValue;
+    }
+
+    protected set viewValue(value: V) {
+        this._viewValue = value;
+        // component <- select
+        this.value = this.parse(value);
     }
     
-    protected set value(value: T) {
-        if (this.innerValue !== value) {
-            this.innerValue = value;
+    protected get value(): M {
+        return this.modelValue;
+    }
+    
+    protected set value(value: M) {
+        if (this.modelValue !== value) {
+            this.modelValue = value;
             this.changed.forEach(f => f(value));
         }
     }
 
-    public writeValue(value: T) {
-        this.innerValue = value;
+    protected parse(value: V): M {
+        return value as any;
+    }
+
+    protected format(value: M): V {
+        return value as any;
+    }
+
+    public writeValue(value: M) {
+        this.modelValue = value;
+        // component -> select
+        this.viewValue = this.format(value);
     }
     
-    public registerOnChange(fn: (value: T) => void) {
+    public registerOnChange(fn: (value: M) => void) {
         this.changed.push(fn);
     }
     

@@ -8,13 +8,14 @@
 <ngt-control>
     <ngt-number
         [(ngModel)]="numberValue"
-        placeholder="Enter a value">
+        placeholder="Enter a value"
+        decimals="3">
     </ngt-number>
 </ngt-control>
 
 <ngt-control>
     <ngt-select
-        [(ngModel)]="selectValue1"
+        [(ngModel)]="selectValueObject"
         [options]="optionsObject"
         placeholder="Enter a value"
         labelAttr="label"
@@ -24,7 +25,7 @@
 
 <ngt-control>
     <ngt-select
-        [(ngModel)]="selectValue2"
+        [(ngModel)]="selectValueArray"
         [options]="optionsArray"
         placeholder="Enter a value">
     </ngt-select>

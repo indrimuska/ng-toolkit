@@ -15,8 +15,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 export class Main {
     public stringValue = "pluto";
     public numberValue: number = 5;
-    public selectValue1: number;
-    public selectValue2: string;
+    public selectValueObject: number;
+    public selectValueArray: string;
 
     public optionsObject = [
         { value: 1, label: 'uno' },
@@ -27,8 +27,9 @@ export class Main {
 
     constructor() {
         setTimeout(() => {
-            this.selectValue1 = 3;
-            this.selectValue2 = "tre";
-        }, 2000);
+            this.numberValue = 5245.1228;
+            this.selectValueObject = 3;
+            this.selectValueArray = "tre";
+        }, 3000);
     }
 }
