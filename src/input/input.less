@@ -1,6 +1,15 @@
 @import (reference) '~bootstrap/scss/bootstrap.scss';
 
-input:extend(.form-control) { }
-input:hover:extend(.form-control:hover) { }
-input:focus:extend(.form-control:focus) { }
-input:active:extend(.form-control:active) { }
+input {
+    &:extend(.form-control);
+
+    &:hover {
+        &:extend(.form-control:hover);
+    }
+    &:focus {
+        &:extend(.form-control:focus);
+    }
+    &:active {
+        &:extend(.form-control:active);
+    }
+}
