@@ -17,6 +17,7 @@ export class Main {
     public numberValue: number = 5;
     public selectValueObject: number;
     public selectValueArray: string;
+    public checkboxValue: boolean = false;
 
     public optionsObject = [
         { value: 1, label: 'uno' },

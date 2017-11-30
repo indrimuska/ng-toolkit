@@ -1,48 +1,5 @@
 @import (reference) '~bootstrap/scss/bootstrap.scss';
 
-@padding-right: 0.75rem + 1.2rem;
-@caret-size:    6px;
-
-.ngt-select-input:extend(.form-control) { }
-select:hover + .ngt-select-input:extend(.form-control:hover) { }
-select:focus + .ngt-select-input:extend(.form-control:focus) { }
-select:active + .ngt-select-input:extend(.form-control:active) { }
-
-:host {
-    position: relative;
-    display: block;
-}
-
 select {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-}
-
-.ngt-select-input {
-    padding-right: @padding-right;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    &.placeholder {
-        color: #757575;
-    }
-
-    &:after {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 50%;
-        right: @padding-right / 2;
-        transform: translate(50%, -50%);
-        border: (@caret-size * cos(30deg)) solid transparent;
-        border-top: @caret-size solid #757575;
-        border-bottom: 0;
-    }
+    &:extend(.custom-select all);
 }

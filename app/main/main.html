@@ -16,17 +16,26 @@
 <ngt-control>
     <ngt-select
         [(ngModel)]="selectValueObject"
-        [options]="optionsObject"
-        placeholder="Enter a value"
-        labelAttr="label"
-        valueAttr="value">
+        placeholder="Enter a value">
+        <option *ngFor="let option of optionsObject" [ngValue]="option.value">
+            {{ option.label }}
+        </option>
     </ngt-select>
 </ngt-control>
 
 <ngt-control>
     <ngt-select
         [(ngModel)]="selectValueArray"
-        [options]="optionsArray"
         placeholder="Enter a value">
+        <option *ngFor="let option of optionsArray" [ngValue]="option">
+            {{ option }}
+        </option>
     </ngt-select>
+</ngt-control>
+
+<ngt-control>
+    <ngt-checkbox
+        [(ngModel)]="checkboxValue"
+        label="Save preference">
+    </ngt-checkbox>
 </ngt-control>

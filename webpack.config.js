@@ -23,10 +23,16 @@ module.exports = {
     module: {
         rules: [
             { test: /\.ts$/, use: 'ts-loader' },
-            { test: /\.less$/, use: ['raw-loader', 'less-loader'] },
-            // { test: /\.scss$/, use: ['raw-loader''sass-loader'] },
-            // { test: /\.scss$/, use: ['raw-loader', 'less-loader', 'sass-loader'] },
-            { test: /\.scss$/, use: ['sass-loader'] },
+            { test: /\.html$/, use: 'raw-loader' },
+            { test: /\.scss$/, use: 'sass-loader' },
+            {
+                test: /\.less$/,
+                use: [
+                    'raw-loader',
+                    { loader: 'postcss-loader', options: { plugins: [autoprefixer] } },
+                    'less-loader'
+                ]
+            },
         ]
     },
     plugins: [

@@ -9,12 +9,14 @@ import { InputComponent } from './input/input';
 import { TextComponent } from './text/text';
 import { NumberComponent } from './number/number';
 import { SelectComponent } from './select/select';
+import { CheckboxComponent } from './checkbox/checkbox';
 
 const COMPONENTS = [
     ControlComponent,
     TextComponent,
     NumberComponent,
     SelectComponent,
+    CheckboxComponent,
 ];
 
 @NgModule({
@@ -27,6 +29,7 @@ const COMPONENTS = [
     declarations: COMPONENTS.concat(
         // private components
         InputComponent,
+        CheckboxComponent
     ),
     exports: COMPONENTS
 })

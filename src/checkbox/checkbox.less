@@ -1,0 +1,30 @@
+@import (reference) '~bootstrap/scss/bootstrap.scss';
+
+label {
+    &:extend(.custom-control);
+    line-height: 1.5;
+}
+
+input {
+    &:extend(.custom-control-input);
+    &:extend(.custom-checkbox .custom-control-input);
+}
+
+.ngt-checkbox-indicator {
+    &:extend(.custom-control-indicator);
+    &:extend(.custom-checkbox .custom-control-indicator);
+    
+    input:checked ~ & {
+        &:extend(.custom-control-input:checked ~ .custom-control-indicator);
+        &:extend(.custom-checkbox .custom-control-input:checked ~ .custom-control-indicator);
+    }
+    input:focus ~ & {
+        &:extend(.custom-control-input:focus ~ .custom-control-indicator);
+    }
+    input:active ~ & {
+        &:extend(.custom-control-input:active ~ .custom-control-indicator);
+    }
+    input:disabled ~ & {
+        &:extend(.custom-control-input:disabled ~ .custom-control-indicator);
+    }
+}
