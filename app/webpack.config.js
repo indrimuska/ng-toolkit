@@ -22,7 +22,7 @@ module.exports = {
                     'less-loader'
                 ]
             },
-            { test: /\.min\.css$/, use: ['style-loader', 'css-loader'] },
+            { test: /\.css$/, use: ['style-loader', 'css-loader'] },
         ]
     },
     plugins: [
