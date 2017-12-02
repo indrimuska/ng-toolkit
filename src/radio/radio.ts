@@ -4,27 +4,29 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ValueAccessor } from '../utility';
 
 @Component({
-    selector: 'ngt-checkbox',
+    selector: 'ngt-radio',
     template: `
         <label>
             <input
-                type="checkbox"
+                type="radio"
                 [(ngModel)]="value"
+                [value]="radioValue"
             >
-            <span class="ngt-checkbox-indicator"></span>
+            <span class="ngt-radio-indicator"></span>
             <span *ngIf="label">
                 {{ label }}
             </span>
         </label>
     `,
     styles: [
-        require('./checkbox.less')
+        require('./radio.less')
     ],
     providers: [
-        { provide: NG_VALUE_ACCESSOR, useExisting: CheckboxComponent, multi: true }
+        { provide: NG_VALUE_ACCESSOR, useExisting: RadioComponent, multi: true }
     ]
 })
-export class CheckboxComponent extends ValueAccessor<boolean> {
+export class RadioComponent extends ValueAccessor<any> {
     @Input() public value: boolean;
     @Input() public label: string;
+    @Input('value') public radioValue: any;
 }

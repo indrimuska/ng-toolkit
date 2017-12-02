@@ -18,6 +18,7 @@ export class Main {
     public selectValueObject: number;
     public selectValueArray: string;
     public checkboxValue: boolean = false;
+    public radioValue: any;
 
     public optionsObject = [
         { value: 1, label: 'uno' },
@@ -31,6 +32,10 @@ export class Main {
             this.numberValue = 5245.1228;
             this.selectValueObject = 3;
             this.selectValueArray = "tre";
-        }, 3000);
+            this.radioValue = 1;
+            setTimeout(() => {
+                this.radioValue = '1';
+            }, 1000);
+        }, 1000);
     }
 }

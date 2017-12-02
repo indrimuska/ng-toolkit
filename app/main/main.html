@@ -1,50 +1,72 @@
-<ngt-control>
-    <ngt-text
-        [(ngModel)]="stringValue"
-        placeholder="Enter a value">
-    </ngt-text>
-</ngt-control>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <ngt-control>
+                <ngt-text
+                    [(ngModel)]="stringValue"
+                    placeholder="Enter a value">
+                </ngt-text>
+            </ngt-control>
+        </div>
 
-<ngt-control>
-    <ngt-number
-        [(ngModel)]="numberValue"
-        placeholder="Enter a value"
-        decimals="3">
-    </ngt-number>
-</ngt-control>
+        <div class="col">
+            <ngt-control>
+                <ngt-number
+                    [(ngModel)]="numberValue"
+                    placeholder="Enter a value"
+                    decimals="3">
+                </ngt-number>
+            </ngt-control>
+        </div>
+    </div>
 
-<ngt-control>
-    <ngt-select
-        [(ngModel)]="selectValueObject"
-        [options]="optionsObject"
-        placeholder="Enter a value"
-        labelAttr="label"
-        valueAttr="value">
-    </ngt-select>
-</ngt-control>
+    <div class="row">
+        <div class="col">
+            <ngt-control>
+                <ngt-select
+                    [(ngModel)]="selectValueObject"
+                    [options]="optionsObject"
+                    placeholder="Enter a value"
+                    labelAttr="label"
+                    valueAttr="value">
+                </ngt-select>
+            </ngt-control>
+        </div>
+        
+        <div class="col">
+            <ngt-control>
+                <ngt-select
+                    [(ngModel)]="selectValueArray"
+                    [options]="optionsArray"
+                    placeholder="Enter a value">
+                </ngt-select>
+            </ngt-control>
+        </div>
+    </div>
 
-<ngt-control>
-    <ngt-select
-        [(ngModel)]="selectValueArray"
-        [options]="optionsArray"
-        placeholder="Enter a value">
-    </ngt-select>
-</ngt-control>
-
-<ngt-control>
-    <ngt-checkbox
-        [(ngModel)]="checkboxValue"
-        label="Save preference">
-    </ngt-checkbox>
-</ngt-control>
-
-<div>
-    <ngt-checkbox
-        [(ngModel)]="inlinePref1"
-        label="Inline preference 1">
-    </ngt-checkbox>
-    <ngt-checkbox
-        [(ngModel)]="inlinePref2"
-        label="Inline preference 2">
-    </ngt-checkbox>
+    <div class="row">
+        <div class="col">
+            <ngt-control>
+                <ngt-checkbox
+                    [(ngModel)]="checkboxValue"
+                    label="Save preference">
+                </ngt-checkbox>
+            </ngt-control>
+        </div>
+        
+        <div class="col">
+            <ngt-control>
+                <ngt-radio
+                    [(ngModel)]="radioValue"
+                    label="Value: number 1"
+                    [value]="1">
+                </ngt-radio>
+                <ngt-radio
+                    [(ngModel)]="radioValue"
+                    label="Value: string '1'"
+                    value="1">
+                </ngt-radio>
+            </ngt-control>
+        </div>
+    </div>
 </div>
