@@ -11,6 +11,7 @@ import { NumberComponent } from './number/number';
 import { SelectComponent } from './select/select';
 import { CheckboxComponent } from './checkbox/checkbox';
 import { RadioComponent } from './radio/radio';
+import { ToggleComponent } from './toggle/toggle';
 
 const COMPONENTS = [
     ControlComponent,
@@ -19,6 +20,7 @@ const COMPONENTS = [
     SelectComponent,
     CheckboxComponent,
     RadioComponent,
+    ToggleComponent,
 ];
 
 @NgModule({

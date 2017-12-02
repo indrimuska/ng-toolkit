@@ -1,0 +1,67 @@
+@import (reference) '~bootstrap/scss/bootstrap.scss';
+
+@container-width:       2.5rem;
+@container-height:      0.8rem;
+@container-padding:     0.5rem;
+@indicator-size:        1.4rem;
+@border-color:          #ced4da;
+@transition-duration:   0.15s;
+
+label {
+    display: inline-flex;
+    padding-left: @container-width + @container-padding;
+    line-height: 1.5;
+    min-height: 1.5rem;
+    position: relative;
+}
+
+input {
+    &:extend(.custom-control-input);
+}
+
+.ngt-toggle-indicator {
+    position: absolute;
+    top: (1.5rem - @container-height) / 2;
+    left: 0;
+    display: block;
+    width: @container-width;
+    height: @container-height;
+    user-select: none;
+    pointer-events: none;
+    background-color: #ddd;
+    border-radius: @container-height / 2;
+    transition: background-color ease-in-out @transition-duration * 2;
+    
+    input:checked ~ & {
+        background-color: #007bff;
+    }
+    input:active ~ & {
+        background-color: #b3d7ff;
+    }
+    input:disabled ~ & {
+        &:extend(.custom-control-input:disabled ~ .custom-control-indicator);
+    }
+    
+    &:after {
+        content: '';
+        position: absolute;
+        top: (@container-height - @indicator-size) / 2;
+        left: 0;
+        display: block;
+        width: @indicator-size;
+        height: @indicator-size;
+        user-select: none;
+        pointer-events: none;
+        background-color: #fff;
+        border-radius: @indicator-size / 2;
+        box-shadow: 0 1px 2px 1px @border-color;
+        transition: left ease-in-out @transition-duration;
+    
+        input:checked ~ & {
+            left: @container-width - @indicator-size;
+        }
+        input:focus ~ & {
+            box-shadow: 0 0 0 0.15rem fade(#007bff, 25%);
+        }
+    }
+}

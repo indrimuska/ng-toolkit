@@ -56,6 +56,16 @@
         
         <div class="col">
             <ngt-control>
+                <ngt-toggle
+                    [(ngModel)]="checkboxValue">
+                </ngt-toggle>
+            </ngt-control>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <ngt-control>
                 <ngt-radio
                     [(ngModel)]="radioValue"
                     label="Value: number 1"
