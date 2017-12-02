@@ -10,8 +10,9 @@ import { ValueAccessor } from '../utility';
             <input
                 type="radio"
                 [(ngModel)]="value"
+                [disabled]="disabled"
                 [value]="radioValue"
-            >
+            />
             <span class="ngt-radio-indicator"></span>
             <span *ngIf="label">
                 {{ label }}
@@ -28,5 +29,6 @@ import { ValueAccessor } from '../utility';
 export class RadioComponent extends ValueAccessor<any> {
     @Input() public value: boolean;
     @Input() public label: string;
+    @Input() public disabled: boolean;
     @Input('value') public radioValue: any;
 }

@@ -10,7 +10,8 @@ import { ValueAccessor } from '../utility';
             <input
                 type="checkbox"
                 [(ngModel)]="value"
-            >
+                [disabled]="disabled"
+            />
             <span class="ngt-checkbox-indicator"></span>
             <span *ngIf="label">
                 {{ label }}
@@ -26,5 +27,6 @@ import { ValueAccessor } from '../utility';
 })
 export class CheckboxComponent extends ValueAccessor<boolean> {
     @Input() public value: boolean;
+    @Input() public disabled: boolean;
     @Input() public label: string;
 }

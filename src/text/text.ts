@@ -9,6 +9,7 @@ import { ValueAccessor } from '../utility';
         <ngt-input
             type="text"
             [(ngModel)]="value"
+            [disabled]="disabled"
             [placeholder]="placeholder">
         </ngt-input>
     `,
@@ -18,5 +19,6 @@ import { ValueAccessor } from '../utility';
 })
 export class TextComponent extends ValueAccessor<number> {
     @Input() public value: number;
+    @Input() public disabled: boolean;
     @Input() public placeholder: string;
 }

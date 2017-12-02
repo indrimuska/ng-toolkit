@@ -12,6 +12,7 @@ import { ValueAccessor, replaceAll } from '../utility';
             #inputRef
             type="text"
             [(ngModel)]="viewValue"
+            [disabled]="disabled"
             [placeholder]="placeholder"
             (keypress)="onKeypress($event)"
             (blur)="onBlur()">
@@ -23,6 +24,7 @@ import { ValueAccessor, replaceAll } from '../utility';
 })
 export class NumberComponent extends ValueAccessor<number, string> {
     @Input() public value: number;
+    @Input() public disabled: boolean;
     @Input() public placeholder: string;
     @Input() public decimals: number;
 

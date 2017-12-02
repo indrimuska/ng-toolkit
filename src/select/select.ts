@@ -7,7 +7,7 @@ import { ValueAccessor } from '../utility';
 @Component({
     selector: 'ngt-select',
     template: `
-        <select [(ngModel)]="viewValue">
+        <select [(ngModel)]="viewValue" [disabled]="disabled">
             <option value="" disabled *ngIf="placeholder">
                 {{ placeholder }}
             </option>
@@ -25,6 +25,7 @@ import { ValueAccessor } from '../utility';
 })
 export class SelectComponent extends ValueAccessor<any> {
     @Input() public value: any;
+    @Input() public disabled: boolean;
     @Input() public placeholder: string;
     @Input() public options: any[] = [];
     @Input() public labelAttr: string;

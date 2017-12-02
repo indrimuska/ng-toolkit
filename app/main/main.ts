@@ -13,6 +13,8 @@ import 'bootstrap/dist/css/bootstrap.css';
     `]
 })
 export class Main {
+    public enabled: boolean = true;
+
     public stringValue = "pluto";
     public numberValue: number = 5;
     public selectValueObject: number;
