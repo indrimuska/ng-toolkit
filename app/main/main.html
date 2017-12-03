@@ -73,26 +73,26 @@
     <div class="row">
         <div class="col">
             <ngt-control>
-                <ngt-checkbox
+                <ngt-toggle
                     [(ngModel)]="checkboxValue"
                     [disabled]="!enabled"
-                    label="Save preference">
-                </ngt-checkbox>
+                    label="Save preference"
+                    trueValue="VERO"
+                    falseValue="FALSO">
+                </ngt-toggle>
             </ngt-control>
         </div>
         
         <div class="col">
             <ngt-control>
                 <ngt-toggle
-                    [(ngModel)]="checkboxValue"
+                    [(ngModel)]="toggleValue"
                     [disabled]="!enabled"
                     label="Save preference">
                 </ngt-toggle>
             </ngt-control>
         </div>
-    </div>
-
-    <div class="row">
+        
         <div class="col">
             <ngt-control>
                 <ngt-radio

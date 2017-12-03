@@ -20,7 +20,8 @@ export class Main {
     public selectValueObject: number;
     public selectValueArray: string;
     public selectMultipleValue: number[] = [];
-    public checkboxValue: boolean = false;
+    public checkboxValue: string = 'VERO';
+    public toggleValue: boolean = false;
     public radioValue: any;
 
     public optionsObject = [

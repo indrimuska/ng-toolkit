@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { ValueAccessor } from '../utility';
+import { CheckboxComponent } from '../checkbox/checkbox';
 
 @Component({
     selector: 'ngt-toggle',
@@ -9,7 +9,7 @@ import { ValueAccessor } from '../utility';
         <label>
             <input
                 type="checkbox"
-                [(ngModel)]="value"
+                [(ngModel)]="viewValue"
                 [disabled]="disabled"
             />
             <span class="ngt-toggle-indicator"></span>
@@ -25,8 +25,4 @@ import { ValueAccessor } from '../utility';
         { provide: NG_VALUE_ACCESSOR, useExisting: ToggleComponent, multi: true }
     ]
 })
-export class ToggleComponent extends ValueAccessor<boolean> {
-    @Input() public value: boolean;
-    @Input() public disabled: boolean;
-    @Input() public label: string;
-}
+export class ToggleComponent extends CheckboxComponent { }
