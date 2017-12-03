@@ -14,7 +14,7 @@ import { ValueAccessor } from '../utility';
                 [value]="radioValue"
             />
             <span class="ngt-radio-indicator"></span>
-            <span *ngIf="label">
+            <span class="ngt-radio-label" *ngIf="label">
                 {{ label }}
             </span>
         </label>

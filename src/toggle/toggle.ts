@@ -13,7 +13,7 @@ import { ValueAccessor } from '../utility';
                 [disabled]="disabled"
             />
             <span class="ngt-toggle-indicator"></span>
-            <span *ngIf="label">
+            <span class="ngt-toggle-label" *ngIf="label">
                 {{ label }}
             </span>
         </label>

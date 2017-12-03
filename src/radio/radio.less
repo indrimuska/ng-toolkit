@@ -28,3 +28,9 @@ input {
         &:extend(.custom-control-input:disabled ~ .custom-control-indicator);
     }
 }
+
+.ngt-radio-label {
+    input:disabled ~ & {
+        &:extend(.custom-control-input:disabled ~ .custom-control-description);
+    }
+}

@@ -13,7 +13,7 @@ import { ValueAccessor } from '../utility';
                 [disabled]="disabled"
             />
             <span class="ngt-checkbox-indicator"></span>
-            <span *ngIf="label">
+            <span class="ngt-checkbox-label" *ngIf="label">
                 {{ label }}
             </span>
         </label>
