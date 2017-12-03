@@ -1,13 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { NgModel, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { isObject, isNullOrUndefined } from 'util';
+import { isObject, isNullOrUndefined, isArray } from 'util';
 
 import { ValueAccessor } from '../utility';
 
 @Component({
     selector: 'ngt-select',
     template: `
-        <select [(ngModel)]="viewValue" [disabled]="disabled">
+        <select
+            [(ngModel)]="viewValue"
+            [disabled]="disabled"
+            [multiple]="multiple">
             <option value="" disabled *ngIf="placeholder">
                 {{ placeholder }}
             </option>
@@ -26,21 +29,29 @@ import { ValueAccessor } from '../utility';
 export class SelectComponent extends ValueAccessor<any> {
     @Input() public value: any;
     @Input() public disabled: boolean;
+    @Input() public multiple: boolean;
     @Input() public placeholder: string;
     @Input() public options: any[] = [];
     @Input() public labelAttr: string;
     @Input() public valueAttr: string;
     
     /** @override */
-    protected parse(option: any): any {
-        return this.getOptionAttr(option, this.valueAttr);
+    protected parse(option: any | any[]): any {
+        return isArray(option)
+            ? option.map(o => this.getOptionAttr(o, this.valueAttr))
+            : this.getOptionAttr(option, this.valueAttr);
     }
 
     /** @override */
     protected format(value: any): any {
-        return !isNullOrUndefined(value)
-            ? this.options.find(o => this.getOptionAttr(o, this.valueAttr) === value)
-            : value;
+        if (isNullOrUndefined(value)) return value;
+        return isArray(value)
+            ? value.map(v => this.findOptionByValue(v))
+            : this.findOptionByValue(value);
+    }
+
+    private findOptionByValue(value: any) {
+        return this.options.find(o => this.getOptionAttr(o, this.valueAttr) === value);
     }
     
     private getOptionAttr(option: any, attr: string) {

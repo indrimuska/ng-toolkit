@@ -15,10 +15,11 @@ import 'bootstrap/dist/css/bootstrap.css';
 export class Main {
     public enabled: boolean = true;
 
-    public stringValue = "pluto";
+    public stringValue = 'pluto';
     public numberValue: number = 5;
     public selectValueObject: number;
     public selectValueArray: string;
+    public selectMultipleValue: number[] = [];
     public checkboxValue: boolean = false;
     public radioValue: any;
 
@@ -33,7 +34,8 @@ export class Main {
         setTimeout(() => {
             this.numberValue = 5245.1228;
             this.selectValueObject = 3;
-            this.selectValueArray = "tre";
+            this.selectValueArray = 'tre';
+            this.selectMultipleValue = [1, 2];
             this.radioValue = 1;
             setTimeout(() => {
                 this.radioValue = '1';

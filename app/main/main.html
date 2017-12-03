@@ -1,9 +1,11 @@
 <div class="container">
-    <ngt-control>
-        <div class="text-center">
-            <ngt-toggle [(ngModel)]="enabled" label="Inputs enabled"></ngt-toggle>
+    <div class="row">
+        <div class="col">
+            <ngt-control>
+                <ngt-toggle [(ngModel)]="enabled" label="Inputs enabled"></ngt-toggle>
+            </ngt-control>
         </div>
-    </ngt-control>
+    </div>
 
     <div class="row">
         <div class="col">
@@ -49,6 +51,19 @@
                     [disabled]="!enabled"
                     [options]="optionsArray"
                     placeholder="Enter a value">
+                </ngt-select>
+            </ngt-control>
+        </div>
+        
+        <div class="col">
+            <ngt-control>
+                <ngt-select
+                    [(ngModel)]="selectMultipleValue"
+                    [options]="optionsObject"
+                    placeholder="Enter a value"
+                    multiple="true"
+                    labelAttr="label"
+                    valueAttr="value">
                 </ngt-select>
             </ngt-control>
         </div>
