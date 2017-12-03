@@ -59,11 +59,12 @@
             <ngt-control>
                 <ngt-select
                     [(ngModel)]="selectMultipleValue"
+                    [disabled]="!enabled"
                     [options]="optionsObject"
                     placeholder="Enter a value"
-                    multiple="true"
                     labelAttr="label"
-                    valueAttr="value">
+                    valueAttr="value"
+                    multiple="true">
                 </ngt-select>
             </ngt-control>
         </div>
