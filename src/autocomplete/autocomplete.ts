@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, HostBinding, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { isObject, isArray } from 'util';
+import { isObject, isArray, isNullOrUndefined } from 'util';
 
 import { SelectComponent } from '../select/select';
 
@@ -12,7 +12,7 @@ import { SelectComponent } from '../select/select';
                 {{ value }}
             </span>
             <ng-container *ngIf="multiple">
-                <span *ngFor="let item of viewValue">
+                <span *ngFor="let item of viewValue" class="ngt-autocomplete-item">
                     {{ getOptionAttr(item, labelAttr) }}
                 </span>
             </ng-container>
@@ -20,20 +20,25 @@ import { SelectComponent } from '../select/select';
                 <input
                     #inputRef
                     [(ngModel)]="filter"
+                    [disabled]="disabled"
+                    [placeholder]="placeholder"
                     (focus)="onFocus()"
                     (blur)="onBlur()"
                     (keydown.Enter)="selectHighlighted()"
                     (keydown.ArrowUp)="highlightPrevious()"
                     (keydown.ArrowDown)="highlightNext()"
+                    (keydown.Escape)="closeDropdown()"
                     (keydown.Backspace)="removeLast()"
                 />
-                {{ filter }}
+                <span class="ngt-autocomplete-filter-placeholder">
+                    {{ hasValue || filter ? filter : placeholder }}
+                </span>
             </span>
         </label>
         <div
             class="ngt-autocomplete-dropdown"
-            (mousedown)="mouseOnDropdown = true"
-            (mouseup)="mouseOnDropdown = false">
+            (mousedown)="onDropdownFocus()"
+            (mouseup)="onDropdownBlur()">
             <div
                 *ngFor="let option of filteredOptions; let i = index; trackBy:getOptionAttr(option, valueAttr)"
                 [ngClass]="{highlighted: highlightedIndex === i}"
@@ -53,9 +58,17 @@ import { SelectComponent } from '../select/select';
 })
 export class AutocompleteComponent extends SelectComponent {
     @ViewChild('inputRef') public inputRef: ElementRef;
-    @HostBinding('class.focus') private isFocused: boolean = false;
-    @HostBinding('class.open') private get dropdownOpen(): boolean {
-        return (this.isOpen || this.mouseOnDropdown) && this.filteredOptions.length > 0;
+    @HostBinding('class.disabled') public disabled: boolean;
+    // @HostBinding('class.focus')
+    private isFocused: boolean = false;
+    @HostBinding('class.open') private get isOpen(): boolean {
+        return (this.forceOpen || this.mouseOnDropdown) && this.filteredOptions.length > 0;
+    }
+    // @HostBinding('class.has-value')
+    private get hasValue() {
+        return this.multiple
+            ? (this.value || []).length > 0
+            : !isNullOrUndefined(this.value);
     }
 
     private _options: any[] = [];
@@ -102,28 +115,35 @@ export class AutocompleteComponent extends SelectComponent {
 
     private filteredOptions: any[];
     private highlightedIndex: number = 0;
-    private isOpen: boolean = false;
-    private mouseOnDropdown: boolean = false;
-
+    private forceOpen: boolean = false;
+    
     private onFocus() {
         this.isFocused = true;
-        this.isOpen = true;
+        this.forceOpen = true;
     }
 
     private onBlur() {
         this.isFocused = false;
-        this.isOpen = false;
+        this.forceOpen = false;
         this.filter = '';
+    }
+    
+    private mouseOnDropdown: boolean = false;
+    private onDropdownFocus() {
+        this.mouseOnDropdown = true;
+    }
+    private onDropdownBlur() {
+        this.mouseOnDropdown = false;
     }
 
     private highlightPrevious() {
-        this.highlight(this.highlightedIndex - 1);
-        this.isOpen = true;
+        if (!this.isOpen) this.forceOpen = true;
+        else this.highlight(this.highlightedIndex - 1);
     }
 
     private highlightNext() {
-        this.highlight(this.highlightedIndex + 1);
-        this.isOpen = true;
+        if (!this.isOpen) this.forceOpen = true;
+        else this.highlight(this.highlightedIndex + 1);
     }
 
     private highlight(index: number) {
@@ -131,12 +151,13 @@ export class AutocompleteComponent extends SelectComponent {
     }
 
     private selectHighlighted() {
-        if (this.isOpen) {
-            this.selectOption(this.filteredOptions[this.highlightedIndex]);
-        }
+        this.selectOption(this.filteredOptions[this.highlightedIndex]);
     }
 
     private selectOption(option: any) {
+        if (!this.isOpen) return;
+        
+        const highlightedIndex = this.highlightedIndex;
         const value = this.getOptionAttr(option, this.valueAttr);
         if (this.multiple) {
             if (!this.viewValue) this.viewValue = [];
@@ -148,15 +169,24 @@ export class AutocompleteComponent extends SelectComponent {
             this.value = value;
         }
         this.filter = '';
+        this.highlight(Math.min(highlightedIndex, this.filteredOptions.length - 1));
         this.inputRef.nativeElement.focus();
     }
 
+    private closeDropdown() {
+        this.forceOpen = false;
+    }
+
     private removeLast() {
+        if (!this.hasValue) return;
+
         if (this.multiple) {
             this.viewValue.pop();
             this.value.pop();
+            this.filteredOptions
         } else {
             this.value = null;
         }
+        this.updateFilteredOptions();
     }
 }

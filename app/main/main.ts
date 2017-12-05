@@ -28,6 +28,9 @@ export class Main {
         { value: 1, label: 'uno' },
         { value: 2, label: 'due' },
         { value: 3, label: 'tre' },
+        { value: 4, label: 'quattro' },
+        { value: 5, label: 'cinque' },
+        { value: 6, label: 'sei' },
     ];
     public optionsArray = ['uno', 'due', 'tre'];
 
