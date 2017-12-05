@@ -28,6 +28,20 @@
                 </ngt-number>
             </ngt-control>
         </div>
+
+        <div class="col">
+            <ngt-control>
+                <ngt-autocomplete
+                    [(ngModel)]="autocompleteValue"
+                    [disabled]="!enabled"
+                    [options]="optionsObject"
+                    placeholder="Enter a value"
+                    labelAttr="label"
+                    valueAttr="value"
+                    multiple="true">
+                </ngt-autocomplete>
+            </ngt-control>
+        </div>
     </div>
 
     <div class="row">
@@ -73,13 +87,13 @@
     <div class="row">
         <div class="col">
             <ngt-control>
-                <ngt-toggle
+                <ngt-checkbox
                     [(ngModel)]="checkboxValue"
                     [disabled]="!enabled"
                     label="Save preference"
                     trueValue="VERO"
                     falseValue="FALSO">
-                </ngt-toggle>
+                </ngt-checkbox>
             </ngt-control>
         </div>
         

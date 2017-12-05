@@ -14,7 +14,7 @@ import { ValueAccessor } from '../utility';
             <option value="" disabled *ngIf="placeholder">
                 {{ placeholder }}
             </option>
-            <option *ngFor="let option of options" [ngValue]="option">
+            <option *ngFor="let option of options; trackBy:getOptionAttr(option, valueAttr)" [ngValue]="option">
                 {{ getOptionAttr(option, labelAttr) }}
             </option>
         </select>
@@ -37,16 +37,19 @@ export class SelectComponent extends ValueAccessor<any> {
     
     /** @override */
     protected parse(option: any | any[]): any {
-        return isArray(option)
-            ? option.map(o => this.getOptionAttr(o, this.valueAttr))
-            : this.getOptionAttr(option, this.valueAttr);
+        if (this.multiple) {
+            return (option || []).map((o: any) => this.getOptionAttr(o, this.valueAttr));
+        } else {
+            if (isArray(option)) option = option[0];
+            return this.getOptionAttr(option, this.valueAttr);
+        }
     }
 
     /** @override */
     protected format(value: any): any {
         if (isNullOrUndefined(value)) return value;
         return isArray(value)
-            ? value.map(v => this.findOptionByValue(v))
+            ? value.map((v: any) => this.findOptionByValue(v))
             : this.findOptionByValue(value);
     }
 
@@ -54,7 +57,7 @@ export class SelectComponent extends ValueAccessor<any> {
         return this.options.find(o => this.getOptionAttr(o, this.valueAttr) === value);
     }
     
-    private getOptionAttr(option: any, attr: string) {
+    protected getOptionAttr(option: any, attr: string) {
         return isObject(option)
             ? attr && option[attr]
             : option;
