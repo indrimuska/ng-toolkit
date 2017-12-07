@@ -26,8 +26,8 @@ import { ValueAccessor } from '../utility';
         { provide: NG_VALUE_ACCESSOR, useExisting: SelectComponent, multi: true }
     ]
 })
-export class SelectComponent extends ValueAccessor<any> {
-    @Input() public value: any;
+export class SelectComponent extends ValueAccessor<any | any[]> {
+    @Input() public value: any | any[];
     @Input() public disabled: boolean;
     @Input() public multiple: boolean;
     @Input() public placeholder: string;

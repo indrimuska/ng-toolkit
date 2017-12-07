@@ -22,8 +22,8 @@ import { SelectComponent } from '../select/select';
                     [(ngModel)]="filter"
                     [disabled]="disabled"
                     [placeholder]="placeholder"
-                    (focus)="onFocus()"
-                    (blur)="onBlur()"
+                    (focus)="onInputFocus()"
+                    (blur)="onInputBlur()"
                     (keydown.Enter)="selectHighlighted()"
                     (keydown.ArrowUp)="highlightPrevious()"
                     (keydown.ArrowDown)="highlightNext()"
@@ -37,8 +37,8 @@ import { SelectComponent } from '../select/select';
         </label>
         <div
             class="ngt-autocomplete-dropdown"
-            (mousedown)="onDropdownFocus()"
-            (mouseup)="onDropdownBlur()">
+            (mouseover)="onDropdownOver()"
+            (mouseleave)="onDropdownLeave()">
             <div
                 *ngFor="let option of filteredOptions; let i = index; trackBy:getOptionAttr(option, valueAttr)"
                 [ngClass]="{highlighted: highlightedIndex === i}"
@@ -59,16 +59,8 @@ import { SelectComponent } from '../select/select';
 export class AutocompleteComponent extends SelectComponent {
     @ViewChild('inputRef') public inputRef: ElementRef;
     @HostBinding('class.disabled') public disabled: boolean;
-    // @HostBinding('class.focus')
-    private isFocused: boolean = false;
     @HostBinding('class.open') private get isOpen(): boolean {
-        return (this.forceOpen || this.mouseOnDropdown) && this.filteredOptions.length > 0;
-    }
-    // @HostBinding('class.has-value')
-    private get hasValue() {
-        return this.multiple
-            ? (this.value || []).length > 0
-            : !isNullOrUndefined(this.value);
+        return (this.forceOpen || this.dropdownOver) && this.filteredOptions.length > 0;
     }
 
     private _options: any[] = [];
@@ -110,30 +102,30 @@ export class AutocompleteComponent extends SelectComponent {
                     : this.filteredOptions = this.options.filter(o => values.indexOf(this.getOptionAttr(o, this.valueAttr)) < 0);
             }
         }
-        this.highlightedIndex = 0;
     }
 
     private filteredOptions: any[];
     private highlightedIndex: number = 0;
     private forceOpen: boolean = false;
+    private isFocused: boolean = false;
     
-    private onFocus() {
+    private onInputFocus() {
         this.isFocused = true;
         this.forceOpen = true;
     }
 
-    private onBlur() {
+    private onInputBlur() {
         this.isFocused = false;
         this.forceOpen = false;
         this.filter = '';
     }
     
-    private mouseOnDropdown: boolean = false;
-    private onDropdownFocus() {
-        this.mouseOnDropdown = true;
+    private dropdownOver: boolean = false;
+    private onDropdownOver() {
+        this.dropdownOver = true;
     }
-    private onDropdownBlur() {
-        this.mouseOnDropdown = false;
+    private onDropdownLeave() {
+        this.dropdownOver = false;
     }
 
     private highlightPrevious() {
@@ -147,7 +139,7 @@ export class AutocompleteComponent extends SelectComponent {
     }
 
     private highlight(index: number) {
-        this.highlightedIndex = (index + this.filteredOptions.length) % this.filteredOptions.length;
+        this.highlightedIndex = ((index || 0) + this.filteredOptions.length) % this.filteredOptions.length;
     }
 
     private selectHighlighted() {
@@ -176,6 +168,12 @@ export class AutocompleteComponent extends SelectComponent {
     private closeDropdown() {
         this.forceOpen = false;
     }
+    
+    private get hasValue() {
+        return this.multiple
+            ? (this.value || []).length > 0
+            : !isNullOrUndefined(this.value);
+    }
 
     private removeLast() {
         if (!this.hasValue) return;
@@ -183,10 +181,13 @@ export class AutocompleteComponent extends SelectComponent {
         if (this.multiple) {
             this.viewValue.pop();
             this.value.pop();
-            this.filteredOptions
         } else {
             this.value = null;
         }
+        
+        // re-filter options highlighting the same option (if still exists)
+        const highlighted = this.filteredOptions[this.highlightedIndex];
         this.updateFilteredOptions();
+        this.highlight(this.filteredOptions.indexOf(highlighted))
     }
 }
