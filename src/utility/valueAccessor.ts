@@ -10,12 +10,6 @@ export abstract class ValueAccessor<M, V = M> implements ControlValueAccessor {
     protected get viewValue(): V {
         return this._viewValue;
     }
-
-    protected set viewValue(value: V) {
-        this._viewValue = value;
-        // component <- select
-        this.value = this.parse(value);
-    }
     
     protected get value(): M {
         return this.modelValue;
@@ -28,17 +22,25 @@ export abstract class ValueAccessor<M, V = M> implements ControlValueAccessor {
         }
     }
 
+    // component <- model
+    protected set viewValue(value: V) {
+        this._viewValue = value;
+        this.value = this.parse(value);
+    }
+
+    // viewValue -> modelValue
     protected parse(value: V): M {
         return value as any;
     }
-
+    
+    // viewValue <- modelValue
     protected format(value: M): V {
         return value as any;
     }
 
+    // component -> model
     public writeValue(value: M) {
         this.modelValue = value;
-        // component -> select
         this.viewValue = this.format(value);
     }
     

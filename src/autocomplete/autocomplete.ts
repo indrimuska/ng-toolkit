@@ -3,7 +3,6 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isObject, isArray, isNullOrUndefined } from 'util';
 
 import { SelectComponent } from '../select/select';
-import { setTimeout } from 'timers';
 
 @Component({
     selector: 'ngt-autocomplete',
@@ -38,6 +37,7 @@ import { setTimeout } from 'timers';
             </span>
         </label>
         <div
+            #dropdownRef
             class="ngt-autocomplete-dropdown"
             (mousedown)="onDropdownClick()">
             <div
@@ -59,17 +59,27 @@ import { setTimeout } from 'timers';
 })
 export class AutocompleteComponent extends SelectComponent {
     @ViewChild('inputRef') public inputRef: ElementRef;
-    @HostBinding('class.multiple') public multiple: boolean;
+    @ViewChild('dropdownRef') public dropdownRef: ElementRef;
     @HostBinding('class.disabled') public disabled: boolean;
+    @HostBinding('class.multiple') public multiple: boolean;
     @HostBinding('class.open') private get isOpen(): boolean {
         return this.forceOpen && this.filteredOptions.length > 0;
     }
+    
+    private filteredOptions: any[];
+    private highlightedIndex: number = 0;
+    private forceOpen: boolean = false;
+    private dropdownClosePrevented: boolean = false;
     
     private get hasValue() {
         return this.multiple
             ? (this.value || []).length > 0
             : !isNullOrUndefined(this.value);
     }
+
+    // @Input() public set value(value: any | any[]) {
+    //     console.log('value', value)
+    // }
 
     private _options: any[] = [];
     @Input() public get options(): any[] {
@@ -114,6 +124,7 @@ export class AutocompleteComponent extends SelectComponent {
 
     private highlight(index: number) {
         this.highlightedIndex = ((index || 0) + this.filteredOptions.length) % this.filteredOptions.length;
+        this.scrollToIndex(this.highlightedIndex);
     }
 
     private selectOption(option: any) {
@@ -153,12 +164,24 @@ export class AutocompleteComponent extends SelectComponent {
         }
     }
 
-    private filteredOptions: any[];
-    private highlightedIndex: number = 0;
-    private forceOpen: boolean = false;
-    private dropdownClosePrevented: boolean = false;
+    private scrollToIndex(index: number) {
+        const option = this.dropdownRef.nativeElement.children[index] as HTMLDivElement;
+        const optionHeight = option.offsetHeight;
+        const optionPosition = option.offsetTop;
+        const dropdown = this.dropdownRef.nativeElement as HTMLDivElement;
+        const dropdownHeight = dropdown.offsetHeight;
+        const dropdownScrollTop = dropdown.scrollTop;
+
+        // scroll dropdown in order to make the selected item visible
+        if (optionPosition < dropdownScrollTop) {
+            dropdown.scrollTop = optionPosition;
+        }
+        if (optionPosition + optionHeight > dropdownScrollTop + dropdownHeight) {
+            dropdown.scrollTop = optionPosition + optionHeight - dropdownHeight;
+        }
+    }
     
-    // Input event callbacks
+    // Input callbacks
 
     private onInputFocus() {
         this.forceOpen = true;
@@ -204,7 +227,7 @@ export class AutocompleteComponent extends SelectComponent {
         if (!this.multiple && this.hasValue) e.preventDefault();
     }
 
-    // Dropdown event callback
+    // Dropdown callbacks
     
     private onDropdownClick() {
         this.forceOpen = true;
