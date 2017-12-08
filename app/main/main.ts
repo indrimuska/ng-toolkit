@@ -20,6 +20,8 @@ export class Main {
     public selectValueObject: number;
     public selectValueArray: string;
     public selectMultipleValue: number[] = [];
+    public autocompleteValue: number = 12;
+    public autocompleteMultipleValue: number[] = [];
     public checkboxValue: string = 'VERO';
     public toggleValue: boolean = false;
     public radioValue: any;
@@ -31,6 +33,12 @@ export class Main {
         { value: 4, label: 'quattro' },
         { value: 5, label: 'cinque' },
         { value: 6, label: 'sei' },
+        { value: 7, label: 'sette' },
+        { value: 8, label: 'otto' },
+        { value: 9, label: 'nove' },
+        { value: 10, label: 'dieci' },
+        { value: 11, label: 'undici' },
+        { value: 12, label: 'dodici' },
     ];
     public optionsArray = ['uno', 'due', 'tre'];
 
@@ -40,6 +48,7 @@ export class Main {
             this.selectValueObject = 3;
             this.selectValueArray = 'tre';
             this.selectMultipleValue = [1, 2];
+            this.autocompleteMultipleValue = [6, 10]
             this.radioValue = 1;
             setTimeout(() => {
                 this.radioValue = '1';

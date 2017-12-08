@@ -28,11 +28,26 @@
                 </ngt-number>
             </ngt-control>
         </div>
+    </div>
 
+    <div class="row">
         <div class="col">
             <ngt-control>
                 <ngt-autocomplete
                     [(ngModel)]="autocompleteValue"
+                    [disabled]="!enabled"
+                    [options]="optionsObject"
+                    placeholder="Enter a value"
+                    labelAttr="label"
+                    valueAttr="value">
+                </ngt-autocomplete>
+            </ngt-control>
+        </div>
+
+        <div class="col">
+            <ngt-control>
+                <ngt-autocomplete
+                    [(ngModel)]="autocompleteMultipleValue"
                     [disabled]="!enabled"
                     [options]="optionsObject"
                     placeholder="Enter a value"

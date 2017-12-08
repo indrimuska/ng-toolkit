@@ -18,13 +18,12 @@ label {
     flex-direction: row;
     flex-wrap: wrap;
     overflow: hidden;
-    padding: 0.375rem;
-    padding-right: 0.375rem - @dropdown-item-right-margin;
-    padding-bottom: 0;
 
-    // :host.focus & {
-    //     &:extend(.form-control:focus);
-    // }
+    :host.multiple & {
+        padding: 0.375rem;
+        padding-right: 0.375rem - @dropdown-item-right-margin;
+        padding-bottom: 0;
+    }
     :host.disabled & {
         &:extend(.form-control:disabled);
     }
@@ -34,7 +33,7 @@ label {
     }
 }
 
-.ngt-autocomplete-item {
+:host.multiple .ngt-autocomplete-item {
     background: #047afb;
     color: #fff;
     padding: 0 0.4rem;
@@ -51,11 +50,17 @@ label {
     position: relative;
     padding: 0;
     margin: 0;
-    min-width: 1px;
     min-height: 1.5rem;
-    margin-left: 0.375rem;
-    margin-bottom: 0.375rem;
     overflow: hidden;
+    overflow-y: auto;
+
+    // cursor width
+    padding-right: 1px;
+
+    :host.multiple & {
+        margin-left: 0.375rem;
+        margin-bottom: 0.375rem;
+    }
 
     .ngt-autocomplete-item + & {
         margin-left: 0;
@@ -89,7 +94,7 @@ input {
     margin-top: -1px;
     max-height: 15rem;
     background: #fff;
-    border: 1px solid fade(#000, 15%);
+    border: 1px solid #ced4da;
     border-radius: 0 0 @dropdown-border-radius @dropdown-border-radius;
     box-shadow: 0 2px 3px fade(#000, 15%);
     overflow: hidden;

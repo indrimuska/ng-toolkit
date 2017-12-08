@@ -3,13 +3,14 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isObject, isArray, isNullOrUndefined } from 'util';
 
 import { SelectComponent } from '../select/select';
+import { setTimeout } from 'timers';
 
 @Component({
     selector: 'ngt-autocomplete',
     template: `
         <label>
-            <span *ngIf="!multiple">
-                {{ value }}
+            <span *ngIf="!multiple" class="ngt-autocomplete-item">
+                {{ getOptionAttr(viewValue, labelAttr) }}
             </span>
             <ng-container *ngIf="multiple">
                 <span *ngFor="let item of viewValue" class="ngt-autocomplete-item">
@@ -23,12 +24,13 @@ import { SelectComponent } from '../select/select';
                     [disabled]="disabled"
                     [placeholder]="placeholder"
                     (focus)="onInputFocus()"
-                    (blur)="onInputBlur()"
-                    (keydown.Enter)="selectHighlighted()"
-                    (keydown.ArrowUp)="highlightPrevious()"
-                    (keydown.ArrowDown)="highlightNext()"
-                    (keydown.Escape)="closeDropdown()"
-                    (keydown.Backspace)="removeLast()"
+                    (blur)="onInputBlur($event)"
+                    (keydown.Enter)="onInputEnterPress()"
+                    (keydown.ArrowUp)="onInputArrowUpPress()"
+                    (keydown.ArrowDown)="onInputArrowDownPress()"
+                    (keydown.Escape)="onInputEscapePress()"
+                    (keydown.Backspace)="onInputBackspacePress()"
+                    (keypress)="onInputKeypress($event)"
                 />
                 <span class="ngt-autocomplete-filter-placeholder">
                     {{ hasValue || filter ? filter : placeholder }}
@@ -37,14 +39,13 @@ import { SelectComponent } from '../select/select';
         </label>
         <div
             class="ngt-autocomplete-dropdown"
-            (mouseover)="onDropdownOver()"
-            (mouseleave)="onDropdownLeave()">
+            (mousedown)="onDropdownClick()">
             <div
                 *ngFor="let option of filteredOptions; let i = index; trackBy:getOptionAttr(option, valueAttr)"
                 [ngClass]="{highlighted: highlightedIndex === i}"
                 class="ngt-autocomplete-dropdown-item"
                 (mouseenter)="highlightedIndex = i"
-                (click)="selectOption(option)">
+                (click)="onDropdownOptionClick(option)">
                 {{ getOptionAttr(option, labelAttr) }}
             </div>
         </div>
@@ -58,9 +59,16 @@ import { SelectComponent } from '../select/select';
 })
 export class AutocompleteComponent extends SelectComponent {
     @ViewChild('inputRef') public inputRef: ElementRef;
+    @HostBinding('class.multiple') public multiple: boolean;
     @HostBinding('class.disabled') public disabled: boolean;
     @HostBinding('class.open') private get isOpen(): boolean {
-        return (this.forceOpen || this.dropdownOver) && this.filteredOptions.length > 0;
+        return this.forceOpen && this.filteredOptions.length > 0;
+    }
+    
+    private get hasValue() {
+        return this.multiple
+            ? (this.value || []).length > 0
+            : !isNullOrUndefined(this.value);
     }
 
     private _options: any[] = [];
@@ -88,7 +96,7 @@ export class AutocompleteComponent extends SelectComponent {
         const hasValue = values.length > 0;
         const hasFilter = !!this._filter;
 
-        if (!hasValue && !hasFilter) {
+        if (!this.multiple || !hasValue && !hasFilter) {
             this.filteredOptions = this.options.slice();
         } else {
             if (hasValue && hasFilter) {
@@ -104,46 +112,8 @@ export class AutocompleteComponent extends SelectComponent {
         }
     }
 
-    private filteredOptions: any[];
-    private highlightedIndex: number = 0;
-    private forceOpen: boolean = false;
-    private isFocused: boolean = false;
-    
-    private onInputFocus() {
-        this.isFocused = true;
-        this.forceOpen = true;
-    }
-
-    private onInputBlur() {
-        this.isFocused = false;
-        this.forceOpen = false;
-        this.filter = '';
-    }
-    
-    private dropdownOver: boolean = false;
-    private onDropdownOver() {
-        this.dropdownOver = true;
-    }
-    private onDropdownLeave() {
-        this.dropdownOver = false;
-    }
-
-    private highlightPrevious() {
-        if (!this.isOpen) this.forceOpen = true;
-        else this.highlight(this.highlightedIndex - 1);
-    }
-
-    private highlightNext() {
-        if (!this.isOpen) this.forceOpen = true;
-        else this.highlight(this.highlightedIndex + 1);
-    }
-
     private highlight(index: number) {
         this.highlightedIndex = ((index || 0) + this.filteredOptions.length) % this.filteredOptions.length;
-    }
-
-    private selectHighlighted() {
-        this.selectOption(this.filteredOptions[this.highlightedIndex]);
     }
 
     private selectOption(option: any) {
@@ -160,34 +130,91 @@ export class AutocompleteComponent extends SelectComponent {
             this.viewValue = option;
             this.value = value;
         }
+
+        // reset filter input
         this.filter = '';
         this.highlight(Math.min(highlightedIndex, this.filteredOptions.length - 1));
-        this.inputRef.nativeElement.focus();
+
+        // close dropdown in single selection mode
+        if (!this.multiple) this.forceOpen = false;
     }
 
-    private closeDropdown() {
-        this.forceOpen = false;
-    }
-    
-    private get hasValue() {
-        return this.multiple
-            ? (this.value || []).length > 0
-            : !isNullOrUndefined(this.value);
-    }
-
-    private removeLast() {
-        if (!this.hasValue) return;
-
+    private removeItem(item: any) {
         if (this.multiple) {
-            this.viewValue.pop();
-            this.value.pop();
+            // remove entire item in the view model
+            const viewIndex = (this.viewValue || []).indexOf(item);
+            if (viewIndex >= 0) this.viewValue.splice(viewIndex, 1);
+            // remove value in the model value
+            const valueIndex = (this.value || []).indexOf(this.getOptionAttr(item, this.valueAttr));
+            if (valueIndex >= 0) this.value.splice(valueIndex, 1);
         } else {
+            this.viewValue = null;
             this.value = null;
         }
-        
-        // re-filter options highlighting the same option (if still exists)
-        const highlighted = this.filteredOptions[this.highlightedIndex];
-        this.updateFilteredOptions();
-        this.highlight(this.filteredOptions.indexOf(highlighted))
+    }
+
+    private filteredOptions: any[];
+    private highlightedIndex: number = 0;
+    private forceOpen: boolean = false;
+    private dropdownClosePrevented: boolean = false;
+    
+    // Input event callbacks
+
+    private onInputFocus() {
+        this.forceOpen = true;
+    }
+
+    private onInputBlur() {
+        this.filter = '';
+        this.forceOpen = false;
+        if (this.dropdownClosePrevented) this.inputRef.nativeElement.focus();
+    }
+
+    private onInputArrowUpPress() {
+        if (!this.isOpen) this.forceOpen = true;
+        else this.highlight(this.highlightedIndex - 1);
+    }
+
+    private onInputArrowDownPress() {
+        if (!this.isOpen) this.forceOpen = true;
+        else this.highlight(this.highlightedIndex + 1);
+    }
+
+    private onInputEnterPress() {
+        this.selectOption(this.filteredOptions[this.highlightedIndex]);
+    }
+
+    private onInputEscapePress() {
+        this.forceOpen = false;
+    }
+
+    private onInputBackspacePress() {
+        if (!this.filter) {
+            // remove last item
+            this.removeItem(this.viewValue[this.viewValue.length - 1]);
+
+            // re-filter options highlighting the same option (if still exists)
+            const highlighted = this.filteredOptions[this.highlightedIndex];
+            this.updateFilteredOptions();
+            this.highlight(this.filteredOptions.indexOf(highlighted));
+        }
+    }
+
+    private onInputKeypress(e: KeyboardEvent) {
+        if (!this.multiple && this.hasValue) e.preventDefault();
+    }
+
+    // Dropdown event callback
+    
+    private onDropdownClick() {
+        this.forceOpen = true;
+
+        // prevent dropdown close
+        this.dropdownClosePrevented = true;
+        setTimeout(() => this.dropdownClosePrevented = false, 50);
+    }
+
+    private onDropdownOptionClick(option: any) {
+        this.selectOption(option);
     }
 }
