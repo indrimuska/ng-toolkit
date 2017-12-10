@@ -8,7 +8,7 @@ $ngt-autocomplete-background-url:       "data:image/svg+xml;charset=utf8,%3Csvg 
 $ngt-autocomplete-background:           $ngt-input-background
                                         url("#{$ngt-autocomplete-background-url}") no-repeat right $ngt-select-icon-position-right center;
 
-$ngt-autocomplete-item-right-margin:    0.25rem;
+$ngt-autocomplete-item-spacing:         0.25rem;
 
 $ngt-autocomplete-option-highlight:     #f8f9fa;
 
@@ -35,8 +35,14 @@ label {
     background-size: 9px;
 
     :host.multiple & {
-        padding: $ngt-padding-vertical;
-        padding-bottom: 0;
+        @if $ngt-use-gradients {
+            padding-top: calc(#{$ngt-padding-vertical} - 1px);
+            padding-left: calc(#{$ngt-padding-vertical} - 1px);
+            padding-bottom: calc(#{$ngt-padding-vertical - $ngt-autocomplete-item-spacing} - 1px);
+        } @else {
+            padding-left: $ngt-padding-vertical;
+            padding-bottom: $ngt-padding-vertical - $ngt-autocomplete-item-spacing;
+        }
     }
     :host.disabled & {
         @include ngt-input-disabled;
@@ -48,12 +54,24 @@ label {
 }
 
 :host.multiple .ngt-autocomplete-item {
-    background: $ngt-color-primary;
     color: #fff;
     padding: 0 0.4rem;
     border-radius: 0.25rem;
-    margin-right: $ngt-autocomplete-item-right-margin;
-    margin-bottom: $ngt-padding-vertical;
+    margin-right: $ngt-autocomplete-item-spacing;
+    margin-bottom: $ngt-autocomplete-item-spacing;
+
+    @if $ngt-use-gradients {
+        border: 1px solid $ngt-color-primary;
+        background: $ngt-color-primary linear-gradient(180deg, #268fff, $ngt-color-primary) repeat-x;
+    } @else {
+        background: $ngt-color-primary;
+    }
+
+    @if $ngt-use-shadows {
+        box-shadow:
+            inset 0 1px 0 rgba(#fff, 0.15),
+            0 1px 1px rgba(#000, 0.075);
+    }
 
     :host.disabled & {
         opacity: 0.5;
@@ -72,7 +90,13 @@ label {
 
     :host.multiple & {
         margin-left: $ngt-padding-vertical;
-        margin-bottom: $ngt-padding-vertical;
+        
+        @if $ngt-use-gradients {
+            margin-top: 1px;
+            margin-bottom: calc(#{$ngt-autocomplete-item-spacing} + 1px);
+        } @else {
+            margin-bottom: $ngt-autocomplete-item-spacing;
+        }
     }
 
     .ngt-autocomplete-item + & {
@@ -121,17 +145,17 @@ input {
     :host.open & {
         display: block;
     }
+}
 
-    .ngt-autocomplete-option {
-        padding: $ngt-input-padding;
-        cursor: pointer;
+.ngt-autocomplete-option {
+    padding: $ngt-input-padding;
+    cursor: pointer;
 
-        &.highlighted {
-            background-color: #f8f9fa;
-        }
-        &:last-child {
-            border-bottom-left-radius: $ngt-border-radius;
-            border-bottom-right-radius: $ngt-border-radius;
-        }
+    &.highlighted {
+        background-color: #f8f9fa;
+    }
+    &:last-child {
+        border-bottom-left-radius: $ngt-border-radius;
+        border-bottom-right-radius: $ngt-border-radius;
     }
 }

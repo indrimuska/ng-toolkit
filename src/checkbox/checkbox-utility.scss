@@ -27,7 +27,6 @@ $ngt-checkbox-radio-label-disabled: #868e96;
     }
 }
 
-
 @mixin ngt-checkbox-radio-indicator {
     position: absolute;
     top: ($ngt-line-height - $ngt-checkbox-radio-size) / 2;

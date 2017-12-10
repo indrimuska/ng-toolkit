@@ -12,7 +12,7 @@ import { SelectComponent } from '../select/select';
                 {{ getOptionAttr(viewValue, labelAttr) }}
             </span>
             <ng-container *ngIf="multiple">
-                <span *ngFor="let item of viewValue" class="ngt-autocomplete-item">
+                <span *ngFor="let item of viewValue; trackBy:getOptionAttr(item, valueAttr)" class="ngt-autocomplete-item">
                     {{ getOptionAttr(item, labelAttr) }}
                 </span>
             </ng-container>
@@ -31,8 +31,9 @@ import { SelectComponent } from '../select/select';
                     (keydown.Backspace)="onInputBackspacePress()"
                     (keypress)="onInputKeypress($event)"
                 />
-                <span class="ngt-autocomplete-filter-placeholder">
-                    {{ hasValue || filter ? filter : placeholder }}
+                <span
+                    class="ngt-autocomplete-filter-placeholder"
+                    [innerHTML]="hasValue || filter ? filter : placeholder">
                 </span>
             </span>
         </label>
