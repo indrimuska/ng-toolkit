@@ -77,10 +77,6 @@ export class AutocompleteComponent extends SelectComponent {
             : !isNullOrUndefined(this.value);
     }
 
-    // @Input() public set value(value: any | any[]) {
-    //     console.log('value', value)
-    // }
-
     private _options: any[] = [];
     @Input() public get options(): any[] {
         return this._options;
@@ -96,6 +92,7 @@ export class AutocompleteComponent extends SelectComponent {
     }
     private set filter(filter: string) {
         this._filter = filter;
+        this.forceOpen = true;
         this.highlight(0);
         this.updateFilteredOptions();
     }
@@ -107,7 +104,7 @@ export class AutocompleteComponent extends SelectComponent {
         const hasValue = values.length > 0;
         const hasFilter = !!this._filter;
 
-        if (!this.multiple || !hasValue && !hasFilter) {
+        if (!hasValue && !hasFilter) {
             this.filteredOptions = this.options.slice();
         } else {
             if (hasValue && hasFilter) {
@@ -166,7 +163,7 @@ export class AutocompleteComponent extends SelectComponent {
     }
 
     private scrollToIndex(index: number) {
-        if (this.highlightedIndex < 0) return;
+        if (isNaN(this.highlightedIndex)) return;
 
         const option = this.dropdownRef.nativeElement.children[index] as HTMLDivElement;
         const optionHeight = option.offsetHeight;

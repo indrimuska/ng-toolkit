@@ -25,6 +25,7 @@ label {
     @include ngt-input-base;
     
     // min-height: calc(#{$ngt-select-height} + 2px);
+    padding-right: $ngt-select-padding-right;
     margin: 0;
     display: flex;
     flex-direction: row;
@@ -35,7 +36,6 @@ label {
 
     :host.multiple & {
         padding: $ngt-padding-vertical;
-        padding-right: $ngt-padding-vertical - $ngt-autocomplete-item-right-margin;
         padding-bottom: 0;
     }
     :host.disabled & {
@@ -82,6 +82,7 @@ label {
 
 .ngt-autocomplete-filter-placeholder {
     visibility: hidden;
+    white-space: pre;
 }
 
 input {
