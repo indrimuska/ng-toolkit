@@ -1,0 +1,7 @@
+$ngt-control-margin-bottom: 1rem;
+
+:host {
+    display: block;
+    box-sizing: border-box;
+    margin-bottom: $ngt-control-margin-bottom;
+}

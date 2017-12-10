@@ -1,0 +1,18 @@
+$spacer:                    1rem;
+                            // 1rem (default), or any value > 0	Specifies the default spacer value for our spacer utilities.
+$enable-rounded:            true;
+                            // true (default) or false	Enables predefined border-radius styles on various components.
+$enable-shadows:            true;
+                            // true or false (default)	Enables predefined box-shadow styles on various components.
+$enable-gradients:          true;
+                            // true or false (default)	Enables predefined gradients via background-image styles on various components.
+$enable-transitions:        true;
+                            // true (default) or false	Enables predefined transitions on various components.
+$enable-hover-media-query:  true;
+                            // true or false (default)	…
+$enable-grid-classes:       true;
+                            // true (default) or false	Enables the generation of CSS classes for the grid system (e.g., .container, .row, .col-md-1, etc.).
+$enable-print-styles:       true;
+                            // true (default) or false	Enables styles for optimizing printing.
+
+@import '~bootstrap/scss/bootstrap.scss';

@@ -1,0 +1,28 @@
+@import '../input/input-utility.scss';
+
+$ngt-select-height:                 2.25rem;
+$ngt-select-padding-right:          1.75rem;
+
+$ngt-select-icon-color:             $ngt-text-color;
+$ngt-select-icon-position-right:    0.75rem;
+$ngt-select-background-url:         "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' " +
+                                    "viewBox='0 0 4 5'%3E%3Cpath fill='#{$ngt-select-icon-color}' " +
+                                    "d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E";
+$ngt-select-background:             $ngt-input-background
+                                    url("#{$ngt-select-background-url}") no-repeat right $ngt-select-icon-position-right center;
+
+@mixin ngt-select {
+    @include ngt-input;
+
+    height: calc(#{$ngt-select-height} + 2px);
+    padding-right: $ngt-select-padding-right;
+    background: $ngt-select-background;
+    background-size: 8px 10px;
+    appearance: none;
+    
+    &[multiple] {
+        height: auto;
+        background-image: none;
+        padding-right: $ngt-padding-horizontal;
+    }
+}

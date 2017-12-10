@@ -19,7 +19,7 @@ import { ValueAccessor } from '../utility';
         </label>
     `,
     styles: [
-        require('./checkbox.less')
+        require('./checkbox.scss')
     ],
     providers: [
         { provide: NG_VALUE_ACCESSOR, useExisting: CheckboxComponent, multi: true }

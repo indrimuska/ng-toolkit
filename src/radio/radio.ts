@@ -20,7 +20,7 @@ import { ValueAccessor } from '../utility';
         </label>
     `,
     styles: [
-        require('./radio.less')
+        require('./radio.scss')
     ],
     providers: [
         { provide: NG_VALUE_ACCESSOR, useExisting: RadioComponent, multi: true }

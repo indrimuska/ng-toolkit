@@ -24,13 +24,12 @@ module.exports = {
         rules: [
             { test: /\.ts$/, use: 'ts-loader' },
             { test: /\.html$/, use: 'raw-loader' },
-            { test: /\.scss$/, use: 'sass-loader' },
             {
-                test: /\.less$/,
+                test: /\.scss$/,
                 use: [
                     'raw-loader',
                     { loader: 'postcss-loader', options: { plugins: [autoprefixer] } },
-                    'less-loader'
+                    'sass-loader'
                 ]
             },
         ]

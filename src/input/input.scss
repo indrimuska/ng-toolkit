@@ -1,0 +1,5 @@
+@import './input-utility.scss';
+
+input {
+    @include ngt-input;
+}

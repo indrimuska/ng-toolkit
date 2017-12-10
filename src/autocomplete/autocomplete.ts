@@ -21,7 +21,7 @@ import { SelectComponent } from '../select/select';
                     #inputRef
                     [(ngModel)]="filter"
                     [disabled]="disabled"
-                    [placeholder]="placeholder"
+                    [placeholder]="hasValue ? '' : placeholder"
                     (focus)="onInputFocus()"
                     (blur)="onInputBlur($event)"
                     (keydown.Enter)="onInputEnterPress()"
@@ -43,7 +43,7 @@ import { SelectComponent } from '../select/select';
             <div
                 *ngFor="let option of filteredOptions; let i = index; trackBy:getOptionAttr(option, valueAttr)"
                 [ngClass]="{highlighted: highlightedIndex === i}"
-                class="ngt-autocomplete-dropdown-item"
+                class="ngt-autocomplete-option"
                 (mouseenter)="highlightedIndex = i"
                 (click)="onDropdownOptionClick(option)">
                 {{ getOptionAttr(option, labelAttr) }}
@@ -51,7 +51,7 @@ import { SelectComponent } from '../select/select';
         </div>
     `,
     styles: [
-        require('./autocomplete.less')
+        require('./autocomplete.scss')
     ],
     providers: [
         { provide: NG_VALUE_ACCESSOR, useExisting: AutocompleteComponent, multi: true }
@@ -96,6 +96,7 @@ export class AutocompleteComponent extends SelectComponent {
     }
     private set filter(filter: string) {
         this._filter = filter;
+        this.highlight(0);
         this.updateFilteredOptions();
     }
 
@@ -165,6 +166,8 @@ export class AutocompleteComponent extends SelectComponent {
     }
 
     private scrollToIndex(index: number) {
+        if (this.highlightedIndex < 0) return;
+
         const option = this.dropdownRef.nativeElement.children[index] as HTMLDivElement;
         const optionHeight = option.offsetHeight;
         const optionPosition = option.offsetTop;
@@ -212,7 +215,7 @@ export class AutocompleteComponent extends SelectComponent {
     }
 
     private onInputBackspacePress() {
-        if (!this.filter) {
+        if (!this.filter && this.hasValue) {
             // remove last item
             this.removeItem(this.viewValue[this.viewValue.length - 1]);
 

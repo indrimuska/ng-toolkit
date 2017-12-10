@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import 'bootstrap/dist/css/bootstrap.css';
+import '!style-loader!css-loader!sass-loader!./main.scss';
 
 @Component({
     selector: 'main',

@@ -20,7 +20,7 @@ import { ValueAccessor } from '../utility';
         </select>
     `,
     styles: [
-        require('./select.less')
+        require('./select.scss')
     ],
     providers: [
         { provide: NG_VALUE_ACCESSOR, useExisting: SelectComponent, multi: true }

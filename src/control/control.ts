@@ -8,7 +8,7 @@ import { NgModel } from '@angular/forms';
         <code class="form-text">{{ model?.value | json }}</code>
     `,
     styles: [
-        require('./control.less')
+        require('./control.scss')
     ]
 })
 export class ControlComponent {

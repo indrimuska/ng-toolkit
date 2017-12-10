@@ -12,8 +12,7 @@
     },
     "dependencies": {
         "@angular/core": "^5.0.0",
-        "@angular/forms": "^5.0.0",
-        "bootstrap": "^4.0.0-beta.2"
+        "@angular/forms": "^5.0.0"
     },
     "devDependencies": {
         "@angular/common": "^5.0.0",
@@ -23,12 +22,11 @@
         "@angular/platform-browser-dynamic": "^5.0.0",
         "@types/node": "^8.0.53",
         "autoprefixer": "^7.1.6",
+        "bootstrap": "^4.0.0-beta.2",
         "core-js": "^2.5.1",
         "css-loader": "^0.28.7",
         "extract-text-webpack-plugin": "^3.0.2",
         "html-webpack-plugin": "^2.30.1",
-        "less": "^2.7.3",
-        "less-loader": "^4.0.5",
         "node-sass": "^4.7.2",
         "postcss-loader": "^2.0.9",
         "raw-loader": "^0.5.1",

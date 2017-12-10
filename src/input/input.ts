@@ -20,7 +20,7 @@ import { ValueAccessor } from '../utility';
         />
     `,
     styles: [
-        require('./input.less')
+        require('./input.scss')
     ],
     providers: [
         { provide: NG_VALUE_ACCESSOR, useExisting: InputComponent, multi: true }

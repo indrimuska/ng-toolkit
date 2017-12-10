@@ -1,0 +1,31 @@
+@import '../variables.scss';
+@import './checkbox-utility.scss';
+
+@include ngt-checkbox-radio-base;
+
+.ngt-checkbox-indicator {
+    @include ngt-checkbox-radio-indicator;
+    background-image: $ngt-checkbox-background-image;
+    border-radius: $ngt-border-radius;
+
+    input:checked ~ & {
+        @include ngt-checkbox-radio-indicator-checked;
+    }
+    input:focus ~ & {
+        @include ngt-checkbox-radio-indicator-focus;
+    }
+    input:active ~ & {
+        @include ngt-checkbox-radio-indicator-active;
+    }
+    input:disabled ~ & {
+        @include ngt-checkbox-radio-indicator-disabled;
+    }
+}
+
+.ngt-checkbox-label {
+    @include ngt-typography;
+
+    input:disabled ~ & {
+        @include ngt-checkbox-radio-label-disabled;
+    }
+}

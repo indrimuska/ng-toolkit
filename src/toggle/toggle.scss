@@ -1,0 +1,73 @@
+@import '../variables.scss';
+@import '../checkbox/checkbox-utility.scss';
+
+$ngt-toggle-indicator-width:            2.5rem;
+$ngt-toggle-indicator-height:           0.8rem;
+$ngt-toggle-indicator-padding-right:    0.5rem;
+
+$ngt-toggle-indicator-sign-size:        1.4rem;
+
+@include ngt-checkbox-radio-base;
+
+label {
+    padding-left: $ngt-toggle-indicator-width + $ngt-toggle-indicator-padding-right;
+}
+
+.ngt-toggle-indicator {
+    position: absolute;
+    top: (1.5rem - $ngt-toggle-indicator-height) / 2;
+    left: 0;
+    display: block;
+    width: $ngt-toggle-indicator-width;
+    height: $ngt-toggle-indicator-height;
+    user-select: none;
+    pointer-events: none;
+    background-color: $ngt-border-color;
+    border-radius: $ngt-toggle-indicator-height / 2;
+    transition: background-color linear $ngt-transition-duration;
+    
+    input:checked ~ & {
+        background-color: $ngt-color-primary;
+    }
+    input:active ~ & {
+        background-color: $ngt-focus-border-color;
+    }
+    input:disabled ~ & {
+        background-color: $ngt-disabled-background;
+        transition: none;
+    }
+    
+    &:after {
+        content: '';
+        position: absolute;
+        top: ($ngt-toggle-indicator-height - $ngt-toggle-indicator-sign-size) / 2;
+        left: 0;
+        display: block;
+        width: $ngt-toggle-indicator-sign-size;
+        height: $ngt-toggle-indicator-sign-size;
+        user-select: none;
+        pointer-events: none;
+        background-color: #fff;
+        border-radius: $ngt-toggle-indicator-sign-size / 2;
+        box-shadow: 0 1px 2px 1px $ngt-border-color;
+        transition: left ease-in-out $ngt-transition-duration;
+    
+        input:checked ~ & {
+            left: calc(#{$ngt-toggle-indicator-width - $ngt-toggle-indicator-sign-size} + 1px);
+        }
+        input:focus ~ & {
+            box-shadow: 0 0 0 0.2rem $ngt-focus-shadow-color;
+        }
+        input:disabled ~ & {
+            box-shadow: 0 1px 2px 1px $ngt-disabled-background;
+        }
+    }
+}
+
+.ngt-toggle-label {
+    @include ngt-typography;
+
+    input:disabled ~ & {
+        @include ngt-checkbox-radio-label-disabled;
+    }
+}

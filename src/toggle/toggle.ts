@@ -19,7 +19,7 @@ import { CheckboxComponent } from '../checkbox/checkbox';
         </label>
     `,
     styles: [
-        require('./toggle.less')
+        require('./toggle.scss')
     ],
     providers: [
         { provide: NG_VALUE_ACCESSOR, useExisting: ToggleComponent, multi: true }

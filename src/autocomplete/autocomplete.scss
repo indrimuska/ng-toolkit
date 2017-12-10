@@ -1,0 +1,136 @@
+@import '../variables.scss';
+@import '../select/select-utility.scss';
+
+$ngt-autocomplete-icon-color:           $ngt-select-icon-color;
+$ngt-autocomplete-background-url:       "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' " +
+                                        "viewBox='0 0 4 2.8284271'%3E%3Cpath fill='#{$ngt-autocomplete-icon-color}' " +
+                                        "d='M 2,2.8284271 0,0 4,0 z'/%3E%3C/svg%3E";
+$ngt-autocomplete-background:           $ngt-input-background
+                                        url("#{$ngt-autocomplete-background-url}") no-repeat right $ngt-select-icon-position-right center;
+
+$ngt-autocomplete-item-right-margin:    0.25rem;
+
+$ngt-autocomplete-option-highlight:     #f8f9fa;
+
+$ngt-autocomplete-dropdown-height:      15rem;
+$ngt-autocomplete-dropdown-background:  #fff;
+$ngt-autocomplete-dropdown-shadow:      0 2px 3px $ngt-shadow-color;
+
+:host {
+    display: block;
+    position: relative;
+}
+
+label {
+    @include ngt-input-base;
+    
+    // min-height: calc(#{$ngt-select-height} + 2px);
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow: hidden;
+    background: $ngt-autocomplete-background;
+    background-size: 9px;
+
+    :host.multiple & {
+        padding: $ngt-padding-vertical;
+        padding-right: $ngt-padding-vertical - $ngt-autocomplete-item-right-margin;
+        padding-bottom: 0;
+    }
+    :host.disabled & {
+        @include ngt-input-disabled;
+    }
+    :host.open & {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+}
+
+:host.multiple .ngt-autocomplete-item {
+    background: $ngt-color-primary;
+    color: #fff;
+    padding: 0 0.4rem;
+    border-radius: 0.25rem;
+    margin-right: $ngt-autocomplete-item-right-margin;
+    margin-bottom: $ngt-padding-vertical;
+
+    :host.disabled & {
+        opacity: 0.5;
+    }
+}
+
+.ngt-autocomplete-filter {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    min-height: 1.5rem;
+    overflow: hidden;
+
+    // cursor width
+    padding-right: 1px;
+
+    :host.multiple & {
+        margin-left: $ngt-padding-vertical;
+        margin-bottom: $ngt-padding-vertical;
+    }
+
+    .ngt-autocomplete-item + & {
+        margin-left: 0;
+    }
+}
+
+.ngt-autocomplete-filter-placeholder {
+    visibility: hidden;
+}
+
+input {
+    @include ngt-typography;
+
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+}
+
+.ngt-autocomplete-dropdown {
+    @include ngt-typography;
+
+    display: none;
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin-top: -1px;
+    max-height: $ngt-autocomplete-dropdown-height;
+    background-color: $ngt-autocomplete-dropdown-background;
+    border: 1px solid $ngt-border-color;
+    border-radius: 0 0 $ngt-border-radius $ngt-border-radius;
+    box-shadow: $ngt-autocomplete-dropdown-shadow;
+    overflow: hidden;
+    overflow-y: auto;
+    
+    :host.open & {
+        display: block;
+    }
+
+    .ngt-autocomplete-option {
+        padding: $ngt-input-padding;
+        cursor: pointer;
+
+        &.highlighted {
+            background-color: #f8f9fa;
+        }
+        &:last-child {
+            border-bottom-left-radius: $ngt-border-radius;
+            border-bottom-right-radius: $ngt-border-radius;
+        }
+    }
+}
