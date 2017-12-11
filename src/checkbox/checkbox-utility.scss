@@ -37,14 +37,29 @@ $ngt-checkbox-radio-label-disabled: #868e96;
     pointer-events: none;
     user-select: none;
     background-color: $ngt-border-color;
-    background-repeat: no-repeat;
-    background-position: center center;
+
+    @if $ngt-use-shadows {
+        box-shadow: inset 0 0.25rem 0.25rem rgba(#000, 0.1);
+    }
+}
+
+@mixin ngt-checkbox-radio-indicator-checked($image) {
+    @if $ngt-use-gradients {
+        background:
+            $image center center no-repeat,
+            $ngt-color-primary linear-gradient(180deg, #268fff, $ngt-color-primary) repeat-x;
+        box-shadow: none;
+    } @else {
+        background: $ngt-color-primary $image;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
     background-size: 50% 50%;
 }
 
-@mixin ngt-checkbox-radio-indicator-checked {
-    background-color: $ngt-color-primary;
-    color: #fff;
+@mixin ngt-checkbox-radio-indicator-checked-active($image) {
+    background: $ngt-focus-border-color $image center center no-repeat;
+    background-size: 50% 50%;
 }
 
 @mixin ngt-checkbox-radio-indicator-focus {
@@ -55,6 +70,7 @@ $ngt-checkbox-radio-label-disabled: #868e96;
 
 @mixin ngt-checkbox-radio-indicator-active {
     background-color: $ngt-focus-border-color;
+    box-shadow: none;
     color: #fff;
 }
 

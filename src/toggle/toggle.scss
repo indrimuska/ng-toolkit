@@ -23,18 +23,30 @@ label {
     height: $ngt-toggle-indicator-height;
     user-select: none;
     pointer-events: none;
-    background-color: $ngt-border-color;
+    background: $ngt-border-color;
     border-radius: $ngt-toggle-indicator-height / 2;
-    transition: background-color linear $ngt-transition-duration;
+    transition:
+        background linear $ngt-transition-duration,
+        box-shadow ease-in-out $ngt-transition-duration;
+    
+    @if $ngt-use-shadows {
+        box-shadow: inset 0 0.25rem 0.25rem rgba(#000, 0.1);
+    }
     
     input:checked ~ & {
-        background-color: $ngt-color-primary;
+        @if $ngt-use-gradients {
+            background: $ngt-color-primary linear-gradient(180deg, #268fff, $ngt-color-primary) repeat-x;
+            box-shadow: inset 0 0;
+        } @else {
+            background: $ngt-color-primary;
+        }
     }
     input:active ~ & {
-        background-color: $ngt-focus-border-color;
+        background: $ngt-focus-border-color;
+        box-shadow: none;
     }
     input:disabled ~ & {
-        background-color: $ngt-disabled-background;
+        background: $ngt-disabled-background;
         transition: none;
     }
     

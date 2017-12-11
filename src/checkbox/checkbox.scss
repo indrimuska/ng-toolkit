@@ -5,11 +5,13 @@
 
 .ngt-checkbox-indicator {
     @include ngt-checkbox-radio-indicator;
-    background-image: $ngt-checkbox-background-image;
     border-radius: $ngt-border-radius;
 
     input:checked ~ & {
-        @include ngt-checkbox-radio-indicator-checked;
+        @include ngt-checkbox-radio-indicator-checked($ngt-checkbox-background-image);
+    }
+    input:checked:active ~ & {
+        @include ngt-checkbox-radio-indicator-checked-active($ngt-checkbox-background-image);
     }
     input:focus ~ & {
         @include ngt-checkbox-radio-indicator-focus;
