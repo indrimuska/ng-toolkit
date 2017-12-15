@@ -12,6 +12,7 @@ import { CheckboxComponent } from '../checkbox/checkbox';
                 [(ngModel)]="viewValue"
                 [disabled]="disabled"
             />
+            <span class="ngt-toggle-background"></span>
             <span class="ngt-toggle-indicator"></span>
             <span class="ngt-toggle-label" *ngIf="label">
                 {{ label }}

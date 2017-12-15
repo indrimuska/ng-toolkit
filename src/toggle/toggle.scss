@@ -14,66 +14,98 @@ label {
     margin-bottom: 0;
 }
 
-.ngt-toggle-indicator {
+.ngt-toggle-background {
     position: absolute;
     top: (1.5rem - $ngt-toggle-indicator-height) / 2;
     left: 0;
     display: block;
     width: $ngt-toggle-indicator-width;
     height: $ngt-toggle-indicator-height;
-    user-select: none;
-    pointer-events: none;
-    background: $ngt-border-color;
     border-radius: $ngt-toggle-indicator-height / 2;
-    transition:
-        background linear $ngt-transition-duration,
-        box-shadow ease-in-out $ngt-transition-duration;
-    
+    overflow: hidden;
+
     @if $ngt-use-shadows {
         box-shadow: inset 0 0.25rem 0.25rem rgba(#000, 0.1);
     }
-    
-    input:checked ~ & {
+
+    &:before,
+    &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        transition: left ease-in-out $ngt-transition-duration;
+    }
+
+    // left side: ON state
+    &:before {
+        left: -100%;
+
         @if $ngt-use-gradients {
             background: $ngt-color-primary linear-gradient(180deg, #268fff, $ngt-color-primary) repeat-x;
-            box-shadow: inset 0 0;
         } @else {
             background: $ngt-color-primary;
         }
     }
+
+    // right side: OFF state
+    &:after {
+        background: $ngt-border-color;
+        
+        @if $ngt-use-shadows {
+            box-shadow: inset 0 0.25rem 0.25rem rgba(#000, 0.1);
+        }
+    }
+
     input:active ~ & {
-        background: $ngt-focus-border-color;
-        box-shadow: none;
+        &:before,
+        &:after {
+            background: $ngt-focus-border-color;
+            box-shadow: none;
+        }
     }
     input:disabled ~ & {
-        background: $ngt-disabled-background;
-        transition: none;
+        &:before,
+        &:after {
+            background: $ngt-disabled-background;
+            box-shadow: none;
+        }
     }
-    
-    &:after {
-        content: '';
-        position: absolute;
-        top: ($ngt-toggle-indicator-height - $ngt-toggle-indicator-sign-size) / 2;
-        left: 0;
-        display: block;
-        width: $ngt-toggle-indicator-sign-size;
-        height: $ngt-toggle-indicator-sign-size;
-        user-select: none;
-        pointer-events: none;
-        background-color: #fff;
-        border-radius: $ngt-toggle-indicator-sign-size / 2;
-        box-shadow: 0 1px 2px 1px $ngt-border-color;
-        transition: left ease-in-out $ngt-transition-duration;
-    
-        input:checked ~ & {
-            left: calc(#{$ngt-toggle-indicator-width - $ngt-toggle-indicator-sign-size} + 1px);
+    input:checked ~ & {
+        &:before {
+            left: 0;
         }
-        input:focus ~ & {
-            box-shadow: 0 0 0 0.2rem $ngt-focus-shadow-color;
+        &:after {
+            left: 100%;
         }
-        input:disabled ~ & {
-            box-shadow: 0 1px 2px 1px $ngt-disabled-background;
-        }
+    }
+}
+
+.ngt-toggle-indicator {
+    position: absolute;
+    top: (1.5rem - $ngt-toggle-indicator-sign-size) / 2;
+    left: 0;
+    display: block;
+    width: $ngt-toggle-indicator-sign-size;
+    height: $ngt-toggle-indicator-sign-size;
+    background-color: #fff;
+    border-radius: $ngt-toggle-indicator-sign-size / 2;
+    box-shadow: 0 1px 2px 1px $ngt-border-color;
+    transition: left ease-in-out $ngt-transition-duration;
+
+    input:checked ~ & {
+        left: calc(#{$ngt-toggle-indicator-width - $ngt-toggle-indicator-sign-size} + 1px);
+    }
+    input:focus ~ & {
+        box-shadow: 0 0 0 0.2rem $ngt-focus-shadow-color;
+    }
+    input:disabled ~ & {
+        box-shadow: 0 1px 2px 1px $ngt-disabled-background;
     }
 }
 
