@@ -25,8 +25,8 @@ export interface IView {
     title: string;
     header?: string[];
     rows: IViewItem[][];
+    readonly formatsRegExp: string;
 
-    previousView(): void
     previous(): void;
     next(): void;
     setDate(viewItem: IViewItem): void;

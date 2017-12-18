@@ -10,6 +10,9 @@ export class DayView implements IView {
     public title: string;
     public rows: IViewItem[][];
 
+    /** formats: H,HH,h,hh,LT,LTS */
+    public readonly formatsRegExp: string = '[Hh]{1,2}|LTS?';
+
     constructor(private component: DateComponent) { }
 
     public previous(): void {
@@ -28,11 +31,6 @@ export class DayView implements IView {
             .month(viewItem.model.month())
             .day(viewItem.model.day())
             .hour(viewItem.model.hour());
-        this.component.selectedViewType = 'hour';
-    }
-
-    public previousView(): void {
-        this.component.selectedViewType = 'month';
     }
 
     public render(): void {

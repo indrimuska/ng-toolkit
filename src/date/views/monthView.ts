@@ -11,6 +11,9 @@ export class MonthView implements IView {
     public header: string[] = moment.weekdays().map((d: string, i: number) => moment().startOf('week').add(i, 'day').format('dd'));
     public rows: IViewItem[][];
 
+    /** formats: D,DD,DDD,DDDD,d,dd,ddd,dddd,DDDo,Do,do,W,WW,w,ww,Wo,wo,E,e,L,LL,l,ll */
+    public readonly formatsRegExp: string = '[Dd]{1,4}(?![Ddo])|DDDo|[Dd]o|[Ww]{1,2}(?![Wwo])|[Ww]o|[Ee]|L{1,2}(?!T)|l{1,2}';
+
     constructor(private component: DateComponent) { }
 
     public previous(): void {
@@ -28,11 +31,6 @@ export class MonthView implements IView {
             .year(viewItem.model.year())
             .month(viewItem.model.month())
             .date(viewItem.model.date());
-        this.component.selectedViewType = 'day';
-    }
-
-    public previousView(): void {
-        this.component.selectedViewType = 'year';
     }
 
     public render(): void {

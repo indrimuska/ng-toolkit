@@ -10,6 +10,9 @@ export class HourView implements IView {
     public title: string;
     public rows: IViewItem[][];
 
+    /** formats: m,mm,LLL,LLLL,lll,llll,LT */
+    public readonly formatsRegExp: string = 'm{1,2}|[Ll]{3,4}|LT(?!S)';
+
     constructor(private component: DateComponent) { }
 
     public previous(): void {
@@ -29,11 +32,6 @@ export class HourView implements IView {
             .day(viewItem.model.day())
             .hour(viewItem.model.hour())
             .minute(viewItem.model.minute());
-        this.component.selectedViewType = 'minute';
-    }
-
-    public previousView(): void {
-        this.component.selectedViewType = 'day';
     }
 
     public render(): void {

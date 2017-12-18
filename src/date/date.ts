@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import { Component, OnInit, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { isNullOrUndefined } from 'util';
+import { isNullOrUndefined, isUndefined } from 'util';
 
 import { ValueAccessor } from '../utility';
 import { ViewType, IView, IViewItem } from './definitions';
@@ -26,12 +26,13 @@ import { MinuteView } from './views/minuteView';
             class="ngt-date-dropdown"
             [ngClass]="'ngt-view-' + _selectedViewType"
             (mousedown)="onDropdownClick()">
+
             <div class="ngt-date-dropdown-title">
                 <div class="ngt-date-dropdown-title-button left" (click)="onLeftButtonClick()"></div>
                 <div class="ngt-date-dropdown-title-label" (click)="onTitleClick()">{{ selectedView?.title }}</div>
                 <div class="ngt-date-dropdown-title-button right" (click)="onRightButtonClick()"></div>
             </div>
-            <!-- header -->
+            
             <div class="ngt-date-dropdown-header" *ngIf="selectedView?.header">
                 <div
                     *ngFor="let header of selectedView?.header"
@@ -39,7 +40,7 @@ import { MinuteView } from './views/minuteView';
                     {{ header }}
                 </div>
             </div>
-            <!-- body -->
+
             <div class="ngt-date-dropdown-body">
                 <ng-container *ngIf="selectedView?.rows">
                     <div
@@ -71,27 +72,56 @@ import { MinuteView } from './views/minuteView';
     ]
 })
 export class DateComponent extends ValueAccessor<Date, string> implements OnInit {
-    public value: Date;
     @Input() public disabled: boolean;
     @Input() public placeholder: string;
-    @Input('format') public viewFormat: string;
-    @Input() public locale: string = 'en';
-    @Input() public minView: ViewType;
-    @Input() public maxView: ViewType;
-    @Input() public startView: ViewType = 'month';
-    @Input() public minDate: Date;
-    @Input() public maxDate: Date;
-    @Input() public startDate: Date;
+    
+    private _viewFormat: string = 'L LTS';
+    @Input('format') public get viewFormat(): string {
+        return this._viewFormat;
+    }
+    public set viewFormat(viewFormat: string) {
+        this._viewFormat = viewFormat;
+        this.updateLimitViews();
+    }
 
-    public viewDate: moment.Moment;
-    private views: { [name: string]: IView } = {
-        'decade': new DecadeView(this),
-        'year': new YearView(this),
-        'month': new MonthView(this),
-        'day': new DayView(this),
-        'hour': new HourView(this),
-        'minute': new MinuteView(this),
-    };
+    @Input() public locale: string = 'en';
+
+    private _minView: ViewType = 'decade';
+    @Input() public get minView(): ViewType {
+        return this._minView;
+    }
+    public set minView(minView: ViewType) {
+        this._minView = minView;
+        this.updateLimitViews();
+    }
+
+    private _maxView: ViewType = 'minute';
+    @Input() public get maxView(): ViewType {
+        return this._maxView;
+    }
+    public set maxView(maxView: ViewType) {
+        this._maxView = maxView;
+        this.updateLimitViews();
+    }
+
+    @Input() public startView: ViewType = 'month';
+
+    private minDateMoment: moment.Moment;
+    @Input() public set minDate(minDate: Date) {
+        if (minDate || this.minDateMoment) this.minDateMoment = moment(minDate);
+    }
+    private maxDateMoment: moment.Moment;
+    @Input() public set maxDate(maxDate: Date) {
+        if (maxDate || this.maxDateMoment) this.maxDateMoment = moment(maxDate);
+    }
+    private startDateMoment: moment.Moment;
+    @Input() public set startDate(startDate: Date) {
+        if (startDate || this.startDateMoment) this.startDateMoment = moment(startDate);
+    }
+
+    public viewDate: moment.Moment = moment();
+    private viewTypes: ViewType[] = [];
+    private views: { [name: string]: IView } = {};
     private _selectedViewType: ViewType;
     public set selectedViewType(viewType: ViewType) {
         if (this.views[viewType]) {
@@ -101,6 +131,19 @@ export class DateComponent extends ValueAccessor<Date, string> implements OnInit
     }
     private get selectedView(): IView {
         return this.views[this._selectedViewType];
+    }
+
+    constructor() {
+        super();
+        // register views -- order matters!
+        this.registerView('decade', new DecadeView(this));
+        this.registerView('year', new YearView(this));
+        this.registerView('month', new MonthView(this));
+        this.registerView('day', new DayView(this));
+        this.registerView('hour', new HourView(this));
+        this.registerView('minute', new MinuteView(this));
+        // initialization
+        this.detectMinMaxView();
     }
 
     public ngOnInit() {
@@ -123,6 +166,85 @@ export class DateComponent extends ValueAccessor<Date, string> implements OnInit
         return !isNullOrUndefined(value)
             ? moment(value, this.viewFormat).toDate()
             : value;
+    }
+
+    private registerView(type: ViewType, view: IView) {
+        this.viewTypes.push(type);
+        this.views[type] = view;
+    }
+
+    private setPreviousView() {
+        const current = this.viewTypes.indexOf(this._selectedViewType);
+        this.setView(this.viewTypes[current - 1]);
+    }
+    
+    private setNextView() {
+        const current = this.viewTypes.indexOf(this._selectedViewType);
+        this.setView(this.viewTypes[current + 1]);
+    }
+
+    private setView(type: ViewType) {
+        if (type) {
+            let index = this.viewTypes.indexOf(type);
+            // check if view can be selected (is it included between min and max view?)
+            if (this.minView) {
+                const minViewIndex = this.viewTypes.indexOf(this.minView);
+                if (index < minViewIndex) {
+                    type = this.minView;
+                    index = minViewIndex;
+                }
+            }
+            if (this.maxView) {
+                const maxViewIndex = this.viewTypes.indexOf(this.maxView);
+                if (index > maxViewIndex) {
+                    type = this.maxView;
+                    index = maxViewIndex;
+                }
+            }
+            // set selected view
+            this.selectedViewType = type;
+        }
+    }
+
+    private updateLimitViews() {
+        // auto-detect minView/maxView
+        this.detectMinMaxView();
+        // limit startView
+        this.startView = this.viewTypes[
+            Math.max(
+                Math.min(
+                    this.viewTypes.indexOf(this.startView),
+                    this.viewTypes.indexOf(this.maxView)
+                ),
+                this.viewTypes.indexOf(this.minView)
+            )
+        ];
+        // set selected view for next rendering
+        if (this.selectedViewType !== this.startView) {
+            this.selectedViewType = this.startView;
+        }
+    }
+
+    private detectMinMaxView() {
+        if (!this.viewFormat) return;
+
+        let minViewIndex: number;
+        let maxViewIndex: number;
+        this.viewTypes.forEach((type, index) => {
+            const regExp = new RegExp('(' + this.views[type].formatsRegExp + ')(?![^\[]*\])', 'g');
+            if (this.viewFormat.match(regExp)) {
+                if (isUndefined(minViewIndex)) minViewIndex = index;
+                maxViewIndex = index;
+            }
+        });
+
+        // fallback to limits view
+        if (isUndefined(minViewIndex)) minViewIndex = 0;
+        if (isUndefined(maxViewIndex)) maxViewIndex = this.viewTypes.length - 1;
+
+        // enforce limits if those provided by the user are stronger then detected ones
+        if (minViewIndex > this.viewTypes.indexOf(this.minView)) this._minView = this.viewTypes[minViewIndex];
+        if (maxViewIndex <  this.viewTypes.indexOf(this.maxView)) this._maxView = this.viewTypes[maxViewIndex];
     }
 
     // Input events callbacks
@@ -152,12 +274,22 @@ export class DateComponent extends ValueAccessor<Date, string> implements OnInit
     }
 
     private onTitleClick() {
-        this.selectedView.previousView();
+        this.setPreviousView();
     }
 
     private onDropdownItemClick(viewItem: IViewItem) {
         if (!viewItem.disabled) {
+            // update view model
             this.selectedView.setDate(viewItem);
+            // now change view or close th picker
+            if (this._selectedViewType === this.maxView) {
+                // set model and close the picker
+                this.writeValue(this.viewDate.toDate());
+                this.selectedView.render();
+            } else {
+                // go to next view
+                this.setNextView();
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 @import '../autocomplete/autocomplete-utility.scss';
 
 $ngt-date-dropdown-padding:                             $ngt-padding-vertical;
+$ngr-date-dropdown-min-width:                           17rem;
 
 // icons from https://github.com/danklammer/bytesize-icons
 $ngt-date-dropdown-title-button-icon-color:             $ngt-text-color;
@@ -26,6 +27,7 @@ $ngt-date-dropdown-item-hover-background:               #e9ecef;
     display: block;
     text-align: center;
     padding: $ngt-date-dropdown-padding;
+    min-width: $ngr-date-dropdown-min-width;
 }
 
 .ngt-date-dropdown-title,
@@ -41,6 +43,7 @@ $ngt-date-dropdown-item-hover-background:               #e9ecef;
         display: flex;
         align-items: center;
         justify-content: center;
+        white-space: nowrap;
     }
     .ngt-date-dropdown-title-button {
         width: 2rem;
@@ -95,35 +98,30 @@ $ngt-date-dropdown-item-hover-background:               #e9ecef;
     &.ngt-view-decade,
     &.ngt-view-year {
         .ngt-date-dropdown-item {
-            width: 3.5rem;
-            height: 3.5rem;
+            height: 4rem;
         }
     }
     &.ngt-view-month {
         .ngt-date-dropdown-header-item,
         .ngt-date-dropdown-item {
-            width: 2rem;
-            height: 2rem;
+            height: 2.3rem;
         }
     }
     &.ngt-view-day {
         .ngt-date-dropdown-header-item,
         .ngt-date-dropdown-item {
-            width: 3.5rem;
-            height: 2rem;
+            height: 2.3rem;
         }
     }
     &.ngt-view-hour {
         .ngt-date-dropdown-header-item,
         .ngt-date-dropdown-item {
-            width: 3.5rem;
             height: 2rem;
         }
     }
     &.ngt-view-minute {
         .ngt-date-dropdown-header-item,
         .ngt-date-dropdown-item {
-            width: 2.33rem;
             height: 2rem;
         }
     }

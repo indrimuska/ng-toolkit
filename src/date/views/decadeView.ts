@@ -8,6 +8,9 @@ export class DecadeView implements IView {
 
     public title: string;
     public rows: IViewItem[][];
+    
+    /** formats: formats: M,MM,MMM,MMM,Mo,Q */
+    public readonly formatsRegExp: string = 'M{1,4}(?![Mo])|Mo|Q';
 
     constructor(private component: DateComponent) { }
 
@@ -24,11 +27,6 @@ export class DecadeView implements IView {
     public setDate(viewItem: IViewItem): void {
         this.component.viewDate
             .year(viewItem.model.year());
-        this.component.selectedViewType = 'year';
-    }
-
-    public previousView(): void {
-        // previous view does not exist
     }
 
     public render(): void {

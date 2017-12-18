@@ -9,6 +9,9 @@ export class YearView implements IView {
 
     public title: string;
     public rows: IViewItem[][];
+    
+    /** formats: Y,YY,YYYY,L,LL,LLL,LLLL,l,ll,lll,llll */
+    public readonly formatsRegExp: string = 'Y{1,2}(?!Y)|YYYY|[Ll]{1,4}(?!T)';
 
     constructor(private component: DateComponent) { }
 
@@ -26,11 +29,6 @@ export class YearView implements IView {
         this.component.viewDate
             .year(viewItem.model.year())
             .month(viewItem.model.month());
-        this.component.selectedViewType = 'month';
-    }
-
-    public previousView(): void {
-        this.component.selectedViewType = 'decade';
     }
 
     public render(): void {
