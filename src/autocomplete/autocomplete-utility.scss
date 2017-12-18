@@ -1,0 +1,21 @@
+@import '../variables.scss';
+
+$ngt-autocomplete-dropdown-height:      15rem;
+$ngt-autocomplete-dropdown-background:  #fff;
+$ngt-autocomplete-dropdown-shadow:      0 2px 3px $ngt-shadow-color;
+
+@mixin ngt-autocomplete-dropdown {
+    @include ngt-typography;
+    
+    display: none;
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 0;
+    user-select: none;
+    background-color: $ngt-autocomplete-dropdown-background;
+    border: 1px solid $ngt-border-color;
+    border-radius: $ngt-border-radius;
+    box-shadow: $ngt-autocomplete-dropdown-shadow;
+    overflow: hidden;
+}

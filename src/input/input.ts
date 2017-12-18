@@ -29,7 +29,7 @@ import { ValueAccessor } from '../utility';
 export class InputComponent<T> extends ValueAccessor<T> implements OnInit {
     @Input() public value: T;
     @Input() public disabled: boolean;
-    @Input() public placeholder: string;
+    @Input() public placeholder: string = '';
     @Input() public type: 'text' | 'number' | 'email';
     @ViewChild('elementRef') public elementRef: ElementRef;
 

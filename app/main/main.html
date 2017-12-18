@@ -58,6 +58,18 @@
             </ngt-control>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="col">
+            <ngt-control>
+                <ngt-date
+                    [(ngModel)]="dateValue"
+                    [disabled]="!enabled"
+                    placeholder="Enter a date">
+                </ngt-date>
+            </ngt-control>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col">

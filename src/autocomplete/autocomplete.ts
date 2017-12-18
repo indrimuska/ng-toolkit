@@ -182,7 +182,7 @@ export class AutocompleteComponent extends SelectComponent {
         }
     }
     
-    // Input callbacks
+    // Input events callbacks
 
     private onInputFocus() {
         this.forceOpen = true;
@@ -228,7 +228,7 @@ export class AutocompleteComponent extends SelectComponent {
         if (!this.multiple && this.hasValue) e.preventDefault();
     }
 
-    // Dropdown callbacks
+    // Dropdown events callbacks
     
     private onDropdownClick() {
         this.forceOpen = true;

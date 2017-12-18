@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-// import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -10,6 +9,7 @@ import { TextComponent } from './text/text';
 import { NumberComponent } from './number/number';
 import { SelectComponent } from './select/select';
 import { AutocompleteComponent } from './autocomplete/autocomplete';
+import { DateComponent } from './date/date';
 import { CheckboxComponent } from './checkbox/checkbox';
 import { RadioComponent } from './radio/radio';
 import { ToggleComponent } from './toggle/toggle';
@@ -20,6 +20,7 @@ const COMPONENTS = [
     NumberComponent,
     SelectComponent,
     AutocompleteComponent,
+    DateComponent,
     CheckboxComponent,
     RadioComponent,
     ToggleComponent,
@@ -27,7 +28,6 @@ const COMPONENTS = [
 
 @NgModule({
     imports: [
-        // CommonModule,
         BrowserModule,
         FormsModule,
         HttpModule,

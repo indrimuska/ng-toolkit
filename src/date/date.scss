@@ -1,0 +1,130 @@
+@import '../variables.scss';
+@import '../autocomplete/autocomplete-utility.scss';
+
+$ngt-date-dropdown-padding:                             $ngt-padding-vertical;
+
+// icons from https://github.com/danklammer/bytesize-icons
+$ngt-date-dropdown-title-button-icon-color:             $ngt-text-color;
+$ngt-date-dropdown-title-button-left-background-url:    "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' " +
+                                                        "viewBox='0 0 32 32'%3E%3Cpath stroke='#{$ngt-date-dropdown-title-button-icon-color}' " +
+                                                        "stroke-width='3' fill='none' d='M20 30 L8 16 20 2'/%3E%3C/svg%3E";
+$ngt-date-dropdown-title-button-left-background:        url("#{$ngt-date-dropdown-title-button-left-background-url}");
+$ngt-date-dropdown-title-button-right-background-url:   "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' " +
+                                                        "viewBox='0 0 32 32'%3E%3Cpath stroke='#{$ngt-date-dropdown-title-button-icon-color}' " +
+                                                        "stroke-width='3' fill='none' d='M12 30 L24 16 12 2'/%3E%3C/svg%3E";
+$ngt-date-dropdown-title-button-right-background:       url("#{$ngt-date-dropdown-title-button-right-background-url}");
+
+$ngt-date-dropdown-item-hover-background:               #e9ecef;
+
+:host {
+    position: relative;
+}
+
+.ngt-date-dropdown {
+    @include ngt-autocomplete-dropdown;
+
+    display: block;
+    text-align: center;
+    padding: $ngt-date-dropdown-padding;
+}
+
+.ngt-date-dropdown-title,
+.ngt-date-dropdown-header,
+.ngt-date-dropdown-body-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.ngt-date-dropdown-title {
+    .ngt-date-dropdown-title-label {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .ngt-date-dropdown-title-button {
+        width: 2rem;
+        height: 2rem;
+        background-size: 50% 50%;
+        background-repeat: no-repeat;
+        background-position: center center;
+
+        &.left {
+            background-image: $ngt-date-dropdown-title-button-left-background;
+        }
+        &.right {
+            background-image: $ngt-date-dropdown-title-button-right-background;
+        }
+    }
+}
+
+.ngt-date-dropdown-title,
+.ngt-date-dropdown-header {
+    font-weight: 600;
+}
+
+.ngt-date-dropdown-item {
+    flex-grow: 1;
+    flex-basis: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ngt-date-dropdown-title > div,
+.ngt-date-dropdown-body .ngt-date-dropdown-item {
+    cursor: pointer;
+    border-radius: $ngt-border-radius;
+
+    &:hover {
+        background-color: $ngt-date-dropdown-item-hover-background;
+    }
+
+    &.external {
+        color: $ngt-placeholder-color;
+    }
+    &.disabled {
+        cursor: default;
+        background: none;
+        opacity: 0.5;
+    }
+}
+
+// specific view styles
+.ngt-date-dropdown {
+    &.ngt-view-decade,
+    &.ngt-view-year {
+        .ngt-date-dropdown-item {
+            width: 3.5rem;
+            height: 3.5rem;
+        }
+    }
+    &.ngt-view-month {
+        .ngt-date-dropdown-header-item,
+        .ngt-date-dropdown-item {
+            width: 2rem;
+            height: 2rem;
+        }
+    }
+    &.ngt-view-day {
+        .ngt-date-dropdown-header-item,
+        .ngt-date-dropdown-item {
+            width: 3.5rem;
+            height: 2rem;
+        }
+    }
+    &.ngt-view-hour {
+        .ngt-date-dropdown-header-item,
+        .ngt-date-dropdown-item {
+            width: 3.5rem;
+            height: 2rem;
+        }
+    }
+    &.ngt-view-minute {
+        .ngt-date-dropdown-header-item,
+        .ngt-date-dropdown-item {
+            width: 2.33rem;
+            height: 2rem;
+        }
+    }
+}
