@@ -9,8 +9,8 @@ export class DecadeView implements IView {
     public title: string;
     public rows: IViewItem[][];
     
-    /** formats: formats: M,MM,MMM,MMM,Mo,Q */
-    public readonly formatsRegExp: string = 'M{1,4}(?![Mo])|Mo|Q';
+    /** formats: Y,YY,YYYY,L,LL,LLL,LLLL,l,ll,lll,llll */
+    public readonly formatsRegExp: string = 'Y{1,2}(?!Y)|YYYY|[Ll]{1,4}(?!T)';
 
     constructor(private component: DateComponent) { }
 

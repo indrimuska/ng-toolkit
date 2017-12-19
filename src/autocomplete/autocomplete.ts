@@ -40,7 +40,7 @@ import { SelectComponent } from '../select/select';
         <div
             #dropdownRef
             class="ngt-autocomplete-dropdown"
-            (mousedown)="onDropdownClick()">
+            (click)="onDropdownClick()">
             <div
                 *ngFor="let option of filteredOptions; let i = index; trackBy:getOptionAttr(option, valueAttr)"
                 [ngClass]="{highlighted: highlightedIndex === i}"
@@ -70,7 +70,7 @@ export class AutocompleteComponent extends SelectComponent {
     private filteredOptions: any[];
     private highlightedIndex: number = 0;
     private forceOpen: boolean = false;
-    private dropdownClosePrevented: boolean = false;
+    private closeTimeout: number;
     
     private get hasValue() {
         return this.multiple
@@ -190,8 +190,7 @@ export class AutocompleteComponent extends SelectComponent {
 
     private onInputBlur() {
         this.filter = '';
-        this.forceOpen = false;
-        if (this.dropdownClosePrevented) this.inputRef.nativeElement.focus();
+        this.closeTimeout = window.setTimeout(() => this.forceOpen = false, 100);
     }
 
     private onInputArrowUpPress() {
@@ -231,11 +230,8 @@ export class AutocompleteComponent extends SelectComponent {
     // Dropdown events callbacks
     
     private onDropdownClick() {
-        this.forceOpen = true;
-
-        // prevent dropdown close
-        this.dropdownClosePrevented = true;
-        setTimeout(() => this.dropdownClosePrevented = false, 50);
+        clearTimeout(this.closeTimeout);
+        this.inputRef.nativeElement.focus();
     }
 
     private onDropdownOptionClick(option: any) {

@@ -1,8 +1,9 @@
 import * as moment from 'moment';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isNullOrUndefined, isUndefined } from 'util';
 
+import { InputComponent } from '../input/input';
 import { ValueAccessor } from '../utility';
 import { ViewType, IView, IViewItem } from './definitions';
 import { DecadeView } from './views/decadeView';
@@ -16,6 +17,7 @@ import { MinuteView } from './views/minuteView';
     selector: 'ngt-date',
     template: `
         <ngt-input
+            #inputRef
             type="text"
             [(ngModel)]="viewValue"
             (focus)="onInputFocus()"
@@ -23,9 +25,10 @@ import { MinuteView } from './views/minuteView';
         </ngt-input>
         <div
             #dropdownRef
+            *ngIf="isOpen"
             class="ngt-date-dropdown"
             [ngClass]="'ngt-view-' + _selectedViewType"
-            (mousedown)="onDropdownClick()">
+            (click)="onDropdownClick()">
 
             <div class="ngt-date-dropdown-title">
                 <div class="ngt-date-dropdown-title-button left" (click)="onLeftButtonClick()"></div>
@@ -119,6 +122,23 @@ export class DateComponent extends ValueAccessor<Date, string> implements OnInit
         if (startDate || this.startDateMoment) this.startDateMoment = moment(startDate);
     }
 
+    @ViewChild('inputRef') public inputRef: InputComponent<string>;
+    @ViewChild('dropdownRef') public dropdownRef: ElementRef;
+
+    private closeTimeout: number;
+    private _isOpen: boolean = false;
+    private get isOpen(): boolean {
+        return this._isOpen;
+    }
+    private set isOpen(isOpen: boolean) {
+        this._isOpen = isOpen;
+        if (isOpen) this.onOpen();
+        else this.onClose();
+        // const dropdown = this.dropdownRef.nativeElement;
+        // if (isOpen) document.body.appendChild(dropdown);
+        // else dropdown.parentNode.removeChild(dropdown);
+    }
+
     public viewDate: moment.Moment = moment();
     private viewTypes: ViewType[] = [];
     private views: { [name: string]: IView } = {};
@@ -152,6 +172,7 @@ export class DateComponent extends ValueAccessor<Date, string> implements OnInit
         this.viewDate = moment(this.startDate);
         // render
         this.selectedViewType = this.startView;
+        this.isOpen = false;
     }
 
     /** @override */
@@ -247,22 +268,27 @@ export class DateComponent extends ValueAccessor<Date, string> implements OnInit
         if (maxViewIndex <  this.viewTypes.indexOf(this.maxView)) this._maxView = this.viewTypes[maxViewIndex];
     }
 
+    private onOpen() {}
+
+    private onClose() {
+        this.selectedViewType = this.startView;
+    }
+
     // Input events callbacks
 
     private onInputFocus() {
+        this.isOpen = true;
     }
     
     private onInputBlur() {
+        this.closeTimeout = window.setTimeout(() => this.isOpen = false, 100);
     }
     
     // Dropdown events callbacks
     
     private onDropdownClick() {
-        // this.forceOpen = true;
-
-        // // prevent dropdown close
-        // this.dropdownClosePrevented = true;
-        // setTimeout(() => this.dropdownClosePrevented = false, 50);
+        clearTimeout(this.closeTimeout);
+        this.inputRef.elementRef.nativeElement.focus();
     }
 
     private onLeftButtonClick() {
@@ -285,7 +311,6 @@ export class DateComponent extends ValueAccessor<Date, string> implements OnInit
             if (this._selectedViewType === this.maxView) {
                 // set model and close the picker
                 this.writeValue(this.viewDate.toDate());
-                this.selectedView.render();
             } else {
                 // go to next view
                 this.setNextView();
