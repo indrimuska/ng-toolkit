@@ -20,6 +20,7 @@ import { MinuteView } from './views/minuteView';
             #inputRef
             type="text"
             [(ngModel)]="viewValue"
+            [disabled]="disabled"
             (focus)="onInputFocus()"
             (blur)="onInputBlur()"
             (click)="onInputClick()">
@@ -262,6 +263,8 @@ export class DateComponent extends ValueAccessor<Date, string> implements OnInit
     }
     
     private open() {
+        if (this.disabled) return;
+
         this.isOpen = true;
         clearTimeout(this.closeTimeout);
         this.inputRef.elementRef.nativeElement.focus();
