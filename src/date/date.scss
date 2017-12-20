@@ -2,7 +2,10 @@
 @import '../autocomplete/autocomplete-utility.scss';
 
 $ngt-date-dropdown-padding:                             $ngt-padding-vertical;
-$ngr-date-dropdown-min-width:                           17rem;
+$ngt-date-dropdown-min-width:                           17rem;
+$ngt-date-dropdown-arrow-size:                          1rem;
+$ngt-date-dropdown-margin:                              0.2rem -0.4rem;
+
 
 // icons from https://github.com/danklammer/bytesize-icons
 $ngt-date-dropdown-title-button-icon-color:             $ngt-text-color;
@@ -27,7 +30,25 @@ $ngt-date-dropdown-item-hover-background:               #e9ecef;
     display: block;
     text-align: center;
     padding: $ngt-date-dropdown-padding;
-    min-width: $ngr-date-dropdown-min-width;
+    min-width: $ngt-date-dropdown-min-width;
+    margin: $ngt-date-dropdown-margin;
+
+    &:before,
+    &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: -$ngt-date-dropdown-arrow-size;
+        left: $ngt-date-dropdown-arrow-size;
+        border: ($ngt-date-dropdown-arrow-size / 2) solid transparent;
+    }
+    &:before {
+        border-bottom-color: $ngt-border-color;
+        margin-top: -1px;
+    }
+    &:after {
+        border-bottom-color: #fff;
+    }
 }
 
 .ngt-date-dropdown-title,
