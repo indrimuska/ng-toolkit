@@ -21,7 +21,8 @@ import { MinuteView } from './views/minuteView';
             type="text"
             [(ngModel)]="viewValue"
             (focus)="onInputFocus()"
-            (blur)="onInputBlur()">
+            (blur)="onInputBlur()"
+            (click)="onInputClick()">
         </ngt-input>
         <div
             #dropdownRef
@@ -126,19 +127,7 @@ export class DateComponent extends ValueAccessor<Date, string> implements OnInit
     @ViewChild('dropdownRef') public dropdownRef: ElementRef;
 
     private closeTimeout: number;
-    private _isOpen: boolean = false;
-    private get isOpen(): boolean {
-        return this._isOpen;
-    }
-    private set isOpen(isOpen: boolean) {
-        this._isOpen = isOpen;
-        if (isOpen) this.onOpen();
-        else this.onClose();
-        // const dropdown = this.dropdownRef.nativeElement;
-        // if (isOpen) document.body.appendChild(dropdown);
-        // else dropdown.parentNode.removeChild(dropdown);
-    }
-
+    private isOpen: boolean = false;
     public viewDate: moment.Moment = moment();
     private viewTypes: ViewType[] = [];
     private views: { [name: string]: IView } = {};
@@ -268,27 +257,43 @@ export class DateComponent extends ValueAccessor<Date, string> implements OnInit
         if (maxViewIndex <  this.viewTypes.indexOf(this.maxView)) this._maxView = this.viewTypes[maxViewIndex];
     }
 
-    private onOpen() {}
-
-    private onClose() {
+    private resetViews() {
         this.selectedViewType = this.startView;
+    }
+    
+    private open() {
+        this.isOpen = true;
+        clearTimeout(this.closeTimeout);
+        this.inputRef.elementRef.nativeElement.focus();
+    }
+
+    private close() {
+        if (!this.isOpen) return;
+
+        this.closeTimeout = window.setTimeout(() => {
+            this.isOpen = false;
+            this.resetViews();
+        }, 100);
     }
 
     // Input events callbacks
 
     private onInputFocus() {
-        this.isOpen = true;
+        this.open();
     }
     
     private onInputBlur() {
-        this.closeTimeout = window.setTimeout(() => this.isOpen = false, 100);
+        this.close();
+    }
+
+    private onInputClick() {
+        this.open();
     }
     
     // Dropdown events callbacks
     
     private onDropdownClick() {
-        clearTimeout(this.closeTimeout);
-        this.inputRef.elementRef.nativeElement.focus();
+        this.open();
     }
 
     private onLeftButtonClick() {
@@ -311,6 +316,7 @@ export class DateComponent extends ValueAccessor<Date, string> implements OnInit
             if (this._selectedViewType === this.maxView) {
                 // set model and close the picker
                 this.writeValue(this.viewDate.toDate());
+                this.close();
             } else {
                 // go to next view
                 this.setNextView();
