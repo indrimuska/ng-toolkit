@@ -55,8 +55,8 @@ export class HourView implements IView {
                 model: model,
                 key: model.minute(),
                 label: !disabled ? model.format(HourView.itemFormat) : '',
-                disabled: disabled,
-                selected: this.component.isSelected(model, 'minute')
+                selected: this.component.isSelected(model, 'minute'),
+                disabled: disabled || this.component.isDisabled(model, 'minute')
 			});
             model = model.clone().add(minutesStep, 'minutes');
 		}

@@ -19,7 +19,7 @@ $ngt-date-dropdown-title-button-right-background-url:   "data:image/svg+xml;char
 $ngt-date-dropdown-title-button-right-background:       url("#{$ngt-date-dropdown-title-button-right-background-url}");
 
 $ngt-date-dropdown-item-hover-background:               #e9ecef;
-$ngt-date-dropdown-item-external-view-color:            #abacad
+$ngt-date-dropdown-item-external-view-color:            #abacad;
 
 :host {
     position: relative;
@@ -119,6 +119,7 @@ $ngt-date-dropdown-item-external-view-color:            #abacad
     }
     &.disabled {
         cursor: default;
+        color: $ngt-date-dropdown-item-external-view-color;
         background: none;
         opacity: 0.5;
     }

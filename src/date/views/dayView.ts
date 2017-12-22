@@ -50,7 +50,8 @@ export class DayView implements IView {
                 key: i, // KEY is not the hour, in order to avoid DST conflicts
                 model: model,
                 label: model.format(DayView.itemFormat),
-                selected: this.component.isSelected(model, 'hour')
+                selected: this.component.isSelected(model, 'hour'),
+                disabled: this.component.isDisabled(model, 'hour')
 			});
 			model = model.clone().add(1, 'hour');
         }

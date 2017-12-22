@@ -47,7 +47,8 @@ export class YearView implements IView {
                 model: model,
                 key: model.month(),
                 label: model.format(YearView.itemFormat),
-                selected: this.component.isSelected(model, 'month')
+                selected: this.component.isSelected(model, 'month'),
+                disabled: this.component.isDisabled(model, 'month')
             });
 			model = model.clone().add(1, 'month');
 		});

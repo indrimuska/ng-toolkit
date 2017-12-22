@@ -113,15 +113,19 @@ export class DateComponent extends ValueAccessor<Date, string> {
 
     private minDateMoment: moment.Moment;
     @Input() public set minDate(minDate: Date) {
-        if (minDate || this.minDateMoment) this.minDateMoment = moment(minDate);
+        this.minDateMoment = minDate
+            ? moment(minDate)
+            : null;
     }
     private maxDateMoment: moment.Moment;
     @Input() public set maxDate(maxDate: Date) {
-        if (maxDate || this.maxDateMoment) this.maxDateMoment = moment(maxDate);
+        this.maxDateMoment = maxDate
+            ? moment(maxDate)
+            : null;
     }
     private startDateMoment: moment.Moment;
     @Input() public set startDate(startDate: Date) {
-        if (startDate || this.startDateMoment) this.startDateMoment = moment(startDate);
+        if (!this.startDateMoment) this.startDateMoment = moment(startDate);
     }
     public get startDate(): Date {
         return this.startDateMoment
@@ -298,6 +302,14 @@ export class DateComponent extends ValueAccessor<Date, string> {
 
     public isSelected(model: moment.Moment, granularity: moment.unitOfTime.StartOf): boolean {
         return this.value && model.isSame(this.value, granularity);
+    }
+
+    public isDisabled(model: moment.Moment, granularity: moment.unitOfTime.StartOf): boolean {
+        if (this.minDateMoment && model.isSameOrBefore(this.minDateMoment, granularity) ||
+            this.maxDateMoment && model.isSameOrAfter(this.maxDateMoment, granularity)) {
+            return true;
+        }
+        return false;
     }
 
     // Input events callbacks
