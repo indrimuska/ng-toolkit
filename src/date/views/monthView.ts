@@ -52,7 +52,8 @@ export class MonthView implements IView {
                     key: model.date(),
                     label: model.format(MonthView.itemFormat),
                     today: model.isSame(today, 'day'),
-                    external: !model.isSame(this.component.viewDate, 'month')
+                    external: !model.isSame(this.component.viewDate, 'month'),
+                    selected: this.component.isSelected(model, 'day')
                 };
                 model = model.clone().add(1, 'day');
             }

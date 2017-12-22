@@ -49,7 +49,8 @@ export class DayView implements IView {
 			this.rows[index].push({
                 key: i, // KEY is not the hour, in order to avoid DST conflicts
                 model: model,
-                label: model.format(DayView.itemFormat)
+                label: model.format(DayView.itemFormat),
+                selected: this.component.isSelected(model, 'hour')
 			});
 			model = model.clone().add(1, 'hour');
         }

@@ -56,7 +56,8 @@ export class MinuteView implements IView {
                 model: model,
                 key: model.second(),
                 label: !disabled ? model.format(MinuteView.itemFormat) : '',
-                disabled: disabled
+                disabled: disabled,
+                selected: this.component.isSelected(model, 'second')
 			});
             model = model.clone().add(minutesStep, 'seconds');
 		}

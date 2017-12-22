@@ -19,6 +19,7 @@ $ngt-date-dropdown-title-button-right-background-url:   "data:image/svg+xml;char
 $ngt-date-dropdown-title-button-right-background:       url("#{$ngt-date-dropdown-title-button-right-background-url}");
 
 $ngt-date-dropdown-item-hover-background:               #e9ecef;
+$ngt-date-dropdown-item-external-view-color:            #abacad
 
 :host {
     position: relative;
@@ -105,7 +106,16 @@ $ngt-date-dropdown-item-hover-background:               #e9ecef;
     }
 
     &.external {
-        color: $ngt-placeholder-color;
+        color: $ngt-date-dropdown-item-external-view-color;
+    }
+    &.selected {
+        color: #fff;
+
+        @if $ngt-use-gradients {
+            background: $ngt-color-primary linear-gradient(180deg, #268fff, $ngt-color-primary) repeat-x;
+        } @else {
+            background: $ngt-color-primary;
+        }
     }
     &.disabled {
         cursor: default;

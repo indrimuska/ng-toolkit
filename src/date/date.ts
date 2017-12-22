@@ -296,6 +296,10 @@ export class DateComponent extends ValueAccessor<Date, string> {
         }, 100);
     }
 
+    public isSelected(model: moment.Moment, granularity: moment.unitOfTime.StartOf): boolean {
+        return this.value && model.isSame(this.value, granularity);
+    }
+
     // Input events callbacks
 
     private onInputFocus() {

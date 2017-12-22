@@ -48,7 +48,8 @@ export class DecadeView implements IView {
                 model: model,
                 key: model.year(),
                 label: model.format(DecadeView.itemFormat),
-                external: i === 0 || i === 11
+                external: i === 0 || i === 11,
+                selected: this.component.isSelected(model, 'year')
 			});
             model = model.clone().add(1, 'year');
 		}

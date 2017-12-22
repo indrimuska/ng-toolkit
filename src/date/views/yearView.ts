@@ -46,7 +46,8 @@ export class YearView implements IView {
 			this.rows[index].push({
                 model: model,
                 key: model.month(),
-                label: model.format(YearView.itemFormat)
+                label: model.format(YearView.itemFormat),
+                selected: this.component.isSelected(model, 'month')
             });
 			model = model.clone().add(1, 'month');
 		});

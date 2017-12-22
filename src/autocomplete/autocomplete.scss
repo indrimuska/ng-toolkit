@@ -53,7 +53,7 @@ label {
 :host.multiple .ngt-autocomplete-item {
     color: #fff;
     padding: 0 0.4rem;
-    border-radius: 0.25rem;
+    border-radius: $ngt-border-radius;
     margin-right: $ngt-autocomplete-item-spacing;
     margin-bottom: $ngt-autocomplete-item-spacing;
 
