@@ -43,9 +43,19 @@ export abstract class ValueAccessor<M, V = M> implements ControlValueAccessor {
         this.modelValue = value;
         this.viewValue = this.format(value);
     }
+
+    constructor() {
+        const unregister = this.registerOnChange(() => {
+            this.afterInit();
+            unregister();
+        });
+    }
+
+    protected afterInit() { }
     
-    public registerOnChange(fn: (value: M) => void) {
+    public registerOnChange(fn: (value: M) => void): () => void {
         this.changed.push(fn);
+        return () => this.changed.splice(this.changed.indexOf(fn), 1);
     }
     
     public registerOnTouched(fn: () => void) {

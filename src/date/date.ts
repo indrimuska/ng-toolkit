@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isNullOrUndefined, isUndefined } from 'util';
 
@@ -76,7 +76,7 @@ import { MinuteView } from './views/minuteView';
         { provide: NG_VALUE_ACCESSOR, useExisting: DateComponent, multi: true }
     ]
 })
-export class DateComponent extends ValueAccessor<Date, string> implements OnInit {
+export class DateComponent extends ValueAccessor<Date, string> {
     @Input() public disabled: boolean;
     @Input() public placeholder: string;
     
@@ -123,6 +123,11 @@ export class DateComponent extends ValueAccessor<Date, string> implements OnInit
     @Input() public set startDate(startDate: Date) {
         if (startDate || this.startDateMoment) this.startDateMoment = moment(startDate);
     }
+    public get startDate(): Date {
+        return this.startDateMoment
+            ? this.startDateMoment.toDate()
+            : null;
+    }
 
     @ViewChild('inputRef') public inputRef: InputComponent<string>;
     @ViewChild('dropdownRef') public dropdownRef: ElementRef;
@@ -152,14 +157,16 @@ export class DateComponent extends ValueAccessor<Date, string> implements OnInit
         this.registerView('day', new DayView(this));
         this.registerView('hour', new HourView(this));
         this.registerView('minute', new MinuteView(this));
-        // initialization
-        this.detectMinMaxView();
     }
 
-    public ngOnInit() {
+    public afterInit() {
         // initialization
-        if (!this.startDate) this.startDate = this.value;
-        this.viewDate = moment(this.startDate);
+        this.detectMinMaxView();
+        if (!this.startDate) {
+            if (this.value) this.startDate = this.value;
+            else this.startDate = new Date();
+        }
+        this.viewDate = this.startDateMoment.clone();
         // render
         this.selectedViewType = this.startView;
         this.isOpen = false;
@@ -167,16 +174,26 @@ export class DateComponent extends ValueAccessor<Date, string> implements OnInit
 
     /** @override */
     protected format(value: Date): string {
-        return !isNullOrUndefined(value)
-            ? moment(value).format(this.viewFormat)
-            : '';
+        if (!isNullOrUndefined(value)) {
+            const momentDate = moment(value);
+            return momentDate.isValid()
+                ? momentDate.format(this.viewFormat)
+                : '';
+        } else {
+            return '';
+        }
     }
 
     /** @override */
     protected parse(value: string): Date {
-        return !isNullOrUndefined(value)
-            ? moment(value, this.viewFormat).toDate()
-            : value;
+        if (!isNullOrUndefined(value)) {          
+            const momentDate = moment(value, this.viewFormat);
+            return momentDate.isValid()
+                ? momentDate.toDate()
+                : null;
+        } else {
+            return value;
+        }
     }
 
     private registerView(type: ViewType, view: IView) {

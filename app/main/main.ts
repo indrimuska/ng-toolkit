@@ -23,6 +23,7 @@ export class Main {
     public autocompleteValue: number = 12;
     public autocompleteMultipleValue: number[] = [];
     public dateValue: Date = new Date(2018, 3, 15, 10, 25, 13);
+    public startDateValue: Date = new Date(2018, 4, 15, 10, 25, 13);
     public checkboxValue: string = 'VERO';
     public toggleValue: boolean = false;
     public radioValue: any;

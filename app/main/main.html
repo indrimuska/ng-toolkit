@@ -65,6 +65,8 @@
                 <ngt-date
                     [(ngModel)]="dateValue"
                     [disabled]="!enabled"
+                    [startDate]="startDateValue"
+                    startView="year"
                     format="LL"
                     placeholder="Enter a date">
                 </ngt-date>
