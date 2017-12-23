@@ -21,6 +21,9 @@
     input:disabled ~ & {
         @include ngt-checkbox-radio-indicator-disabled;
     }
+    input:disabled:checked ~ & {
+        @include ngt-checkbox-radio-indicator-disabled-checked($ngt-radio-background-image);
+    }
 }
 
 .ngt-radio-label {

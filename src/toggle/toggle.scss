@@ -47,7 +47,7 @@ label {
         left: -100%;
 
         @if $ngt-use-gradients {
-            background: $ngt-color-primary linear-gradient(180deg, #268fff, $ngt-color-primary) repeat-x;
+            background: $ngt-color-primary-gradient;
         } @else {
             background: $ngt-color-primary;
         }
@@ -73,7 +73,6 @@ label {
         &:before,
         &:after {
             background: $ngt-disabled-background;
-            box-shadow: none;
         }
     }
     input:checked ~ & {

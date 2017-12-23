@@ -47,7 +47,7 @@ $ngt-checkbox-radio-label-disabled: #868e96;
     @if $ngt-use-gradients {
         background:
             $image center center no-repeat,
-            $ngt-color-primary linear-gradient(180deg, #268fff, $ngt-color-primary) repeat-x;
+            $ngt-color-primary-gradient;
     } @else {
         background: $ngt-color-primary $image;
         background-repeat: no-repeat;
@@ -76,6 +76,13 @@ $ngt-checkbox-radio-label-disabled: #868e96;
 
 @mixin ngt-checkbox-radio-indicator-disabled {
     background-color: $ngt-disabled-background;
+}
+
+@mixin ngt-checkbox-radio-indicator-disabled-checked($image) {
+    @if $ngt-use-gradients {
+        background: $ngt-disabled-background $image center center no-repeat;
+        background-size: 50% 50%;
+    }
 }
 
 @mixin ngt-checkbox-radio-label-disabled {
