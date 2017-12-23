@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+import { DateComponent } from './date';
 
 export type ViewType = 'decade' | 'year' | 'month' | 'day' | 'hour' | 'minute';
 
@@ -21,14 +22,18 @@ export interface IViewItem {
     highlighted?: boolean;
 }
 
-export interface IView {
-    title: string;
-    header?: string[];
-    rows: IViewItem[][];
-    readonly formatsRegExp: string;
+export abstract class AbstractView {
+    public title: string;
+    public previousDisabled: boolean;
+    public nextDisabled: boolean;
+    public header?: string[];
+    public rows: IViewItem[][];
+    public readonly formatsRegExp: string;
 
-    previous(): void;
-    next(): void;
-    setDate(viewItem: IViewItem): void;
-    render(): void;
+    public abstract previous(): void;
+    public abstract next(): void;
+    public abstract setDate(viewItem: IViewItem): void;
+    public abstract render(): void;
+
+    constructor(protected component: DateComponent) { }
 }

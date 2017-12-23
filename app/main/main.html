@@ -65,8 +65,10 @@
                 <ngt-date
                     [(ngModel)]="dateValue"
                     [disabled]="!enabled"
-                    format="LL"
+                    format="LL LTS"
                     [minDate]="minDate"
+                    [maxDate]="maxDate"
+                    startView="decade"
                     placeholder="Enter a date">
                 </ngt-date>
             </ngt-control>

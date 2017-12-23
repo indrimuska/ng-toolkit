@@ -80,6 +80,9 @@ $ngt-date-dropdown-item-external-view-color:            #abacad;
         &.right {
             background-image: $ngt-date-dropdown-title-button-right-background;
         }
+        &.disabled {
+            background-image: none;
+        }
     }
 }
 

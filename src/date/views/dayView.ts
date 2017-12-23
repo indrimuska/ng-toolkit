@@ -1,19 +1,14 @@
 import * as moment from 'moment';
 import { DateComponent } from '../date';
-import { IView, IViewItem } from '../definitions';
+import { AbstractView, IViewItem } from '../definitions';
 
-export class DayView implements IView {
+export class DayView extends AbstractView {
     private static readonly titleFormat = 'LL';
     private static readonly itemFormat = 'HH:[00]';
     private static readonly itemsPerLine = 4;
 
-    public title: string;
-    public rows: IViewItem[][];
-
     /** formats: H,HH,h,hh,LT,LTS */
     public readonly formatsRegExp: string = '[Hh]{1,2}|LTS?';
-
-    constructor(private component: DateComponent) { }
 
     public previous(): void {
         this.component.viewDate.subtract(1, 'day');
@@ -55,5 +50,9 @@ export class DayView implements IView {
 			});
 			model = model.clone().add(1, 'hour');
         }
+
+        // set limits on adjacent views
+        this.previousDisabled = this.component.isDisabled(this.component.viewDate.clone().startOf('day').subtract(1, 'hour'), 'hour');
+        this.nextDisabled = this.component.isDisabled(this.component.viewDate.clone().endOf('day').add(1, 'hour'), 'hour');
     }
 }

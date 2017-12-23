@@ -5,7 +5,7 @@ import { isNullOrUndefined, isUndefined } from 'util';
 
 import { InputComponent } from '../input/input';
 import { ValueAccessor } from '../utility';
-import { ViewType, IView, IViewItem } from './definitions';
+import { ViewType, AbstractView, IViewItem } from './definitions';
 import { DecadeView } from './views/decadeView';
 import { YearView } from './views/yearView';
 import { MonthView } from './views/monthView';
@@ -33,9 +33,21 @@ import { MinuteView } from './views/minuteView';
             (click)="onDropdownClick()">
 
             <div class="ngt-date-dropdown-title">
-                <div class="ngt-date-dropdown-title-button left" (click)="onLeftButtonClick()"></div>
-                <div class="ngt-date-dropdown-title-label" (click)="onTitleClick()">{{ selectedView?.title }}</div>
-                <div class="ngt-date-dropdown-title-button right" (click)="onRightButtonClick()"></div>
+                <div
+                    class="ngt-date-dropdown-title-button left"
+                    [ngClass]="{disabled: selectedView.previousDisabled}"
+                    (click)="onLeftButtonClick()">
+                </div>
+                <div
+                    class="ngt-date-dropdown-title-label"
+                    (click)="onTitleClick()">
+                    {{ selectedView?.title }}
+                </div>
+                <div
+                    class="ngt-date-dropdown-title-button right"
+                    [ngClass]="{disabled: selectedView.nextDisabled}"
+                    (click)="onRightButtonClick()">
+                </div>
             </div>
             
             <div class="ngt-date-dropdown-header" *ngIf="selectedView?.header">
@@ -140,7 +152,7 @@ export class DateComponent extends ValueAccessor<Date, string> {
     private isOpen: boolean = false;
     public viewDate: moment.Moment = moment();
     private viewTypes: ViewType[] = [];
-    private views: { [name: string]: IView } = {};
+    private views: { [name: string]: AbstractView } = {};
     private _selectedViewType: ViewType;
     public set selectedViewType(viewType: ViewType) {
         if (this.views[viewType]) {
@@ -148,7 +160,7 @@ export class DateComponent extends ValueAccessor<Date, string> {
             this.selectedView.render();
         }
     }
-    private get selectedView(): IView {
+    private get selectedView(): AbstractView {
         return this.views[this._selectedViewType];
     }
 
@@ -200,7 +212,7 @@ export class DateComponent extends ValueAccessor<Date, string> {
         }
     }
 
-    private registerView(type: ViewType, view: IView) {
+    private registerView(type: ViewType, view: AbstractView) {
         this.viewTypes.push(type);
         this.views[type] = view;
     }
@@ -305,8 +317,8 @@ export class DateComponent extends ValueAccessor<Date, string> {
     }
 
     public isDisabled(model: moment.Moment, granularity: moment.unitOfTime.StartOf): boolean {
-        if (this.minDateMoment && model.isSameOrBefore(this.minDateMoment, granularity) ||
-            this.maxDateMoment && model.isSameOrAfter(this.maxDateMoment, granularity)) {
+        if (this.minDateMoment && model.isBefore(this.minDateMoment, granularity) ||
+            this.maxDateMoment && model.isAfter(this.maxDateMoment, granularity)) {
             return true;
         }
         return false;
@@ -333,11 +345,15 @@ export class DateComponent extends ValueAccessor<Date, string> {
     }
 
     private onLeftButtonClick() {
-        this.selectedView.previous();
+        if (!this.selectedView.previousDisabled) {
+            this.selectedView.previous();
+        }
     }
     
     private onRightButtonClick() {
-        this.selectedView.next();
+        if (!this.selectedView.nextDisabled) {
+            this.selectedView.next();
+        }
     }
 
     private onTitleClick() {

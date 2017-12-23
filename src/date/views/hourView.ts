@@ -1,19 +1,14 @@
 import * as moment from 'moment';
 import { DateComponent } from '../date';
-import { IView, IViewItem } from '../definitions';
+import { AbstractView, IViewItem } from '../definitions';
 
-export class HourView implements IView {
+export class HourView extends AbstractView {
     private static readonly titleFormat = 'lll';
     private static readonly itemFormat = moment.localeData().longDateFormat('LT').replace(/[aA]/, '').trim();
     private static readonly itemsPerLine = 4;
 
-    public title: string;
-    public rows: IViewItem[][];
-
     /** formats: m,mm,LLL,LLLL,lll,llll,LT */
     public readonly formatsRegExp: string = 'm{1,2}|[Ll]{3,4}|LT(?!S)';
-
-    constructor(private component: DateComponent) { }
 
     public previous(): void {
         this.component.viewDate.subtract(1, 'hour');
@@ -60,5 +55,9 @@ export class HourView implements IView {
 			});
             model = model.clone().add(minutesStep, 'minutes');
 		}
+
+        // set limits on adjacent views
+        this.previousDisabled = this.component.isDisabled(this.component.viewDate.clone().startOf('hour').subtract(1, 'minute'), 'minute');
+        this.nextDisabled = this.component.isDisabled(this.component.viewDate.clone().endOf('hour').add(1, 'minute'), 'minute');
     }
 }

@@ -1,26 +1,22 @@
 import * as moment from 'moment';
 import { DateComponent } from '../date';
-import { IView, IViewItem } from '../definitions';
+import { AbstractView, IViewItem } from '../definitions';
 
-export class MonthView implements IView {
+export class MonthView extends AbstractView {
     private static readonly titleFormat = 'MMMM YYYY';
     private static readonly itemFormat = 'D';
     private static readonly itemsPerLine = moment.weekdays().length;
 
-    public title: string;
     public header: string[] = moment.weekdays().map((d: string, i: number) => moment().startOf('week').add(i, 'day').format('dd'));
-    public rows: IViewItem[][];
 
     /** formats: D,DD,DDD,DDDD,d,dd,ddd,dddd,DDDo,Do,do,W,WW,w,ww,Wo,wo,E,e,L,LL,l,ll */
     public readonly formatsRegExp: string = '[Dd]{1,4}(?![Ddo])|DDDo|[Dd]o|[Ww]{1,2}(?![Wwo])|[Ww]o|[Ee]|L{1,2}(?!T)|l{1,2}';
-
-    constructor(private component: DateComponent) { }
 
     public previous(): void {
         this.component.viewDate.subtract(1, 'month');
         this.render();
     }
-
+    
     public next(): void {
         this.component.viewDate.add(1, 'month');
         this.render();
@@ -59,5 +55,9 @@ export class MonthView implements IView {
                 model = model.clone().add(1, 'day');
             }
         }
+
+        // set limits on adjacent views
+        this.previousDisabled = this.component.isDisabled(this.component.viewDate.clone().startOf('month').subtract(1, 'day'), 'day');
+        this.nextDisabled = this.component.isDisabled(this.component.viewDate.clone().endOf('month').add(1, 'day'), 'day');
     }
 }

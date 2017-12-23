@@ -1,18 +1,13 @@
 import * as moment from 'moment';
 import { DateComponent } from '../date';
-import { IView, IViewItem } from '../definitions';
+import { AbstractView, IViewItem } from '../definitions';
 
-export class DecadeView implements IView {
+export class DecadeView extends AbstractView {
     private static readonly itemFormat = 'YYYY';
     private static readonly itemsPerLine = 4;
-
-    public title: string;
-    public rows: IViewItem[][];
     
     /** formats: Y,YY,YYYY,L,LL,LLL,LLLL,l,ll,lll,llll */
     public readonly formatsRegExp: string = 'Y{1,2}(?!Y)|YYYY|[Ll]{1,4}(?!T)';
-
-    constructor(private component: DateComponent) { }
 
     public previous(): void {
         this.component.viewDate.subtract(10, 'years');
@@ -54,5 +49,9 @@ export class DecadeView implements IView {
 			});
             model = model.clone().add(1, 'year');
 		}
+
+        // set limits on adjacent views
+        this.previousDisabled = this.component.isDisabled(this.component.viewDate.clone().year(firstYear), 'year');
+        this.nextDisabled = this.component.isDisabled(this.component.viewDate.clone().year(firstYear + 11), 'year');
     }
 }
