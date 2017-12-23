@@ -7,7 +7,9 @@ export class MonthView extends AbstractView {
     private static readonly itemFormat = 'D';
     private static readonly itemsPerLine = moment.weekdays().length;
 
-    public header: string[] = moment.weekdays().map((d: string, i: number) => moment().startOf('week').add(i, 'day').format('dd'));
+    public header: string[] = moment.weekdays().map((d: string, i: number) => {
+        return moment().locale(this.component.locale).startOf('week').add(i, 'day').format('dd');
+    });
 
     /** formats: D,DD,DDD,DDDD,d,dd,ddd,dddd,DDDo,Do,do,W,WW,w,ww,Wo,wo,E,e,L,LL,l,ll */
     public readonly formatsRegExp: string = '[Dd]{1,4}(?![Ddo])|DDDo|[Dd]o|[Ww]{1,2}(?![Wwo])|[Ww]o|[Ee]|L{1,2}(?!T)|l{1,2}';

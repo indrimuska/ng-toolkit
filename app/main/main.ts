@@ -23,6 +23,7 @@ export class Main {
     public autocompleteValue: number = 12;
     public autocompleteMultipleValue: number[] = [];
     public dateValue: Date = new Date(2018, 4, 25, 10, 25, 13);
+    public dateLocale: string = 'en';
     public minDate: Date = new Date(2010, 0, 1, 0, 0, 0);
     public maxDate: Date = new Date(2019, 11, 31, 23, 59, 59);
     public checkboxValue: string = 'VERO';
@@ -53,6 +54,7 @@ export class Main {
             this.selectMultipleValue = [1, 2];
             this.autocompleteMultipleValue = [6, 10]
             this.radioValue = 1;
+            this.dateLocale = 'it';
             setTimeout(() => {
                 this.radioValue = '1';
             }, 1000);

@@ -101,7 +101,21 @@ export class DateComponent extends ValueAccessor<Date, string> {
         this.updateLimitViews();
     }
 
-    @Input() public locale: string = 'en';
+    private _locale: string = 'en';
+    @Input() public get locale(): string {
+        return this._locale;
+    }
+    public set locale(locale: string) {
+        this._locale = locale;
+        // update all references with new locale
+        this.viewDate.locale(locale);
+        if (this.minDateMoment) this.minDateMoment.locale(locale);
+        if (this.maxDateMoment) this.maxDateMoment.locale(locale);
+        if (this.startDateMoment) this.startDateMoment.locale(locale);
+        // render view and input
+        this.selectedView.render();
+        this.viewValue = this.format(this.value);
+    }
 
     private _minView: ViewType = 'decade';
     @Input() public get minView(): ViewType {
@@ -126,18 +140,18 @@ export class DateComponent extends ValueAccessor<Date, string> {
     private minDateMoment: moment.Moment;
     @Input() public set minDate(minDate: Date) {
         this.minDateMoment = minDate
-            ? moment(minDate)
+            ? moment(minDate).locale(this.locale)
             : null;
     }
     private maxDateMoment: moment.Moment;
     @Input() public set maxDate(maxDate: Date) {
         this.maxDateMoment = maxDate
-            ? moment(maxDate)
+            ? moment(maxDate).locale(this.locale)
             : null;
     }
     private startDateMoment: moment.Moment;
     @Input() public set startDate(startDate: Date) {
-        if (!this.startDateMoment) this.startDateMoment = moment(startDate);
+        if (!this.startDateMoment) this.startDateMoment = moment(startDate).locale(this.locale);
     }
     public get startDate(): Date {
         return this.startDateMoment
@@ -150,7 +164,7 @@ export class DateComponent extends ValueAccessor<Date, string> {
 
     private closeTimeout: number;
     private isOpen: boolean = false;
-    public viewDate: moment.Moment = moment();
+    public viewDate: moment.Moment = moment().locale(this.locale);
     private viewTypes: ViewType[] = [];
     private views: { [name: string]: AbstractView } = {};
     private _selectedViewType: ViewType;
@@ -191,7 +205,7 @@ export class DateComponent extends ValueAccessor<Date, string> {
     /** @override */
     protected format(value: Date): string {
         if (!isNullOrUndefined(value)) {
-            const momentDate = moment(value);
+            const momentDate = moment(value).locale(this.locale);
             return momentDate.isValid()
                 ? momentDate.format(this.viewFormat)
                 : '';
@@ -203,7 +217,7 @@ export class DateComponent extends ValueAccessor<Date, string> {
     /** @override */
     protected parse(value: string): Date {
         if (!isNullOrUndefined(value)) {          
-            const momentDate = moment(value, this.viewFormat);
+            const momentDate = moment(value, this.viewFormat, this.locale);
             return momentDate.isValid()
                 ? momentDate.toDate()
                 : null;
