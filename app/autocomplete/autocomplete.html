@@ -1,0 +1,158 @@
+<div class="container">
+        <div class="row">
+            <div class="col">
+                <ngt-control>
+                    <ngt-toggle [(ngModel)]="enabled" label="Inputs enabled"></ngt-toggle>
+                </ngt-control>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col">
+                <ngt-control>
+                    <ngt-text
+                        [(ngModel)]="stringValue"
+                        [disabled]="!enabled"
+                        placeholder="Enter a value">
+                    </ngt-text>
+                </ngt-control>
+            </div>
+    
+            <div class="col">
+                <ngt-control>
+                    <ngt-number
+                        [(ngModel)]="numberValue"
+                        [disabled]="!enabled"
+                        placeholder="Enter a value"
+                        decimals="3">
+                    </ngt-number>
+                </ngt-control>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col">
+                <ngt-control>
+                    <ngt-autocomplete
+                        [(ngModel)]="autocompleteValue"
+                        [disabled]="!enabled"
+                        [options]="optionsObject"
+                        placeholder="Enter a value"
+                        labelAttr="label"
+                        valueAttr="value">
+                    </ngt-autocomplete>
+                </ngt-control>
+            </div>
+    
+            <div class="col">
+                <ngt-control>
+                    <ngt-autocomplete
+                        [(ngModel)]="autocompleteMultipleValue"
+                        [disabled]="!enabled"
+                        [options]="optionsObject"
+                        placeholder="Enter a value"
+                        labelAttr="label"
+                        valueAttr="value"
+                        multiple="true">
+                    </ngt-autocomplete>
+                </ngt-control>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                <ngt-control>
+                    <ngt-date
+                        [(ngModel)]="dateValue"
+                        [disabled]="!enabled"
+                        format="LL LTS"
+                        [locale]="dateLocale"
+                        [minDate]="minDate"
+                        [maxDate]="maxDate"
+                        placeholder="Enter a date">
+                    </ngt-date>
+                </ngt-control>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col">
+                <ngt-control>
+                    <ngt-select
+                        [(ngModel)]="selectValueObject"
+                        [disabled]="!enabled"
+                        [options]="optionsObject"
+                        placeholder="Enter a value"
+                        labelAttr="label"
+                        valueAttr="value">
+                    </ngt-select>
+                </ngt-control>
+            </div>
+            
+            <div class="col">
+                <ngt-control>
+                    <ngt-select
+                        [(ngModel)]="selectValueArray"
+                        [disabled]="!enabled"
+                        [options]="optionsArray"
+                        placeholder="Enter a value">
+                    </ngt-select>
+                </ngt-control>
+            </div>
+            
+            <div class="col">
+                <ngt-control>
+                    <ngt-select
+                        [(ngModel)]="selectMultipleValue"
+                        [disabled]="!enabled"
+                        [options]="optionsObject"
+                        placeholder="Enter a value"
+                        labelAttr="label"
+                        valueAttr="value"
+                        multiple="true">
+                    </ngt-select>
+                </ngt-control>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col">
+                <ngt-control>
+                    <ngt-checkbox
+                        [(ngModel)]="checkboxValue"
+                        [disabled]="!enabled"
+                        label="Save preference"
+                        trueValue="VERO"
+                        falseValue="FALSO">
+                    </ngt-checkbox>
+                </ngt-control>
+            </div>
+            
+            <div class="col">
+                <ngt-control>
+                    <ngt-toggle
+                        [(ngModel)]="toggleValue"
+                        [disabled]="!enabled"
+                        label="Save preference">
+                    </ngt-toggle>
+                </ngt-control>
+            </div>
+            
+            <div class="col">
+                <ngt-control>
+                    <ngt-radio
+                        [(ngModel)]="radioValue"
+                        [disabled]="!enabled"
+                        label="Value: number 1"
+                        [value]="1">
+                    </ngt-radio>
+                    <ngt-radio
+                        [(ngModel)]="radioValue"
+                        [disabled]="!enabled"
+                        label="Value: string '1'"
+                        value="1">
+                    </ngt-radio>
+                </ngt-control>
+            </div>
+        </div>
+    </div>
