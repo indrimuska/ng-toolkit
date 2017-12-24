@@ -113,8 +113,10 @@ export class DateComponent extends ValueAccessor<Date, string> {
         if (this.maxDateMoment) this.maxDateMoment.locale(locale);
         if (this.startDateMoment) this.startDateMoment.locale(locale);
         // render view and input
-        this.selectedView.render();
-        this.viewValue = this.format(this.value);
+        if (this.initialized) {
+            this.selectedView.render();
+            this.viewValue = this.format(this.value);
+        }
     }
 
     private _minView: ViewType = 'decade';
@@ -162,6 +164,7 @@ export class DateComponent extends ValueAccessor<Date, string> {
     @ViewChild('inputRef') public inputRef: InputComponent<string>;
     @ViewChild('dropdownRef') public dropdownRef: ElementRef;
 
+    private initialized: boolean = false;
     private closeTimeout: number;
     private isOpen: boolean = false;
     public viewDate: moment.Moment = moment().locale(this.locale);
@@ -187,9 +190,11 @@ export class DateComponent extends ValueAccessor<Date, string> {
         this.registerView('day', new DayView(this));
         this.registerView('hour', new HourView(this));
         this.registerView('minute', new MinuteView(this));
+        // listen for value updates
+        this.registerOnChange(() => this.onValueChange());
     }
 
-    public afterInit() {
+    protected onModelInit() {
         // initialization
         this.detectMinMaxView();
         if (!this.startDate) {
@@ -200,6 +205,13 @@ export class DateComponent extends ValueAccessor<Date, string> {
         // render
         this.selectedViewType = this.startView;
         this.isOpen = false;
+        this.initialized = true;
+    }
+
+    private onValueChange() {
+        if (this.isOpen) {
+            this.selectedView.render();
+        }
     }
 
     /** @override */
@@ -219,8 +231,8 @@ export class DateComponent extends ValueAccessor<Date, string> {
         if (!isNullOrUndefined(value)) {          
             const momentDate = moment(value, this.viewFormat, this.locale);
             return momentDate.isValid()
-                ? momentDate.toDate()
-                : null;
+            ? momentDate.toDate()
+            : null;
         } else {
             return value;
         }
@@ -346,6 +358,7 @@ export class DateComponent extends ValueAccessor<Date, string> {
     
     private onInputBlur() {
         this.close();
+        this.viewValue = this.format(this.value);
     }
 
     private onInputClick() {
