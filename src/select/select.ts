@@ -6,19 +6,7 @@ import { ValueAccessor } from '../utility';
 
 @Component({
     selector: 'ngt-select',
-    template: `
-        <select
-            [(ngModel)]="viewValue"
-            [disabled]="disabled"
-            [multiple]="multiple">
-            <option value="" disabled *ngIf="placeholder">
-                {{ placeholder }}
-            </option>
-            <option *ngFor="let option of options; trackBy:getOptionAttr(option, valueAttr)" [ngValue]="option">
-                {{ getOptionAttr(option, labelAttr) }}
-            </option>
-        </select>
-    `,
+    template: require('./select.html'),
     styles: [
         require('./select.scss')
     ],

@@ -5,19 +5,7 @@ import { ValueAccessor } from '../utility';
 
 @Component({
     selector: 'ngt-checkbox',
-    template: `
-        <label>
-            <input
-                type="checkbox"
-                [(ngModel)]="viewValue"
-                [disabled]="disabled"
-            />
-            <span class="ngt-checkbox-indicator"></span>
-            <span class="ngt-checkbox-label" *ngIf="label">
-                {{ label }}
-            </span>
-        </label>
-    `,
+    template: require('./checkbox.html'),
     styles: [
         require('./checkbox.scss')
     ],

@@ -6,51 +6,7 @@ import { SelectComponent } from '../select/select';
 
 @Component({
     selector: 'ngt-autocomplete',
-    template: `
-        <label>
-            <span *ngIf="!multiple" class="ngt-autocomplete-item">
-                {{ getOptionAttr(viewValue, labelAttr) }}
-            </span>
-            <ng-container *ngIf="multiple">
-                <span *ngFor="let item of viewValue; trackBy:getOptionAttr(item, valueAttr)" class="ngt-autocomplete-item">
-                    {{ getOptionAttr(item, labelAttr) }}
-                </span>
-            </ng-container>
-            <span class="ngt-autocomplete-filter">
-                <input
-                    #inputRef
-                    [(ngModel)]="filter"
-                    [disabled]="disabled"
-                    [placeholder]="hasValue ? '' : placeholder"
-                    (focus)="onInputFocus()"
-                    (blur)="onInputBlur($event)"
-                    (keydown.Enter)="onInputEnterPress()"
-                    (keydown.ArrowUp)="onInputArrowUpPress()"
-                    (keydown.ArrowDown)="onInputArrowDownPress()"
-                    (keydown.Escape)="onInputEscapePress()"
-                    (keydown.Backspace)="onInputBackspacePress()"
-                    (keypress)="onInputKeypress($event)"
-                />
-                <span
-                    class="ngt-autocomplete-filter-placeholder"
-                    [innerHTML]="hasValue || filter ? filter : placeholder">
-                </span>
-            </span>
-        </label>
-        <div
-            #dropdownRef
-            class="ngt-autocomplete-dropdown"
-            (click)="onDropdownClick()">
-            <div
-                *ngFor="let option of filteredOptions; let i = index; trackBy:getOptionAttr(option, valueAttr)"
-                [ngClass]="{highlighted: highlightedIndex === i}"
-                class="ngt-autocomplete-option"
-                (mouseenter)="highlightedIndex = i"
-                (click)="onDropdownOptionClick(option)">
-                {{ getOptionAttr(option, labelAttr) }}
-            </div>
-        </div>
-    `,
+    template: require('./autocomplete.html'),
     styles: [
         require('./autocomplete.scss')
     ],

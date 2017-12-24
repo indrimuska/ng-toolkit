@@ -1,0 +1,11 @@
+<label>
+    <input
+        type="checkbox"
+        [(ngModel)]="viewValue"
+        [disabled]="disabled"
+    />
+    <span class="ngt-checkbox-indicator"></span>
+    <span class="ngt-checkbox-label" *ngIf="label">
+        {{ label }}
+    </span>
+</label>

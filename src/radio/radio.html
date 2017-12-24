@@ -1,0 +1,12 @@
+<label>
+    <input
+        type="radio"
+        [(ngModel)]="value"
+        [disabled]="disabled"
+        [value]="radioValue"
+    />
+    <span class="ngt-radio-indicator"></span>
+    <span class="ngt-radio-label" *ngIf="label">
+        {{ label }}
+    </span>
+</label>

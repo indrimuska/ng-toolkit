@@ -5,14 +5,7 @@ import { ValueAccessor } from '../utility';
 
 @Component({
     selector: 'ngt-text',
-    template: `
-        <ngt-input
-            type="text"
-            [(ngModel)]="value"
-            [disabled]="disabled"
-            [placeholder]="placeholder">
-        </ngt-input>
-    `,
+    template: require('./text.html'),
     providers: [
         { provide: NG_VALUE_ACCESSOR, useExisting: TextComponent, multi: true }
     ]

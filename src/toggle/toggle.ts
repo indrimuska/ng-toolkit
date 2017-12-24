@@ -5,20 +5,7 @@ import { CheckboxComponent } from '../checkbox/checkbox';
 
 @Component({
     selector: 'ngt-toggle',
-    template: `
-        <label>
-            <input
-                type="checkbox"
-                [(ngModel)]="viewValue"
-                [disabled]="disabled"
-            />
-            <span class="ngt-toggle-background"></span>
-            <span class="ngt-toggle-indicator"></span>
-            <span class="ngt-toggle-label" *ngIf="label">
-                {{ label }}
-            </span>
-        </label>
-    `,
+    template: require('./toggle.html'),
     styles: [
         require('./toggle.scss')
     ],

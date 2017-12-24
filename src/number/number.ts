@@ -7,17 +7,7 @@ import { ValueAccessor, replaceAll } from '../utility';
 
 @Component({
     selector: 'ngt-number',
-    template: `
-        <ngt-input
-            #inputRef
-            type="text"
-            [(ngModel)]="viewValue"
-            [disabled]="disabled"
-            [placeholder]="placeholder"
-            (keypress)="onKeypress($event)"
-            (blur)="onBlur()">
-        </ngt-input>
-    `,
+    template: require('./number.html'),
     providers: [
         { provide: NG_VALUE_ACCESSOR, useExisting: NumberComponent, multi: true }
     ]

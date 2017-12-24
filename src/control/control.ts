@@ -3,10 +3,7 @@ import { NgModel } from '@angular/forms';
 
 @Component({
     selector: 'ngt-control',
-    template: `
-        <ng-content></ng-content>
-        <code class="form-text">{{ model?.value | json }}</code>
-    `,
+    template: require('./control.html'),
     styles: [
         require('./control.scss')
     ]

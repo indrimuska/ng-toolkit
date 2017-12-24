@@ -1,0 +1,65 @@
+<ngt-input
+    #inputRef
+    type="text"
+    [(ngModel)]="viewValue"
+    [disabled]="disabled"
+    (focus)="onInputFocus()"
+    (blur)="onInputBlur()"
+    (click)="onInputClick()">
+</ngt-input>
+
+<div
+    #dropdownRef
+    *ngIf="isOpen"
+    class="ngt-date-dropdown"
+    [ngClass]="'ngt-view-' + _selectedViewType"
+    (click)="onDropdownClick()">
+
+    <div class="ngt-date-dropdown-title">
+        <div
+            class="ngt-date-dropdown-title-button left"
+            [ngClass]="{disabled: selectedView.previousDisabled}"
+            (click)="onLeftButtonClick()">
+        </div>
+        <div
+            class="ngt-date-dropdown-title-label"
+            (click)="onTitleClick()">
+            {{ selectedView?.title }}
+        </div>
+        <div
+            class="ngt-date-dropdown-title-button right"
+            [ngClass]="{disabled: selectedView.nextDisabled}"
+            (click)="onRightButtonClick()">
+        </div>
+    </div>
+    
+    <div class="ngt-date-dropdown-header" *ngIf="selectedView?.header">
+        <div
+            *ngFor="let header of selectedView?.header"
+            class="ngt-date-dropdown-item">
+            {{ header }}
+        </div>
+    </div>
+
+    <div class="ngt-date-dropdown-body">
+        <ng-container *ngIf="selectedView?.rows">
+            <div
+                *ngFor="let row of selectedView.rows"
+                class="ngt-date-dropdown-body-row">
+                <div
+                    *ngFor="let item of row"
+                    class="ngt-date-dropdown-item"
+                    (click)="onDropdownItemClick(item)"
+                    [ngClass]="{
+                        today: item.today,
+                        disabled: item.disabled,
+                        external: item.external,
+                        selected: item.selected,
+                        highlighted: item.highlighted
+                    }">
+                    {{ item.label }}
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

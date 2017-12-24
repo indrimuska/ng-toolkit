@@ -1,0 +1,9 @@
+<ngt-input
+    #inputRef
+    type="text"
+    [(ngModel)]="viewValue"
+    [disabled]="disabled"
+    [placeholder]="placeholder"
+    (keypress)="onKeypress($event)"
+    (blur)="onBlur()">
+</ngt-input>

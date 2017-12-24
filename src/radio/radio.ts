@@ -5,20 +5,7 @@ import { ValueAccessor } from '../utility';
 
 @Component({
     selector: 'ngt-radio',
-    template: `
-        <label>
-            <input
-                type="radio"
-                [(ngModel)]="value"
-                [disabled]="disabled"
-                [value]="radioValue"
-            />
-            <span class="ngt-radio-indicator"></span>
-            <span class="ngt-radio-label" *ngIf="label">
-                {{ label }}
-            </span>
-        </label>
-    `,
+    template: require('./radio.html'),
     styles: [
         require('./radio.scss')
     ],

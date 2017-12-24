@@ -5,20 +5,7 @@ import { ValueAccessor } from '../utility';
 
 @Component({
     selector: 'ngt-input',
-    template: `
-        <input
-            #elementRef
-            [type]="type"
-            [(ngModel)]="value"
-            [disabled]="disabled"
-            [placeholder]="placeholder"
-            (focus)="_focus($event)"
-            (blur)="_blur($event)"
-            (keydown)="_keydown($event)"
-            (keypress)="_keypress($event)"
-            (keydown)="_keydown($event)"
-        />
-    `,
+    template: require('./input.html'),
     styles: [
         require('./input.scss')
     ],
