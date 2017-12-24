@@ -329,13 +329,18 @@ export class DateComponent extends ValueAccessor<Date, string> {
         this.inputRef.elementRef.nativeElement.focus();
     }
 
-    private close() {
-        if (!this.isOpen) return;
-
-        this.closeTimeout = window.setTimeout(() => {
-            this.isOpen = false;
-            this.resetViews();
-        }, 100);
+    private close(): Promise<void> {
+        return new Promise(resolve => {
+            if (this.isOpen) {
+                this.closeTimeout = window.setTimeout(() => {
+                    this.isOpen = false;
+                    this.resetViews();
+                    resolve();
+                }, 100);
+            } else {
+                resolve();
+            }
+        });
     }
 
     public isSelected(model: moment.Moment, granularity: moment.unitOfTime.StartOf): boolean {
@@ -357,8 +362,9 @@ export class DateComponent extends ValueAccessor<Date, string> {
     }
     
     private onInputBlur() {
-        this.close();
-        this.viewValue = this.format(this.value);
+        this.close().then(() => {
+            this.viewValue = this.format(this.value);
+        });
     }
 
     private onInputClick() {
