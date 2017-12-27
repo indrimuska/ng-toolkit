@@ -1,3 +1,128 @@
+<h3>Autocomplete</h3>
+<div>Autocomplete input</div>
+
+<section>
+    <h4>Samples</h4>
+    <div class="row">
+        <div class="col-sm-6">
+            <h5>Single selection</h5>
+            <ngt-autocomplete
+                [(ngModel)]="singleSelection"
+                [options]="options"
+                placeholder="Enter a value"
+                labelAttr="name"
+                valueAttr="value">
+            </ngt-autocomplete>
+            <code>{{ singleSelection | json }}</code>
+        </div>
+
+        <div class="col-sm-6">
+            <h5>Multiple selection</h5>
+            <ngt-autocomplete
+                [(ngModel)]="multipleSelection"
+                [options]="options"
+                placeholder="Enter a value"
+                labelAttr="name"
+                valueAttr="value"
+                multiple="true">
+            </ngt-autocomplete>
+            <code>{{ multipleSelection | json }}</code>
+        </div>
+
+        <div class="col-sm-6">
+            <h5>Simple array of options</h5>
+            <ngt-autocomplete
+                [(ngModel)]="simpleArrayOfOptions"
+                [options]="optionsArray"
+                placeholder="Enter a value"
+                multiple="true">
+            </ngt-autocomplete>
+            <code>{{ simpleArrayOfOptions | json }}</code>
+        </div>
+
+        <div class="col-sm-6">
+            <h5>Get whole option</h5>
+            <ngt-autocomplete
+                [(ngModel)]="getWholeOption"
+                [options]="options"
+                placeholder="Enter a value"
+                multiple="true"
+                labelAttr="name">
+            </ngt-autocomplete>
+            <code>{{ getWholeOption | json }}</code>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h3>Options</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ngModel</td>
+                <td><code>any | any[]</code></td>
+                <td></td>
+                <td>Component's model.</td>
+            </tr>
+            <tr>
+                <td>disabled</td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Whether the input is disabled.</td>
+            </tr>
+            <tr>
+                <td>multiple</td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>
+                    When set to <code>true</code>, allows for more than one option to be selected,
+                    this the model will be an array with the selected values.
+                </td>
+            </tr>
+            <tr>
+                <td>placeholder</td>
+                <td><code>string</code></td>
+                <td></td>
+                <td>Placeholder text.</td>
+            </tr>
+            <tr>
+                <td>options</td>
+                <td><code>any[]</code></td>
+                <td></td>
+                <td>Options available in the dropdown.</td>
+            </tr>
+            <tr>
+                <td>labelAttr</td>
+                <td><code>string</code></td>
+                <td></td>
+                <td>
+                    Property name used to show an option.
+                    This should be a property available in every item of the options array.
+                    Leave blank if you want to show the entire option (if printable).
+                </td>
+            </tr>
+            <tr>
+                <td>valueAttr</td>
+                <td><code>string</code></td>
+                <td></td>
+                <td>
+                    Property name used for the value of the option.
+                    This should be a property available in every item of the options array.
+                    Leave blank if you want to get the entire option.
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
 <div class="container">
         <div class="row">
             <div class="col">
@@ -32,7 +157,7 @@
     
         <div class="row">
             <div class="col">
-                <ngt-control>
+                <!-- <ngt-control>
                     <ngt-autocomplete
                         [(ngModel)]="autocompleteValue"
                         [disabled]="!enabled"
@@ -41,7 +166,7 @@
                         labelAttr="label"
                         valueAttr="value">
                     </ngt-autocomplete>
-                </ngt-control>
+                </ngt-control> -->
             </div>
     
             <div class="col">
@@ -55,22 +180,6 @@
                         valueAttr="value"
                         multiple="true">
                     </ngt-autocomplete>
-                </ngt-control>
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col">
-                <ngt-control>
-                    <ngt-date
-                        [(ngModel)]="dateValue"
-                        [disabled]="!enabled"
-                        format="LL LTS"
-                        [locale]="dateLocale"
-                        [minDate]="minDate"
-                        [maxDate]="maxDate"
-                        placeholder="Enter a date">
-                    </ngt-date>
                 </ngt-control>
             </div>
         </div>

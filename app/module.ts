@@ -5,7 +5,8 @@ import { RouterModule, Route } from '@angular/router';
 
 import { NgToolkit } from '../src/module';
 import { Main } from './main/main';
-import { Autocomplete } from './autocomplete/autocomplete';
+import { AutocompleteComponent } from './autocomplete/autocomplete';
+import { DateComponent } from './date/date';
 
 import { routes } from './routes';
 
@@ -21,7 +22,8 @@ import { routes } from './routes';
     ],
     declarations: [
         Main,
-        Autocomplete,
+        AutocompleteComponent,
+        DateComponent,
     ],
     bootstrap: [
         Main

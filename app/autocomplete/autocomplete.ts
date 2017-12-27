@@ -3,7 +3,25 @@ import { Component } from '@angular/core';
 @Component({
     template: require('./autocomplete.html')
 })
-export class Autocomplete {
+export class AutocompleteComponent {
+    public options = [
+        { value: 1, name: 'one' },
+        { value: 2, name: 'two' },
+        { value: 3, name: 'three' },
+        { value: 4, name: 'four' },
+        { value: 5, name: 'five' },
+        { value: 6, name: 'six' },
+        { value: 7, name: 'seven' },
+        { value: 8, name: 'eight' },
+        { value: 9, name: 'nine' },
+        { value: 10, name: 'ten' },
+    ];
+    
+    public singleSelection = 5;
+    public multipleSelection = [2, 4, 6, 8, 10];
+    
+    public optionsArray = ['one', 'two', 'three'];
+
     public enabled: boolean = true;
 
     public stringValue = 'pluto';
@@ -13,10 +31,6 @@ export class Autocomplete {
     public selectMultipleValue: number[] = [];
     public autocompleteValue: number = 12;
     public autocompleteMultipleValue: number[] = [];
-    public dateValue: Date = new Date(2018, 4, 25, 10, 25, 13);
-    public dateLocale: string = 'en';
-    public minDate: Date = new Date(2010, 0, 1, 0, 0, 0);
-    public maxDate: Date = new Date(2019, 11, 31, 23, 59, 59);
     public checkboxValue: string = 'VERO';
     public toggleValue: boolean = false;
     public radioValue: any;
@@ -35,7 +49,6 @@ export class Autocomplete {
         { value: 11, label: 'undici' },
         { value: 12, label: 'dodici' },
     ];
-    public optionsArray = ['uno', 'due', 'tre'];
 
     constructor() {
         setTimeout(() => {
@@ -45,7 +58,6 @@ export class Autocomplete {
             this.selectMultipleValue = [1, 2];
             this.autocompleteMultipleValue = [6, 10]
             this.radioValue = 1;
-            this.dateLocale = 'it';
             setTimeout(() => {
                 this.radioValue = '1';
             }, 1000);

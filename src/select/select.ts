@@ -15,7 +15,6 @@ import { ValueAccessor } from '../utility';
     ]
 })
 export class SelectComponent extends ValueAccessor<any | any[]> {
-    @Input() public value: any | any[];
     @Input() public disabled: boolean;
     @Input() public multiple: boolean;
     @Input() public placeholder: string;
@@ -46,8 +45,12 @@ export class SelectComponent extends ValueAccessor<any | any[]> {
     }
     
     protected getOptionAttr(option: any, attr: string) {
-        return isObject(option)
-            ? attr && option[attr]
-            : option;
+        if (isNullOrUndefined(option)) {
+            return option;
+        } else {
+            return !isNullOrUndefined(attr)
+                ? option[attr]
+                : option;
+        }
     }
 }

@@ -16,3 +16,29 @@ $enable-print-styles:       true;
                             // true (default) or false	Enables styles for optimizing printing.
 
 @import '~bootstrap/scss/bootstrap.scss';
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0.7em;
+}
+
+section {
+    margin-bottom: 3rem;
+}
+
+pre {
+    padding: 0.2rem 0.4rem;
+    font-size: 90%;
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+}
+
+table tbody {
+    tr:nth-child(even) {
+        background: #f6f8fa;
+    }
+    code {
+        background: rgba(27, 31, 35, 0.05);
+        white-space: nowrap;
+        color: inherit;
+    }
+}
