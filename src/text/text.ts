@@ -11,7 +11,6 @@ import { ValueAccessor } from '../utility';
     ]
 })
 export class TextComponent extends ValueAccessor<number> {
-    @Input() public value: number;
     @Input() public disabled: boolean;
     @Input() public placeholder: string;
 }

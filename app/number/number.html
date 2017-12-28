@@ -1,0 +1,70 @@
+<h3>Number</h3>
+<p>Simple input component to handle numbers.</p>
+
+<section>
+    <h4>Samples</h4>
+    <div class="row">
+        <div class="col">
+            <ngt-number
+                [(ngModel)]="number"
+                placeholder="Enter a value">
+            </ngt-number>
+            <code>{{ number | json }}</code>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h4>Options</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ngModel</td>
+                <td><code>string</code></td>
+                <td></td>
+                <td>Component's model.</td>
+            </tr>
+            <tr>
+                <td>disabled</td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Whether the input is disabled.</td>
+            </tr>
+            <tr>
+                <td>placeholder</td>
+                <td><code>string</code></td>
+                <td></td>
+                <td>Placeholder number.</td>
+            </tr>
+            <tr>
+                <td>decimals</td>
+                <td><code>number</code></td>
+                <td></td>
+                <td>
+                    Number of decimal numbers.
+                    Leave blank if you want to return all decimals available.
+                </td>
+            </tr>
+            <tr>
+                <td>decimalSeparator</td>
+                <td><code>string</code></td>
+                <td><code>","</code></td>
+                <td>Decimal separator sign.</td>
+            </tr>
+            <tr>
+                <td>thousandSeparator</td>
+                <td><code>string</code></td>
+                <td><code>"."</code></td>
+                <td>Thousand separator sign.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>

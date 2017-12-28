@@ -2,7 +2,7 @@
     <ul class="nav">
         <li class="nav-item" *ngFor="let route of routes">
             <a routerLink="{{route.path}}">
-                {{ route?.component?.name }}
+                {{ route?.label }}
             </a>
         </li>
     </ul>

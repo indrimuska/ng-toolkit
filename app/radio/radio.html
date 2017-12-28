@@ -1,0 +1,74 @@
+<h3>Radio</h3>
+<p>Radio input.</p>
+
+<section>
+    <h4>Samples</h4>
+    <div class="row">
+        <div class="col-sm-6">
+            <h5>Boolean value</h5>
+            <ngt-radio
+                [(ngModel)]="booleanValue"
+                label="ON">
+            </ngt-radio>
+            <ngt-radio
+                [(ngModel)]="booleanValue"
+                label="OFF">
+            </ngt-radio>
+            <code>{{ booleanValue | json }}</code>
+        </div>
+        <div class="col-sm-6">
+            <h5>Custom value</h5>
+            <ngt-radio
+                [(ngModel)]="customValue"
+                label="ON"
+                [value]="100">
+            </ngt-radio>
+            <ngt-radio
+                [(ngModel)]="customValue"
+                label="OFF"
+                [value]="null">
+            </ngt-radio>
+            <code>{{ customValue | json }}</code>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h4>Options</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ngModel</td>
+                <td><code>any | any[]</code></td>
+                <td></td>
+                <td>Component's model.</td>
+            </tr>
+            <tr>
+                <td>disabled</td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Whether the input is disabled.</td>
+            </tr>
+            <tr>
+                <td>label</td>
+                <td><code>string</code></td>
+                <td></td>
+                <td>Label for the input.</td>
+            </tr>
+            <tr>
+                <td>value</td>
+                <td><code>any</code></td>
+                <td></td>
+                <td>Value associated to the input.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>

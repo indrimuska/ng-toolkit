@@ -14,7 +14,6 @@ import { ValueAccessor } from '../utility';
     ]
 })
 export class CheckboxComponent extends ValueAccessor<any, boolean> {
-    @Input() public value: any;
     @Input() public disabled: boolean;
     @Input() public label: string;
     @Input() public trueValue: any = true;

@@ -1,0 +1,49 @@
+<h3>Text</h3>
+<p>Simple input component to handle texts.</p>
+
+<section>
+    <h4>Samples</h4>
+    <div class="row">
+        <div class="col">
+            <ngt-text
+                [(ngModel)]="text"
+                placeholder="Enter a value">
+            </ngt-text>
+            <code>{{ text | json }}</code>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h4>Options</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ngModel</td>
+                <td><code>string</code></td>
+                <td></td>
+                <td>Component's model.</td>
+            </tr>
+            <tr>
+                <td>disabled</td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Whether the input is disabled.</td>
+            </tr>
+            <tr>
+                <td>placeholder</td>
+                <td><code>string</code></td>
+                <td></td>
+                <td>Placeholder text.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>

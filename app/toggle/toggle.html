@@ -1,0 +1,72 @@
+<h3>Toggle</h3>
+<p>Toggle input.</p>
+
+<section>
+    <h4>Samples</h4>
+    <div class="row">
+        <div class="col-sm-6">
+            <h5>Boolean value</h5>
+            <ngt-toggle
+                [(ngModel)]="booleanValue"
+                label="Stay logged in">
+            </ngt-toggle>
+            <code>{{ booleanValue | json }}</code>
+        </div>
+        <div class="col-sm-6">
+            <h5>Custom value</h5>
+            <ngt-toggle
+                [(ngModel)]="customValue"
+                label="Save preference"
+                trueValue="Yes, please"
+                falseValue="No, thanks">
+            </ngt-toggle>
+            <code>{{ customValue | json }}</code>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h4>Options</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ngModel</td>
+                <td><code>any | any[]</code></td>
+                <td></td>
+                <td>Component's model.</td>
+            </tr>
+            <tr>
+                <td>disabled</td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Whether the input is disabled.</td>
+            </tr>
+            <tr>
+                <td>label</td>
+                <td><code>string</code></td>
+                <td></td>
+                <td>Label for the input.</td>
+            </tr>
+            <tr>
+                <td>trueValue</td>
+                <td><code>any</code></td>
+                <td><code>true</code></td>
+                <td>Value associated to the active state.</td>
+            </tr>
+            <tr>
+                <td>falseValue</td>
+                <td><code>any</code></td>
+                <td><code>false</code></td>
+                <td>Value associated to the inactive state.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>

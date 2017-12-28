@@ -1,54 +1,54 @@
-<h3>Autocomplete</h3>
-<div>Autocomplete input</div>
+<h3>Select</h3>
+<div>Select input.</div>
 
 <section>
     <h4>Samples</h4>
     <div class="row">
         <div class="col-sm-6">
             <h5>Single selection</h5>
-            <ngt-autocomplete
+            <ngt-select
                 [(ngModel)]="singleSelection"
                 [options]="options"
                 placeholder="Enter a value"
                 labelAttr="name"
                 valueAttr="value">
-            </ngt-autocomplete>
+            </ngt-select>
             <code>{{ singleSelection | json }}</code>
         </div>
 
         <div class="col-sm-6">
             <h5>Multiple selection</h5>
-            <ngt-autocomplete
+            <ngt-select
                 [(ngModel)]="multipleSelection"
                 [options]="options"
                 placeholder="Enter a value"
                 labelAttr="name"
                 valueAttr="value"
                 multiple="true">
-            </ngt-autocomplete>
+            </ngt-select>
             <code>{{ multipleSelection | json }}</code>
         </div>
 
         <div class="col-sm-6">
             <h5>Simple array of options</h5>
-            <ngt-autocomplete
+            <ngt-select
                 [(ngModel)]="simpleArrayOfOptions"
                 [options]="optionsArray"
                 placeholder="Enter a value"
                 multiple="true">
-            </ngt-autocomplete>
+            </ngt-select>
             <code>{{ simpleArrayOfOptions | json }}</code>
         </div>
 
         <div class="col-sm-6">
             <h5>Get whole option</h5>
-            <ngt-autocomplete
+            <ngt-select
                 [(ngModel)]="getWholeOption"
                 [options]="options"
                 placeholder="Enter a value"
                 multiple="true"
                 labelAttr="name">
-            </ngt-autocomplete>
+            </ngt-select>
             <code>{{ getWholeOption | json }}</code>
         </div>
     </div>
@@ -97,7 +97,7 @@
                 <td>options</td>
                 <td><code>any[]</code></td>
                 <td></td>
-                <td>Options available in the dropdown.</td>
+                <td>Options available in the input.</td>
             </tr>
             <tr>
                 <td>labelAttr</td>

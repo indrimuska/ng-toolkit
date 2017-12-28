@@ -13,7 +13,6 @@ import { ValueAccessor, replaceAll } from '../utility';
     ]
 })
 export class NumberComponent extends ValueAccessor<number, string> {
-    @Input() public value: number;
     @Input() public disabled: boolean;
     @Input() public placeholder: string;
     @Input() public decimals: number;

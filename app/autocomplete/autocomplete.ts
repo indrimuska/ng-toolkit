@@ -1,27 +1,10 @@
 import { Component } from '@angular/core';
+import { SelectComponent } from '../select/select';
 
 @Component({
     template: require('./autocomplete.html')
 })
-export class AutocompleteComponent {
-    public options = [
-        { value: 1, name: 'one' },
-        { value: 2, name: 'two' },
-        { value: 3, name: 'three' },
-        { value: 4, name: 'four' },
-        { value: 5, name: 'five' },
-        { value: 6, name: 'six' },
-        { value: 7, name: 'seven' },
-        { value: 8, name: 'eight' },
-        { value: 9, name: 'nine' },
-        { value: 10, name: 'ten' },
-    ];
-    
-    public singleSelection = 5;
-    public multipleSelection = [2, 4, 6, 8, 10];
-    
-    public optionsArray = ['one', 'two', 'three'];
-
+export class AutocompleteComponent extends SelectComponent {
     public enabled: boolean = true;
 
     public stringValue = 'pluto';
@@ -51,6 +34,7 @@ export class AutocompleteComponent {
     ];
 
     constructor() {
+        super();
         setTimeout(() => {
             this.numberValue = 5245.1228;
             this.selectValueObject = 3;
