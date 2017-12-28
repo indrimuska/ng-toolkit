@@ -5,6 +5,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: path.join(__dirname, 'index.ts'),
+    devServer: {
+        port: 9000,
+        contentBase: 'app',
+        historyApiFallback: true
+    },
     devtool: 'source-map',
     resolve: {
         extensions: ['.ts', '.js', '.html']

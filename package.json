@@ -7,7 +7,7 @@
     "author": "Indri Muska <indrimuska@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "start": "webpack-dev-server --port 9000 --content-base app --config app/webpack.config --open",
+        "start": "webpack-dev-server --config app/webpack.config --open",
         "build": "webpack -w"
     },
     "dependencies": {
