@@ -16,9 +16,17 @@ export class SelectComponent {
         { value: 9, name: 'nine' },
         { value: 10, name: 'ten' },
     ];
+    public optionsArray = ['one', 'two', 'three', 'four', 'five'];
     
     public singleSelection = 5;
     public multipleSelection = [2, 4, 6, 8, 10];
-    
-    public optionsArray = ['one', 'two', 'three'];
+    public simpleArrayOfOptions = ['three'];
+
+    constructor() {
+        setTimeout(() => {
+            this.singleSelection = 4;
+            this.multipleSelection = [1, 3, 5, 7, 9];
+            this.simpleArrayOfOptions = ['one', 'two'];
+        }, 1500);
+    }
 }

@@ -21,10 +21,10 @@
             <ngt-select
                 [(ngModel)]="multipleSelection"
                 [options]="options"
+                [multiple]="true"
                 placeholder="Enter a value"
                 labelAttr="name"
-                valueAttr="value"
-                multiple="true">
+                valueAttr="value">
             </ngt-select>
             <code>{{ multipleSelection | json }}</code>
         </div>
@@ -34,8 +34,8 @@
             <ngt-select
                 [(ngModel)]="simpleArrayOfOptions"
                 [options]="optionsArray"
-                placeholder="Enter a value"
-                multiple="true">
+                [multiple]="true"
+                placeholder="Enter a value">
             </ngt-select>
             <code>{{ simpleArrayOfOptions | json }}</code>
         </div>
@@ -45,8 +45,8 @@
             <ngt-select
                 [(ngModel)]="getWholeOption"
                 [options]="options"
+                [multiple]="true"
                 placeholder="Enter a value"
-                multiple="true"
                 labelAttr="name">
             </ngt-select>
             <code>{{ getWholeOption | json }}</code>
