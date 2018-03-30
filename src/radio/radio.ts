@@ -14,6 +14,7 @@ import { ValueAccessor } from '../utility';
     ]
 })
 export class RadioComponent extends ValueAccessor<any> {
+    @Input() public name: string;
     @Input() public label: string;
     @Input() public disabled: boolean;
     @Input('value') public radioValue: any;

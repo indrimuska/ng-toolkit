@@ -8,11 +8,15 @@
             <h5>Boolean value</h5>
             <ngt-radio
                 [(ngModel)]="booleanValue"
-                label="ON">
+                name="booleanValue"
+                label="ON"
+                [value]="true">
             </ngt-radio>
             <ngt-radio
                 [(ngModel)]="booleanValue"
-                label="OFF">
+                name="booleanValue"
+                label="OFF"
+                [value]="false">
             </ngt-radio>
             <code>{{ booleanValue | json }}</code>
         </div>
@@ -20,11 +24,13 @@
             <h5>Custom value</h5>
             <ngt-radio
                 [(ngModel)]="customValue"
+                name="customValue"
                 label="ON"
                 [value]="100">
             </ngt-radio>
             <ngt-radio
                 [(ngModel)]="customValue"
+                name="customValue"
                 label="OFF"
                 [value]="null">
             </ngt-radio>
@@ -62,6 +68,12 @@
                 <td><code>string</code></td>
                 <td></td>
                 <td>Label for the input.</td>
+            </tr>
+            <tr>
+                <td>name</td>
+                <td><code>string</code></td>
+                <td></td>
+                <td>Name associated to the radio buttons group.</td>
             </tr>
             <tr>
                 <td>value</td>

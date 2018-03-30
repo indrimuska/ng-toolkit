@@ -1,7 +1,7 @@
 <div class="container">
-    <ul class="nav">
+    <ul class="nav nav-pills">
         <li class="nav-item" *ngFor="let route of routes">
-            <a routerLink="{{route.path}}">
+            <a class="nav-link" routerLinkActive="active" routerLink="{{route.path}}">
                 {{ route?.label }}
             </a>
         </li>

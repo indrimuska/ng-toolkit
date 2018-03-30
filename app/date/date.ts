@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
     template: require('./date.html'),
     styles: [`
         .table-scrollable {
-            max-height: 400px;
+            max-height: 420px;
             overflow-y: auto;
         }
     `]
