@@ -16,7 +16,7 @@
             [placeholder]="hasValue ? '' : placeholder"
             (focus)="onInputFocus()"
             (blur)="onInputBlur($event)"
-            (keydown.Enter)="onInputEnterPress()"
+            (keydown.Enter)="onInputEnterPress($event)"
             (keydown.ArrowUp)="onInputArrowUpPress()"
             (keydown.ArrowDown)="onInputArrowDownPress()"
             (keydown.Escape)="onInputEscapePress()"

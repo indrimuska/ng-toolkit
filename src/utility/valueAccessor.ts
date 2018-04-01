@@ -55,6 +55,7 @@ export abstract class ValueAccessor<ModelValue, ViewValue = ModelValue> implemen
     
     public registerOnChange(fn: (value: ModelValue) => void): () => void {
         this.changed.push(fn);
+        // unregistration function (pop from array)
         return () => setTimeout(() => {
             const index = this.changed.indexOf(fn);
             if (index >= 0) this.changed.splice(index, 1);

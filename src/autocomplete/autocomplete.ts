@@ -33,7 +33,7 @@ export class AutocompleteComponent<AutocompleteValue, AutocompleteOption> extend
     private hoverTimeout: number;
     private blurTimeout: number;
     
-    private get hasValue() {
+    private get hasValue(): boolean {
         return this.multiple
             ? (this.value as AutocompleteValue[] || []).length > 0
             : !isNullOrUndefined(this.value);
@@ -65,6 +65,12 @@ export class AutocompleteComponent<AutocompleteValue, AutocompleteOption> extend
         this.updateFilteredOptions();
         // highlight first option
         this.highlight(0);
+    }
+
+    constructor() {
+        super();
+        // listen for value updates
+        this.registerOnChange(() => this.updateFilteredOptions());
     }
 
     /**
@@ -102,6 +108,8 @@ export class AutocompleteComponent<AutocompleteValue, AutocompleteOption> extend
             if (!this.value) this.value = [];
             (this.viewValue as AutocompleteOption[]).push(option);
             (this.value as AutocompleteValue[]).push(value);
+            // pushed option won't trigger model change
+            this.updateFilteredOptions();
         }
         // set single value
         else {
@@ -112,9 +120,6 @@ export class AutocompleteComponent<AutocompleteValue, AutocompleteOption> extend
         // reset filter input
         this.filter = '';
         this.highlight(Math.min(highlightedIndex, this.filteredOptions.length - 1));
-
-        // close dropdown in single selection mode
-        if (!this.multiple) this.closeDropdown();
     }
 
     /**
@@ -138,18 +143,22 @@ export class AutocompleteComponent<AutocompleteValue, AutocompleteOption> extend
      * Open the dropdown
      */
     private openDropdown() {
-        this.isDropdownOpen = true;
+        if (!this.isOpen) {
+            this.isDropdownOpen = true;
+        }
     }
-
+    
     /**
      * Close the dropdown
      */
     private closeDropdown() {
-        this.isDropdownOpen = false;
+        if (this.isOpen) {
+            this.isDropdownOpen = false;
+        }
     }
 
     /**
-     * Highglights the option of the dropdown identified by the given `index`
+     * Highlight the option of the dropdown identified by the given `index`
      */
     private highlight(index: number) {
         this.highlightedIndex = ((index || 0) + this.filteredOptions.length) % this.filteredOptions.length;
@@ -184,9 +193,9 @@ export class AutocompleteComponent<AutocompleteValue, AutocompleteOption> extend
 
     /**
      * scrolling the dropdown using keyboard arrows always fires `mouseenter` event
-     * if the cursor is over the dropdown itself, causing annoying change of option
-     * to highlight. To avoid that we ignore `mouseenter` events for a while after
-     * arrow up/down buttons have been pressed.
+     * if the mouse cursor is over the dropdown itself, causing an annoying update of
+     * the option to highlight. To avoid this we ignore `mouseenter` events for a while
+     * after arrow up/down buttons have been pressed.
      */
     private preventCloseDropdownOnMouseHover() {
         // avoid flag bouncing, if a new request to ignore mouse hover is called when the timeout is not expired
@@ -203,7 +212,7 @@ export class AutocompleteComponent<AutocompleteValue, AutocompleteOption> extend
     }
 
     private onInputBlur() {
-        if (!this.isDropdownOpen) {
+        if (!this.isOpen) {
             this.filter = '';
         } else {
             this.blurTimeout = window.setTimeout(() => {
@@ -225,9 +234,18 @@ export class AutocompleteComponent<AutocompleteValue, AutocompleteOption> extend
         this.preventCloseDropdownOnMouseHover();
     }
 
-    private onInputEnterPress() {
-        const selectedOption = this.filteredOptions[this.highlightedIndex];
-        if (selectedOption) this.selectOption(selectedOption);
+    private onInputEnterPress(e: KeyboardEvent) {
+        if (this.isOpen) {
+            // prevent submit: this action is meant to select an option from the dropdown
+            e.preventDefault();
+
+            const selectedOption = this.filteredOptions[this.highlightedIndex];
+            if (selectedOption) {
+                this.selectOption(selectedOption);
+                // close the dropdown in single selection mode
+                if (!this.multiple) this.closeDropdown();
+            }
+        }
     }
 
     private onInputEscapePress() {
@@ -241,9 +259,9 @@ export class AutocompleteComponent<AutocompleteValue, AutocompleteOption> extend
             this.removeItem(values[values.length - 1]);
 
             // re-filter options highlighting the same option (if still exists)
-            const highlighted = this.filteredOptions[this.highlightedIndex];
+            const highlightedOption = this.filteredOptions[this.highlightedIndex];
             this.updateFilteredOptions();
-            this.highlight(this.filteredOptions.indexOf(highlighted));
+            this.highlight(this.filteredOptions.indexOf(highlightedOption));
         }
     }
 
@@ -252,6 +270,7 @@ export class AutocompleteComponent<AutocompleteValue, AutocompleteOption> extend
     }
 
     private onInputKeypress(e: KeyboardEvent) {
+        // if a value is already selected in single mode, we must prevent insert any other text in the input
         if (!this.multiple && this.hasValue) e.preventDefault();
     }
 
@@ -260,8 +279,6 @@ export class AutocompleteComponent<AutocompleteValue, AutocompleteOption> extend
     private onDropdownClick() {
         // keep the dropdown open in multiple selection mode
         if (this.multiple) window.clearTimeout(this.blurTimeout);
-        // close the dropdown in single selection mode
-        else this.closeDropdown();
         // keep input focus
         this.inputRef.nativeElement.focus();
     }

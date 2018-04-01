@@ -129,6 +129,7 @@ export class DateComponent extends ValueAccessor<Date, string> {
         this.registerOnChange(() => this.onValueChange());
     }
 
+    /** @override */
     protected onModelInit() {
         // initialization
         this.detectMinMaxView();
