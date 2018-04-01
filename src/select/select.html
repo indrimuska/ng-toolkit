@@ -5,8 +5,8 @@
     <option value="" disabled *ngIf="placeholder">
         {{ placeholder }}
     </option>
-    <option *ngFor="let option of options; trackBy:getOptionAttr(option, valueAttr)" [ngValue]="option">
-        {{ getOptionAttr(option, labelAttr) }}
+    <option *ngFor="let option of options; trackBy:getOptionValue(option)" [ngValue]="option">
+        {{ getOptionLabel(option) }}
     </option>
 </select>
 <select
@@ -17,7 +17,7 @@
     <option value="" disabled *ngIf="placeholder">
         {{ placeholder }}
     </option>
-    <option *ngFor="let option of options; trackBy:getOptionAttr(option, valueAttr)" [ngValue]="option">
-        {{ getOptionAttr(option, labelAttr) }}
+    <option *ngFor="let option of options; trackBy:getOptionValue(option)" [ngValue]="option">
+        {{ getOptionLabel(option) }}
     </option>
 </select>

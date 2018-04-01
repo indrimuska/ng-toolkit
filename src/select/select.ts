@@ -25,10 +25,10 @@ export class SelectComponent extends ValueAccessor<any | any[]> {
     /** @override */
     protected parse(option: any | any[]): any {
         if (this.multiple) {
-            return (option || []).map((o: any) => this.getOptionAttr(o, this.valueAttr));
+            return (option || []).map((o: any) => this.getOptionValue(o));
         } else {
             if (isArray(option)) option = option[0];
-            return this.getOptionAttr(option, this.valueAttr);
+            return this.getOptionValue(option);
         }
     }
 
@@ -41,10 +41,10 @@ export class SelectComponent extends ValueAccessor<any | any[]> {
     }
 
     private findOptionByValue(value: any) {
-        return this.options.find(o => this.getOptionAttr(o, this.valueAttr) === value);
+        return this.options.find(o => this.getOptionValue(o) === value);
     }
     
-    protected getOptionAttr(option: any, attr: string) {
+    private getOptionAttr(option: any, attr: string) {
         if (isNullOrUndefined(option)) {
             return option;
         } else {
@@ -52,5 +52,13 @@ export class SelectComponent extends ValueAccessor<any | any[]> {
                 ? option[attr]
                 : option;
         }
+    }
+
+    protected getOptionLabel(option: any) {
+        return this.getOptionAttr(option, this.labelAttr);
+    }
+
+    protected getOptionValue(option: any) {
+        return this.getOptionAttr(option, this.valueAttr);
     }
 }

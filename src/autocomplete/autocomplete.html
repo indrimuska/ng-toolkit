@@ -1,10 +1,10 @@
 <label>
     <span *ngIf="!multiple" class="ngt-autocomplete-item">
-        {{ getOptionAttr(viewValue, labelAttr) }}
+        {{ getOptionLabel(viewValue) }}
     </span>
     <ng-container *ngIf="multiple">
-        <span *ngFor="let item of viewValue; trackBy:getOptionAttr(item, valueAttr)" class="ngt-autocomplete-item">
-            {{ getOptionAttr(item, labelAttr) }}
+        <span *ngFor="let item of viewValue; trackBy:getOptionValue(item)" class="ngt-autocomplete-item">
+            {{ getOptionLabel(item) }}
         </span>
     </ng-container>
     
@@ -21,6 +21,7 @@
             (keydown.ArrowDown)="onInputArrowDownPress()"
             (keydown.Escape)="onInputEscapePress()"
             (keydown.Backspace)="onInputBackspacePress()"
+            (keydown.Tab)="onInputTabPress()"
             (keypress)="onInputKeypress($event)"
         />
         <span
@@ -35,11 +36,12 @@
     class="ngt-autocomplete-dropdown"
     (click)="onDropdownClick()">
     <div
-        *ngFor="let option of filteredOptions; let i = index; trackBy:getOptionAttr(option, valueAttr)"
+        *ngFor="let option of filteredOptions; let i = index; trackBy:getOptionValue(option)"
         [ngClass]="{highlighted: highlightedIndex === i}"
         class="ngt-autocomplete-option"
-        (mouseenter)="highlightedIndex = i"
+        (mouseenter)="onDropdownOptionHover(i)"
+        (mousemove)="onDropdownOptionHover(i)"
         (click)="onDropdownOptionClick(option)">
-        {{ getOptionAttr(option, labelAttr) }}
+        {{ getOptionLabel(option) }}
     </div>
 </div>
