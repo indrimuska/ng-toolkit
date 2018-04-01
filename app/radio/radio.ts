@@ -4,6 +4,6 @@ import { Component } from '@angular/core';
     template: require('./radio.html')
 })
 export class RadioComponent {
-    public booleanValue: boolean;
-    public customValue: any;
+    public booleanValue: boolean = true;
+    public customValue: any = 100;
 }

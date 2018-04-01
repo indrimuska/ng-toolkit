@@ -25,14 +25,20 @@
             <ngt-radio
                 [(ngModel)]="customValue"
                 name="customValue"
-                label="ON"
+                label="Number"
                 [value]="100">
             </ngt-radio>
             <ngt-radio
                 [(ngModel)]="customValue"
                 name="customValue"
-                label="OFF"
-                [value]="null">
+                label="String"
+                value="foo">
+            </ngt-radio>
+            <ngt-radio
+                [(ngModel)]="customValue"
+                name="customValue"
+                label="Object"
+                [value]="{ name: 'bigfoot' }">
             </ngt-radio>
             <code>{{ customValue | json }}</code>
         </div>
