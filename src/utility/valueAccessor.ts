@@ -1,21 +1,21 @@
 import { ControlValueAccessor } from '@angular/forms';
 
-export abstract class ValueAccessor<M, V = M> implements ControlValueAccessor {
-    private modelValue: M;
-    private _viewValue: V;
+export abstract class ValueAccessor<ModelValue, ViewValue = ModelValue> implements ControlValueAccessor {
+    private modelValue: ModelValue;
+    private _viewValue: ViewValue;
 
-    protected changed: ((value: M) => void)[] = [];
+    protected changed: ((value: ModelValue) => void)[] = [];
     protected touched: (() => void)[] = [];
 
-    protected get viewValue(): V {
+    protected get viewValue(): ViewValue {
         return this._viewValue;
     }
     
-    protected get value(): M {
+    protected get value(): ModelValue {
         return this.modelValue;
     }
     
-    protected set value(value: M) {
+    protected set value(value: ModelValue) {
         if (this.modelValue !== value) {
             this.modelValue = value;
             this.changed.forEach(f => f(value));
@@ -23,23 +23,23 @@ export abstract class ValueAccessor<M, V = M> implements ControlValueAccessor {
     }
 
     // component <- model
-    protected set viewValue(value: V) {
+    protected set viewValue(value: ViewValue) {
         this._viewValue = value;
         this.value = this.parse(value);
     }
 
     // viewValue -> modelValue
-    protected parse(value: V): M {
+    protected parse(value: ViewValue): ModelValue {
         return value as any;
     }
     
     // viewValue <- modelValue
-    protected format(value: M): V {
+    protected format(value: ModelValue): ViewValue {
         return value as any;
     }
 
     // component -> model
-    public writeValue(value: M) {
+    public writeValue(value: ModelValue) {
         this.modelValue = value;
         this.viewValue = this.format(value);
     }
@@ -53,7 +53,7 @@ export abstract class ValueAccessor<M, V = M> implements ControlValueAccessor {
 
     protected onModelInit() { }
     
-    public registerOnChange(fn: (value: M) => void): () => void {
+    public registerOnChange(fn: (value: ModelValue) => void): () => void {
         this.changed.push(fn);
         return () => setTimeout(() => {
             const index = this.changed.indexOf(fn);

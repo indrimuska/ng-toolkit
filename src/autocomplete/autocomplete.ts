@@ -4,8 +4,8 @@ import { isObject, isArray, isNullOrUndefined } from 'util';
 
 import { SelectComponent } from '../select/select';
 
-const IGNORE_MOUSE_HOVER_DURATION = 150;
-const CLOSE_ON_MOUSE_BLUR_DELAY = 100;
+const IGNORE_MOUSE_HOVER_DURATION = 150; // ms
+const CLOSE_ON_MOUSE_BLUR_DELAY = 100; // ms
 
 @Component({
     selector: 'ngt-autocomplete',
@@ -17,7 +17,7 @@ const CLOSE_ON_MOUSE_BLUR_DELAY = 100;
         { provide: NG_VALUE_ACCESSOR, useExisting: AutocompleteComponent, multi: true }
     ]
 })
-export class AutocompleteComponent extends SelectComponent {
+export class AutocompleteComponent<AutocompleteValue, AutocompleteOption> extends SelectComponent<AutocompleteValue, AutocompleteOption> {
     @ViewChild('inputRef') public inputRef: ElementRef;
     @ViewChild('dropdownRef') public dropdownRef: ElementRef;
     @HostBinding('class.disabled') public disabled: boolean;
@@ -26,23 +26,24 @@ export class AutocompleteComponent extends SelectComponent {
         return this.isDropdownOpen && this.filteredOptions.length > 0;
     }
     
-    private filteredOptions: any[];
+    private isDropdownOpen: boolean = false;
+    private filteredOptions: AutocompleteOption[];
     private highlightedIndex: number = 0;
     private ignoreMouseHover: boolean = false;
-    private isDropdownOpen: boolean = false;
+    private hoverTimeout: number;
     private blurTimeout: number;
     
     private get hasValue() {
         return this.multiple
-            ? (this.value || []).length > 0
+            ? (this.value as AutocompleteValue[] || []).length > 0
             : !isNullOrUndefined(this.value);
     }
 
-    private _options: any[] = [];
-    @Input() public get options(): any[] {
+    private _options: AutocompleteOption[] = [];
+    @Input() public get options(): AutocompleteOption[] {
         return this._options;
     }
-    public set options(options: any[]) {
+    public set options(options: AutocompleteOption[]) {
         this._options = options;
         this.updateFilteredOptions();
     }
@@ -72,13 +73,13 @@ export class AutocompleteComponent extends SelectComponent {
      */
     private updateFilteredOptions() {
         const values = this.multiple
-            ? this.value || []
-            : this.value ? [this.value] : [];
+            ? this.value as AutocompleteValue[] || []
+            : this.value ? [this.value as AutocompleteValue] : [];
         const hasValue = values.length > 0;
         const hasFilterText = !!this.filter;
 
         if (!hasValue && !hasFilterText) {
-            this.filteredOptions = this.options.slice();
+            this.filteredOptions = this.options;
         } else {
             this.filteredOptions = this.options.filter(o => (
                 // hide items that do not match the filter text
@@ -92,15 +93,15 @@ export class AutocompleteComponent extends SelectComponent {
     /**
      * Select one dropdown option to be a part of the model value
      */
-    private selectOption(option: any) {
+    private selectOption(option: AutocompleteOption) {
         const highlightedIndex = this.highlightedIndex;
         const value = this.getOptionValue(option);
         // append value in multiple seleciton
         if (this.multiple) {
             if (!this.viewValue) this.viewValue = [];
             if (!this.value) this.value = [];
-            this.viewValue.push(option);
-            this.value.push(value);
+            (this.viewValue as AutocompleteOption[]).push(option);
+            (this.value as AutocompleteValue[]).push(value);
         }
         // set single value
         else {
@@ -119,14 +120,14 @@ export class AutocompleteComponent extends SelectComponent {
     /**
      * Remove item from the model value
      */
-    private removeItem(item: any) {
+    private removeItem(item: AutocompleteOption) {
         if (this.multiple) {
             // remove entire item in the view model
-            const viewIndex = (this.viewValue || []).indexOf(item);
-            if (viewIndex >= 0) this.viewValue.splice(viewIndex, 1);
+            const viewIndex = (this.viewValue as AutocompleteOption[] || []).indexOf(item);
+            if (viewIndex >= 0) (this.viewValue as AutocompleteOption[]).splice(viewIndex, 1);
             // remove value in the model value
-            const valueIndex = (this.value || []).indexOf(this.getOptionValue(item));
-            if (valueIndex >= 0) this.value.splice(valueIndex, 1);
+            const valueIndex = (this.value as AutocompleteValue[] || []).indexOf(this.getOptionValue(item));
+            if (valueIndex >= 0) (this.value as AutocompleteValue[]).splice(valueIndex, 1);
         } else {
             this.viewValue = null;
             this.value = null;
@@ -187,9 +188,12 @@ export class AutocompleteComponent extends SelectComponent {
      * to highlight. To avoid that we ignore `mouseenter` events for a while after
      * arrow up/down buttons have been pressed.
      */
-    private preventCloseDropdownOnMouseEnter() {
-        this.ignoreMouseHover = true;
-        window.setTimeout(() => this.ignoreMouseHover = false, IGNORE_MOUSE_HOVER_DURATION);
+    private preventCloseDropdownOnMouseHover() {
+        // avoid flag bouncing, if a new request to ignore mouse hover is called when the timeout is not expired
+        if (this.ignoreMouseHover) window.clearTimeout(this.hoverTimeout);
+        else this.ignoreMouseHover = true;
+        // save timeout reference in order to clear if required
+        this.hoverTimeout = window.setTimeout(() => this.ignoreMouseHover = false, IGNORE_MOUSE_HOVER_DURATION);
     }
     
     // Input events callbacks
@@ -210,21 +214,15 @@ export class AutocompleteComponent extends SelectComponent {
     }
 
     private onInputArrowUpPress() {
-        if (!this.isOpen) {
-            this.openDropdown();
-        } else {
-            this.highlight(this.highlightedIndex - 1);
-            this.preventCloseDropdownOnMouseEnter();
-        }
+        if (!this.isOpen) this.openDropdown();
+        else this.highlight(this.highlightedIndex - 1);
+        this.preventCloseDropdownOnMouseHover();
     }
 
     private onInputArrowDownPress() {
-        if (!this.isOpen) {
-            this.openDropdown();
-        } else {
-            this.highlight(this.highlightedIndex + 1);
-            this.preventCloseDropdownOnMouseEnter();
-        }
+        if (!this.isOpen) this.openDropdown();
+        else this.highlight(this.highlightedIndex + 1);
+        this.preventCloseDropdownOnMouseHover();
     }
 
     private onInputEnterPress() {
@@ -239,7 +237,8 @@ export class AutocompleteComponent extends SelectComponent {
     private onInputBackspacePress() {
         if (!this.filter && this.hasValue) {
             // remove last item
-            this.removeItem(this.viewValue[this.viewValue.length - 1]);
+            const values = this.viewValue as AutocompleteOption[];
+            this.removeItem(values[values.length - 1]);
 
             // re-filter options highlighting the same option (if still exists)
             const highlighted = this.filteredOptions[this.highlightedIndex];
@@ -261,6 +260,9 @@ export class AutocompleteComponent extends SelectComponent {
     private onDropdownClick() {
         // keep the dropdown open in multiple selection mode
         if (this.multiple) window.clearTimeout(this.blurTimeout);
+        // close the dropdown in single selection mode
+        else this.closeDropdown();
+        // keep input focus
         this.inputRef.nativeElement.focus();
     }
 
@@ -272,7 +274,7 @@ export class AutocompleteComponent extends SelectComponent {
         }
     }
 
-    private onDropdownOptionClick(option: any) {
+    private onDropdownOptionClick(option: AutocompleteOption) {
         this.selectOption(option);
     }
 }
