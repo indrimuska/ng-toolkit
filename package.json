@@ -9,7 +9,8 @@
     "scripts": {
         "start": "webpack-dev-server --config app/webpack.config --open",
         "build": "webpack -p",
-        "build:app": "webpack --config app/webpack.config"
+        "build:app": "webpack --config app/webpack.config",
+        "gh-pages": "sh ./gh-pages.sh"
     },
     "dependencies": {
         "@angular/core": "^5.0.0",

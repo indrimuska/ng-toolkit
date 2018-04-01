@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, APP_BASE_HREF } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Route } from '@angular/router';
 
@@ -9,6 +9,9 @@ import { Main } from './main/main';
 import { routes } from './routes';
 
 @NgModule({
+    providers: [
+        { provide: APP_BASE_HREF, useValue: '/ng-toolkit/' }
+    ],
     imports: [
         CommonModule,
         FormsModule,
