@@ -1,0 +1,11 @@
+.DS_Store
+.vscode
+node_modules
+src/
+app/
+dist/
+dist-app/
+package.json
+package-lock.json
+webpack.config.js
+tsconfig.json
