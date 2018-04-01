@@ -14,9 +14,14 @@ module.exports = {
         filename: 'index.js'
     },
     devServer: {
-        port: 9000,
         contentBase: 'app',
-        historyApiFallback: true
+        publicPath: '/ng-toolkit/',
+        historyApiFallback: {
+            index: '/ng-toolkit/',
+        },
+        port: 9000,
+        open: true,
+        openPage: 'ng-toolkit/',
     },
     devtool: 'source-map',
     resolve: {
