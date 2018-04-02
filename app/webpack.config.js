@@ -25,7 +25,10 @@ module.exports = {
     },
     devtool: 'source-map',
     resolve: {
-        extensions: ['.ts', '.js', '.html']
+        extensions: ['.ts', '.js', '.html'],
+        alias: {
+            'ng-toolkit': path.join(__dirname, '../dist/ng-toolkit.js')
+        }
     },
     module: {
         rules: [

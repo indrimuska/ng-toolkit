@@ -9,6 +9,9 @@
         "experimentalDecorators": true,
         "suppressImplicitAnyIndexErrors": true,
         "noImplicitAny": true,
-        "baseUrl": "src"
+        "baseUrl": "src",
+        "paths": {
+            "ng-toolkit": ["module.ts"]
+        }
     }
 }

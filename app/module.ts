@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Route } from '@angular/router';
 
-import { NgToolkit } from '../src/module';
+import { NgToolkit } from 'ng-toolkit';
 import { Main } from './main/main';
 
 import { routes } from './routes';
