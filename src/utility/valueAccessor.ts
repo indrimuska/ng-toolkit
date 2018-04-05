@@ -11,11 +11,11 @@ export abstract class ValueAccessor<ModelValue, ViewValue = ModelValue> implemen
         return this._viewValue;
     }
     
-    protected get value(): ModelValue {
+    public get value(): ModelValue {
         return this.modelValue;
     }
     
-    protected set value(value: ModelValue) {
+    public set value(value: ModelValue) {
         if (this.modelValue !== value) {
             this.modelValue = value;
             this.changed.forEach(f => f(value));

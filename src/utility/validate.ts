@@ -21,29 +21,28 @@ export const composeValidators = (validators: ValidatorArray): AsyncValidatorFn 
     return Validators.compose(validators.map(normalizeValidator));
 };
 
-export const validate =
-    (validators: ValidatorArray, asyncValidators: AsyncValidatorArray) => {
-        return (control: AbstractControl) => {
-            const synchronousValid = () => composeValidators(validators)(control);
+export const validate = (validators: ValidatorArray, asyncValidators: AsyncValidatorArray) => {
+    return (control: AbstractControl) => {
+        const synchronousValid = () => composeValidators(validators)(control);
 
-            if (asyncValidators) {
-                const asyncValidator = composeValidators(asyncValidators);
+        if (asyncValidators) {
+            const asyncValidator = composeValidators(asyncValidators);
 
-                return asyncValidator(control).map((v: any) => {
-                    const secondary = synchronousValid();
-                    if (secondary || v) { // compose async and sync validator results
-                        return Object.assign({}, secondary, v);
-                    }
-                });
-            }
+            return asyncValidator(control).map((v: any) => {
+                const secondary = synchronousValid();
+                if (secondary || v) { // compose async and sync validator results
+                    return Object.assign({}, secondary, v);
+                }
+            });
+        }
 
-            if (validators) {
-                return Observable.of(synchronousValid());
-            }
+        if (validators) {
+            return Observable.of(synchronousValid());
+        }
 
-            return Observable.of(null);
-        };
+        return Observable.of(null);
     };
+};
 
 export const message = (validator: ValidationResult, key: string): string => {
     switch (key) {
@@ -55,12 +54,11 @@ export const message = (validator: ValidationResult, key: string): string => {
             return 'Value must be N characters';
         case 'maxlength':
             return 'Value must be a maximum of N characters';
-    }
-
-    switch (typeof validator[key]) {
-        case 'string':
-            return <string>validator[key];
         default:
-            return `Validation failed: ${key}`;
+            if (typeof validator[key] === 'string') {
+                return validator[key] as string;
+            } else {
+                return `Validation failed: ${key}`;
+            }
     }
 };

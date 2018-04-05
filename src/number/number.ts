@@ -3,7 +3,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isUndefined, isNullOrUndefined } from 'util';
 
 import { InputComponent } from '../input/input';
-import { ValueAccessor, replaceAll } from '../utility';
+import { ValueAccessor } from '../utility';
 
 @Component({
     selector: 'ngt-number',
@@ -45,9 +45,13 @@ export class NumberComponent extends ValueAccessor<number, string> {
         return true;
     }
 
+    private replaceAll(text: string, key: string, replace: string): string {
+        return text.split(key).join(replace);
+    };
+
     /** @override */
     protected parse(value: string): number {
-        value = replaceAll(value || '', this.thousandSeparator, '').replace(this.decimalSeparator, '.');
+        value = this.replaceAll(value || '', this.thousandSeparator, '').replace(this.decimalSeparator, '.');
         const number = parseFloat(value);
         if (isNaN(number)) {
             return null;

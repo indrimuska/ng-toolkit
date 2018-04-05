@@ -10,7 +10,7 @@ import { ValueAccessor } from '../utility';
         { provide: NG_VALUE_ACCESSOR, useExisting: TextComponent, multi: true }
     ]
 })
-export class TextComponent extends ValueAccessor<number> {
+export class TextComponent extends ValueAccessor<string> {
     @Input() public disabled: boolean;
     @Input() public placeholder: string;
 }
