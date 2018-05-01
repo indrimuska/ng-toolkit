@@ -107,6 +107,8 @@ export class NumberComponent extends ValueAccessor<number, string> {
     }
 
     private onBlur() {
-        this.writeValue(this.value);
+        // this.touched();
+        // this.writeValue(this.modelValue);
+        this.writeValue(this.value);        
     }
 }

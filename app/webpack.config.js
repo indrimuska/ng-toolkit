@@ -27,7 +27,7 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.js', '.html'],
         alias: {
-            'ng-toolkit': path.join(__dirname, '../dist/ng-toolkit.js')
+            'ng-toolkit': path.join(__dirname, '../src/module.ts')
         }
     },
     module: {
