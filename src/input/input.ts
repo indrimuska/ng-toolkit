@@ -3,6 +3,12 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ValueAccessor } from '../utility';
 
+enum InputType {
+    text = 'text',
+}
+
+const InputTypesArray: InputType[] = Object.keys(InputType).map(type => InputType[type]);
+
 @Component({
     selector: 'ngt-input',
     template: require('./input.html'),
@@ -13,12 +19,11 @@ import { ValueAccessor } from '../utility';
         { provide: NG_VALUE_ACCESSOR, useExisting: InputComponent, multi: true }
     ]
 })
-export class InputComponent<T> extends ValueAccessor<T> implements OnInit {
-    @Input() public value: T;
+export class InputComponent extends ValueAccessor<string> implements OnInit {
     @Input() public disabled: boolean;
     @Input() public placeholder: string = '';
-    @Input() public type: 'text' | 'number' | 'email';
-    
+    @Input() public type: InputType;
+
     @Output() public focus = new EventEmitter<FocusEvent>();
     @Output() public blur = new EventEmitter<FocusEvent>();
     @Output() public keydown = new EventEmitter<KeyboardEvent>();
@@ -28,7 +33,7 @@ export class InputComponent<T> extends ValueAccessor<T> implements OnInit {
     @ViewChild('elementRef') public elementRef: ElementRef;
 
     public ngOnInit() {
-        if (['text', 'number', 'email'].indexOf(this.type) < 0) {
+        if (InputTypesArray.indexOf(this.type) < 0) {
             throw new Error(`Type attribute not supported: provided ${this.type}`);
         }
     }

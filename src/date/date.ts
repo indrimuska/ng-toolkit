@@ -96,7 +96,7 @@ export class DateComponent extends ValueAccessor<Date, string> {
             : null;
     }
 
-    @ViewChild('inputRef') public inputRef: InputComponent<string>;
+    @ViewChild('inputRef') public inputRef: InputComponent;
     @ViewChild('dropdownRef') public dropdownRef: ElementRef;
 
     private initialized: boolean = false;

@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { isUndefined, isNullOrUndefined } from 'util';
+import { isNullOrUndefined } from 'util';
 
 import { InputComponent } from '../input/input';
 import { ValueAccessor } from '../utility';
@@ -49,37 +49,50 @@ export class NumberComponent extends ValueAccessor<number, string> {
         return text.split(key).join(replace);
     };
 
+    private shouldLimitDecimals(): boolean {
+        return !isNullOrUndefined(this.decimals) && this.decimals >= 0;
+    }
+
     /** @override */
     protected parse(value: string): number {
-        value = this.replaceAll(value || '', this.thousandSeparator, '').replace(this.decimalSeparator, '.');
-        const number = parseFloat(value);
+        const stdNumberFormat = this.replaceAll(value || '', this.thousandSeparator, '').replace(this.decimalSeparator, '.');
+        const number = parseFloat(stdNumberFormat);
+        
+        // invalid number
         if (isNaN(number)) {
-            return null;
+            return undefined;
         }
-        if (isUndefined(this.decimals)) {
-            return number;
-        } else {
+
+        // round with the given number of decimals
+        if (this.shouldLimitDecimals()) {
             const multiplier = Math.pow(10, this.decimals);
             return Math.round(number * multiplier) / multiplier;
         }
+
+        // present the number as it is
+        return number;
     }
 
     /** @override */
     protected format(value: number): string {
         if (isNullOrUndefined(value)) {
             return '';
-        } else {
-            value = value || 0;
         }
-        const stringValue = this.decimals >= 0
-            ? value.toFixed(this.decimals)
-            : value.toString();
+
+        const normalizedValue = value || 0;
+        const stringValue = this.shouldLimitDecimals()
+            ? normalizedValue.toFixed(this.decimals)
+            : normalizedValue.toString();
+        
+        // split integer and decimal parts by dot
         const parts = stringValue.split('.');
+        // separate thousands using the appropiate separator
         parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, this.thousandSeparator);
+        // join integer and decimal parts using the decimal separator
         return parts.join(this.decimalSeparator);
     }
 
-    @ViewChild('inputRef') private inputRef: InputComponent<string>;
+    @ViewChild('inputRef') private inputRef: InputComponent;
 
     private onKeypress(e: KeyboardEvent) {
         const char = String.fromCharCode(e.charCode);
@@ -107,8 +120,7 @@ export class NumberComponent extends ValueAccessor<number, string> {
     }
 
     private onBlur() {
-        // this.touched();
-        // this.writeValue(this.modelValue);
-        this.writeValue(this.value);        
+        this.updateView();
+        this.touched();
     }
 }

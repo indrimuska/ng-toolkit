@@ -1,9 +1,9 @@
 import { ControlValueAccessor } from '@angular/forms';
 
 export abstract class ValueAccessor<ModelValue, ViewValue = ModelValue> implements ControlValueAccessor {
-    private _modelValue: ModelValue;
-    private _viewValue: ViewValue;
-    
+    private _modelValue: ModelValue = null;
+    private _viewValue: ViewValue = null;
+
     /**
      * Model used in the controller
      */
@@ -31,16 +31,21 @@ export abstract class ValueAccessor<ModelValue, ViewValue = ModelValue> implemen
     }
 
     /**
-     * Value (ModelValue) associated to the input
+     * Value is just a public forwarded reference to the ModelValue
      */
     public get value(): ModelValue {
         return this.modelValue;
     }
     public set value(modelValue: ModelValue) {
-        if (this.modelValue !== modelValue) {
-            this.modelValue = modelValue;
-            this.viewValue = this.format(modelValue);
-        }
+        this.modelValue = modelValue;
+        this.updateView();
+    }
+
+    /**
+     * Sync the view with the model
+     */
+    protected updateView() {
+        this.viewValue = this.format(this.modelValue);
     }
 
     private changedListeners: ((value: ModelValue) => void)[] = [];
@@ -60,8 +65,11 @@ export abstract class ValueAccessor<ModelValue, ViewValue = ModelValue> implemen
      * This method will be called by the forms API to write to the view when programmatic (model -> view) changes are requested.
      */
     public writeValue(modelValue: ModelValue) {
-        const viewValue = this.format(modelValue);
-        if (this.viewValue !== viewValue) this.viewValue = viewValue;
+        // update view only if model has been changed
+        if (this.modelValue !== modelValue) {
+            this.modelValue = modelValue;
+            this.updateView();
+        }
     }
 
     /**
