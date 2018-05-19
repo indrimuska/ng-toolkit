@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import { DateComponent } from '../date';
-import { AbstractView, IViewItem } from '../definitions';
+import { AbstractView, IViewItem } from '../definitions';
 
 export class DayView extends AbstractView {
     private static readonly titleFormat = 'LL';
@@ -36,19 +36,19 @@ export class DayView extends AbstractView {
         const firstHour = 0;
         const lastHour = 23;
         let model = this.component.viewDate.clone().startOf('day').hour(firstHour);
-        
+
         this.rows = [];
         for (let i = 0; i <= lastHour - firstHour; i++) {
-			const index = Math.floor(i / DayView.itemsPerLine);
-			if (!this.rows[index]) this.rows[index] = [];
-			this.rows[index].push({
+            const index = Math.floor(i / DayView.itemsPerLine);
+            if (!this.rows[index]) this.rows[index] = [];
+            this.rows[index].push({
                 key: i, // KEY is not the hour, in order to avoid DST conflicts
                 model: model,
                 label: model.format(DayView.itemFormat),
                 selected: this.component.isSelected(model, 'hour'),
                 disabled: this.component.isDisabled(model, 'hour')
-			});
-			model = model.clone().add(1, 'hour');
+            });
+            model = model.clone().add(1, 'hour');
         }
 
         // set limits on adjacent views

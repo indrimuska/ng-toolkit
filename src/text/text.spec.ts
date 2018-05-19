@@ -38,12 +38,12 @@ describe('TextComponent', () => {
 
         // testing
         expect(inputEl.disabled).toBe(disabled);
-        
+
         disabled = true;
         component.disabled = disabled;
         detectChanges();
         expect(inputEl.disabled).toBe(disabled);
-        
+
         disabled = false;
         component.disabled = disabled;
         detectChanges();

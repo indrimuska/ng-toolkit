@@ -6,7 +6,7 @@ $ngt-autocomplete-dropdown-shadow:      0 2px 3px $ngt-shadow-color;
 
 @mixin ngt-autocomplete-dropdown {
     @include ngt-typography;
-    
+
     display: none;
     position: absolute;
     z-index: 1;

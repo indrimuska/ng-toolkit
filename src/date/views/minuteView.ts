@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import { DateComponent } from '../date';
-import { AbstractView, IViewItem } from '../definitions';
+import { AbstractView, IViewItem } from '../definitions';
 
 export class MinuteView extends AbstractView {
     private static readonly titleFormat = 'lll';
@@ -41,21 +41,21 @@ export class MinuteView extends AbstractView {
         const rows = Math.ceil((lastSecond - firstSecond + 1) / minutesStep / MinuteView.itemsPerLine) * MinuteView.itemsPerLine;
         const nextMinute = this.component.viewDate.clone().startOf('minute').add(1, 'minute');
         let model = this.component.viewDate.clone().startOf('minute').second(firstSecond);
-        
+
         this.rows = [];
         for (let i = 0; i < rows; i++) {
             const index = Math.floor(i / MinuteView.itemsPerLine);
             const disabled = model.isSameOrAfter(nextMinute, 'second');
-			if (!this.rows[index]) this.rows[index] = [];
-			this.rows[index].push({
+            if (!this.rows[index]) this.rows[index] = [];
+            this.rows[index].push({
                 model: model,
                 key: model.second(),
                 label: !disabled ? model.format(MinuteView.itemFormat) : '',
                 selected: this.component.isSelected(model, 'second'),
                 disabled: disabled || this.component.isDisabled(model, 'second')
-			});
+            });
             model = model.clone().add(minutesStep, 'seconds');
-		}
+        }
 
         // set limits on adjacent views
         this.previousDisabled = this.component.isDisabled(this.component.viewDate.clone().startOf('minute').subtract(1, 'second'), 'second');

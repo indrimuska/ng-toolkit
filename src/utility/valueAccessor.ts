@@ -50,7 +50,7 @@ export abstract class ValueAccessor<ModelValue, ViewValue = ModelValue> implemen
 
     private changedListeners: ((value: ModelValue) => void)[] = [];
     private touchedListeners: (() => void)[] = [];
-    
+
     protected changed() {
         this.changedListeners.forEach(fn => fn(this.modelValue));
     }
@@ -87,7 +87,7 @@ export abstract class ValueAccessor<ModelValue, ViewValue = ModelValue> implemen
             if (index >= 0) this.changedListeners.splice(index, 1);
         });
     }
-    
+
     /**
      * @implements
      * Registers a callback function that should be called when the control receives a blur event.
@@ -105,14 +105,14 @@ export abstract class ValueAccessor<ModelValue, ViewValue = ModelValue> implemen
      * Depending on the value, it should enable or disable the appropriate DOM element.
      */
     // setDisabledState(isDisabled: boolean): void {}
-    
+
     /**
      * Format a model value (ModelValue -> ViewValue)
      */
     protected format(value: ModelValue): ViewValue {
         return value as any;
     }
-    
+
     /**
      * Parse a view value (ViewValue -> ModelValue)
      */

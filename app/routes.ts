@@ -15,12 +15,12 @@ export interface IRoute extends Route {
 
 export const routes: IRoute[] = [
     // { path: '', redirectTo: '/autocomplete', pathMatch: 'full' },
-    { path: 'text',           component: TextComponent,         label: 'Text' },
-    { path: 'number',         component: NumberComponent,       label: 'Number' },
-    { path: 'select',         component: SelectComponent,       label: 'Select' },
-    { path: 'autocomplete',   component: AutocompleteComponent, label: 'Autocomplete' },
-    { path: 'date',           component: DateComponent,         label: 'Date' },
-    { path: 'toggle',         component: ToggleComponent,       label: 'Toggle' },
-    { path: 'checkbox',       component: CheckboxComponent,     label: 'Checkbox' },
-    { path: 'radio',          component: RadioComponent,        label: 'Radio' },
+    { path: 'text', component: TextComponent, label: 'Text' },
+    { path: 'number', component: NumberComponent, label: 'Number' },
+    { path: 'select', component: SelectComponent, label: 'Select' },
+    { path: 'autocomplete', component: AutocompleteComponent, label: 'Autocomplete' },
+    { path: 'date', component: DateComponent, label: 'Date' },
+    { path: 'toggle', component: ToggleComponent, label: 'Toggle' },
+    { path: 'checkbox', component: CheckboxComponent, label: 'Checkbox' },
+    { path: 'radio', component: RadioComponent, label: 'Radio' },
 ];

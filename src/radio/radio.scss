@@ -5,7 +5,7 @@
 .ngt-radio-indicator {
     @include ngt-checkbox-radio-indicator;
     border-radius: 50%;
-    
+
     input:checked ~ & {
         @include ngt-checkbox-radio-indicator-checked($ngt-radio-background-image);
     }

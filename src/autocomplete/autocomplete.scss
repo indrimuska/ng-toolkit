@@ -20,7 +20,7 @@ $ngt-autocomplete-option-highlight:     #f8f9fa;
 
 label {
     @include ngt-input-base;
-    
+
     padding-right: $ngt-select-padding-right;
     margin: 0;
     display: flex;
@@ -86,7 +86,7 @@ label {
 
     :host.multiple & {
         margin-left: $ngt-padding-vertical;
-        
+
         @if $ngt-use-gradients {
             margin-top: 1px;
             margin-bottom: calc(#{$ngt-autocomplete-item-spacing} + 1px);
@@ -121,7 +121,7 @@ input {
 
 .ngt-autocomplete-dropdown {
     @include ngt-autocomplete-dropdown;
-    
+
     right: 0;
     width: 100%;
     margin-top: -1px;
@@ -130,7 +130,7 @@ input {
     border-top-right-radius: 0;
     overflow: hidden;
     overflow-y: auto;
-    
+
     :host.open & {
         display: block;
     }

@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import { DateComponent } from '../date';
-import { AbstractView, IViewItem } from '../definitions';
+import { AbstractView, IViewItem } from '../definitions';
 
 export class HourView extends AbstractView {
     private static readonly titleFormat = 'lll';
@@ -40,21 +40,21 @@ export class HourView extends AbstractView {
         const rows = Math.ceil((lastMinute - firstMinute + 1) / minutesStep / HourView.itemsPerLine) * HourView.itemsPerLine;
         const nextHour = this.component.viewDate.clone().startOf('hour').add(1, 'hour');
         let model = this.component.viewDate.clone().startOf('hour').minute(firstMinute);
-        
+
         this.rows = [];
         for (let i = 0; i < rows; i++) {
             const index = Math.floor(i / HourView.itemsPerLine);
             const disabled = model.isSameOrAfter(nextHour, 'minute');
-			if (!this.rows[index]) this.rows[index] = [];
-			this.rows[index].push({
+            if (!this.rows[index]) this.rows[index] = [];
+            this.rows[index].push({
                 model: model,
                 key: model.minute(),
                 label: !disabled ? model.format(HourView.itemFormat) : '',
                 selected: this.component.isSelected(model, 'minute'),
                 disabled: disabled || this.component.isDisabled(model, 'minute')
-			});
+            });
             model = model.clone().add(minutesStep, 'minutes');
-		}
+        }
 
         // set limits on adjacent views
         this.previousDisabled = this.component.isDisabled(this.component.viewDate.clone().startOf('hour').subtract(1, 'minute'), 'minute');

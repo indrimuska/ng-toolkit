@@ -26,7 +26,7 @@ import { MinuteView } from './views/minuteView';
 export class DateComponent extends ValueAccessor<Date, string> {
     @Input() public disabled: boolean;
     @Input() public placeholder: string;
-    
+
     private _viewFormat: string = 'L LTS';
     @Input('format') public get viewFormat(): string {
         return this._viewFormat;
@@ -164,11 +164,11 @@ export class DateComponent extends ValueAccessor<Date, string> {
 
     /** @override */
     protected parse(value: string): Date {
-        if (!isNullOrUndefined(value)) {          
+        if (!isNullOrUndefined(value)) {
             const momentDate = moment(value, this.viewFormat, this.locale);
             return momentDate.isValid()
-            ? momentDate.toDate()
-            : null;
+                ? momentDate.toDate()
+                : null;
         } else {
             return value;
         }
@@ -183,7 +183,7 @@ export class DateComponent extends ValueAccessor<Date, string> {
         const current = this.viewTypes.indexOf(this._selectedViewType);
         this.setView(this.viewTypes[current - 1]);
     }
-    
+
     private setNextView() {
         const current = this.viewTypes.indexOf(this._selectedViewType);
         this.setView(this.viewTypes[current + 1]);
@@ -250,13 +250,13 @@ export class DateComponent extends ValueAccessor<Date, string> {
 
         // enforce limits if those provided by the user are stronger then detected ones
         if (minViewIndex > this.viewTypes.indexOf(this.minView)) this._minView = this.viewTypes[minViewIndex];
-        if (maxViewIndex <  this.viewTypes.indexOf(this.maxView)) this._maxView = this.viewTypes[maxViewIndex];
+        if (maxViewIndex < this.viewTypes.indexOf(this.maxView)) this._maxView = this.viewTypes[maxViewIndex];
     }
 
     private resetViews() {
         this.selectedViewType = this.startView;
     }
-    
+
     private open() {
         if (this.disabled) return;
 
@@ -296,7 +296,7 @@ export class DateComponent extends ValueAccessor<Date, string> {
     private onInputFocus() {
         this.open();
     }
-    
+
     private onInputBlur() {
         this.close().then(() => {
             this.viewValue = this.format(this.value);
@@ -306,9 +306,9 @@ export class DateComponent extends ValueAccessor<Date, string> {
     private onInputClick() {
         this.open();
     }
-    
+
     // Dropdown events callbacks
-    
+
     private onDropdownClick() {
         this.open();
     }
@@ -318,7 +318,7 @@ export class DateComponent extends ValueAccessor<Date, string> {
             this.selectedView.previous();
         }
     }
-    
+
     private onRightButtonClick() {
         if (!this.selectedView.nextDisabled) {
             this.selectedView.next();

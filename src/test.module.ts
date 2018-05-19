@@ -16,7 +16,7 @@ import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@ang
 import { NgToolkit } from './module';
 
 TestBed.initTestEnvironment(
-    [ BrowserDynamicTestingModule, NgToolkit ],
+    [BrowserDynamicTestingModule, NgToolkit],
     platformBrowserDynamicTesting()
 );
 

@@ -25,14 +25,14 @@ export class AutocompleteComponent<AutocompleteValue, AutocompleteOption> extend
     @HostBinding('class.open') private get isOpen(): boolean {
         return this.isDropdownOpen && this.filteredOptions.length > 0;
     }
-    
+
     private isDropdownOpen: boolean = false;
     private filteredOptions: AutocompleteOption[];
     private highlightedIndex: number = 0;
     private ignoreMouseHover: boolean = false;
     private hoverTimeout: number;
     private blurTimeout: number;
-    
+
     private get hasValue(): boolean {
         return this.multiple
             ? (this.value as AutocompleteValue[] || []).length > 0
@@ -147,7 +147,7 @@ export class AutocompleteComponent<AutocompleteValue, AutocompleteOption> extend
             this.isDropdownOpen = true;
         }
     }
-    
+
     /**
      * Close the dropdown
      */
@@ -179,7 +179,7 @@ export class AutocompleteComponent<AutocompleteValue, AutocompleteOption> extend
             const dropdown = this.dropdownRef.nativeElement as HTMLDivElement;
             const dropdownHeight = dropdown.offsetHeight;
             const dropdownScrollTop = dropdown.scrollTop;
-    
+
             // scroll up (push the visibile area up)
             if (optionPosition < dropdownScrollTop) {
                 dropdown.scrollTop = optionPosition;
@@ -204,7 +204,7 @@ export class AutocompleteComponent<AutocompleteValue, AutocompleteOption> extend
         // save timeout reference in order to clear if required
         this.hoverTimeout = window.setTimeout(() => this.ignoreMouseHover = false, IGNORE_MOUSE_HOVER_DURATION);
     }
-    
+
     // Input events callbacks
 
     private onInputFocus() {
@@ -275,7 +275,7 @@ export class AutocompleteComponent<AutocompleteValue, AutocompleteOption> extend
     }
 
     // Dropdown events callbacks
-    
+
     private onDropdownClick() {
         // keep the dropdown open in multiple selection mode
         if (this.multiple) window.clearTimeout(this.blurTimeout);

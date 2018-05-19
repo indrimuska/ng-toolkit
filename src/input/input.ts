@@ -29,7 +29,7 @@ export class InputComponent extends ValueAccessor<string> implements OnInit {
     @Output() public keydown = new EventEmitter<KeyboardEvent>();
     @Output() public keypress = new EventEmitter<KeyboardEvent>();
     @Output() public keyup = new EventEmitter<KeyboardEvent>();
-    
+
     @ViewChild('elementRef') public elementRef: ElementRef;
 
     public ngOnInit() {

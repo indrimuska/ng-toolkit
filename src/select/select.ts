@@ -21,7 +21,7 @@ export class SelectComponent<SelectValue, SelectOption> extends ValueAccessor<Se
     @Input() public options: SelectOption[] = [];
     @Input() public labelAttr: string;
     @Input() public valueAttr: string;
-    
+
     /** @override */
     protected parse(option: SelectOption | SelectOption[]): SelectValue | SelectValue[] {
         if (this.multiple) {
@@ -43,7 +43,7 @@ export class SelectComponent<SelectValue, SelectOption> extends ValueAccessor<Se
     private findOptionByValue(value: SelectValue): SelectOption {
         return this.options.find(o => this.getOptionValue(o) === value);
     }
-    
+
     private getOptionAttr(option: SelectOption, attr: string) {
         if (isNullOrUndefined(option)) {
             return option;

@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import { DateComponent } from '../date';
-import { AbstractView, IViewItem } from '../definitions';
+import { AbstractView, IViewItem } from '../definitions';
 
 export class MonthView extends AbstractView {
     private static readonly titleFormat = 'MMMM YYYY';
@@ -18,7 +18,7 @@ export class MonthView extends AbstractView {
         this.component.viewDate.subtract(1, 'month');
         this.render();
     }
-    
+
     public next(): void {
         this.component.viewDate.add(1, 'month');
         this.render();
@@ -40,7 +40,7 @@ export class MonthView extends AbstractView {
         const firstWeek: number = model.week();
         const lastWeek: number = firstWeek + 5;
         const today = moment(new Date());
-        
+
         this.rows = [];
         for (let week = 0; week <= lastWeek - firstWeek; week++) {
             for (let d = 0; d < MonthView.itemsPerLine; d++) {

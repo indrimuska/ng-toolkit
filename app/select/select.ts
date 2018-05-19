@@ -17,7 +17,7 @@ export class SelectComponent {
         { value: 10, name: 'ten' },
     ];
     public optionsArray = ['one', 'two', 'three', 'four', 'five'];
-    
+
     public singleSelection = 5;
     public multipleSelection = [2, 4, 6, 8, 10];
     public simpleArrayOfOptions = ['three'];

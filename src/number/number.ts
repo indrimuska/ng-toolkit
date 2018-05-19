@@ -57,7 +57,7 @@ export class NumberComponent extends ValueAccessor<number, string> {
     protected parse(value: string): number {
         const stdNumberFormat = this.replaceAll(value || '', this.thousandSeparator, '').replace(this.decimalSeparator, '.');
         const number = parseFloat(stdNumberFormat);
-        
+
         // invalid number
         if (isNaN(number)) {
             return undefined;
@@ -83,7 +83,7 @@ export class NumberComponent extends ValueAccessor<number, string> {
         const stringValue = this.shouldLimitDecimals()
             ? normalizedValue.toFixed(this.decimals)
             : normalizedValue.toString();
-        
+
         // split integer and decimal parts by dot
         const parts = stringValue.split('.');
         // separate thousands using the appropiate separator

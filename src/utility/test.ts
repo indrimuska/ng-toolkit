@@ -6,7 +6,7 @@ let fixture: ComponentFixture<any>;
 
 export const testComponent = <T>(component: Type<T>, props?: Partial<T>): T => {
     fixture = TestBed.createComponent(component);
-    if (props) {
+    if (props) {
         Object.keys(props).forEach(key => {
             fixture.componentInstance[key] = props[key];
         });
