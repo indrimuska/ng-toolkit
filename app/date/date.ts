@@ -19,11 +19,13 @@ export class DateComponent {
         return this._filter;
     }
     public set filter(filter: string) {
-        const lowerCaseFilter = filter.toLowerCase();
-        this._filter = filter;
-        this.locales = this.availableLocales.filter(locale => {
-            return locale.code.indexOf(lowerCaseFilter) >= 0 || locale.name.toLowerCase().indexOf(lowerCaseFilter) >= 0;
-        });
+        if (this._filter !== filter) {
+            this._filter = filter || '';
+            const lowerCaseFilter = this._filter.toLowerCase();
+            this.locales = this.availableLocales.filter(locale => {
+                return locale.code.indexOf(lowerCaseFilter) >= 0 || locale.name.toLowerCase().indexOf(lowerCaseFilter) >= 0;
+            });
+        }
     }
     public locales: { code: string; name: string }[];
 
