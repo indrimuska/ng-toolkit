@@ -14,7 +14,7 @@
         "gh-pages": "sh ./gh-pages.sh"
     },
     "dependencies": {
-        "@angular/core": "5.0.0",
+        "@angular/core": "10.2.5",
         "@angular/forms": "5.0.0",
         "moment": "2.19.4"
     },
