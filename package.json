@@ -16,7 +16,7 @@
     "dependencies": {
         "@angular/core": "5.0.0",
         "@angular/forms": "5.0.0",
-        "moment": "2.19.4"
+        "moment": "2.29.4"
     },
     "devDependencies": {
         "@angular/common": "5.0.0",
